@@ -2,3 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
+03_RawData/02_NDVIRasterDataset.RData
+03_RawData/*.RData
