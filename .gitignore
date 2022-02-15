@@ -4,3 +4,4 @@
 .Ruserdata
 03_RawData/02_NDVIRasterDataset.RData
 03_RawData/*.RData
+04_Data/01_dataset_used.RData

@@ -1,6 +1,6 @@
 # Author: M.L.
 
-# From this project, the data base is built in outside disk F:
+# note: From this project, the data base is built in outside disk F:
 
 # end
 
@@ -102,6 +102,7 @@ NDVIRasterDataset <-
   extractPointDataFromRaster(NDVIRasterFolder, filelist, coords,
                              14, 19, F, "NDVI", 17, 21)
 colnames(NDVIRasterDataset) <- c("id", "NDVI", "year", "month")
+NDVIRasterDataset <- NDVIRasterDataset %>% filter(!is.na(NDVI))
 NDVIRasterDataset$date <- 
   as.Date((NDVIRasterDataset$month - 1),
           origin = paste0(NDVIRasterDataset$year,"-01-01")) %>% as.character()
@@ -154,6 +155,32 @@ PrecipitationRasterFolder <- "F:/13_Article/05_Precipitation/"
 filelist <- list.files(PrecipitationRasterFolder)
 PrecipitationRasterDataset <- 
   extractPointDataFromRaster(PrecipitationRasterFolder, filelist, coords,
-                             10, 14, T, "Precipitation")
+                             15, 19, T, "Precipitation")
 PrecipitationRasterDataset <- PrecipitationRasterDataset %>% filter(!is.na(Precipitation))
 save(PrecipitationRasterDataset, file = "03_RawData/06_PrecipitationRasterDataset.RData")
+
+### get windSpeed
+WindSpeedRasterFolder <- "F:/13_Article/06_WindSpeed/"
+filelist <- list.files(WindSpeedRasterFolder)
+WindSpeedRasterDataset <- 
+  extractPointDataFromRaster(WindSpeedRasterFolder, filelist, coords,
+                             11, 15, T, "WindSpeed")
+WindSpeedRasterDataset <- WindSpeedRasterDataset %>% filter(!is.na(WindSpeed))
+save(WindSpeedRasterDataset, file = "03_RawData/07_WindSpeedRasterDataset.RData")
+
+### get Population
+PopulationFolder <- "F:/13_Article/07_Population/WorldPop025Deg/"
+filelist <- list.files(PopulationFolder)
+year.count <- 1
+while (year.count < length(filelist) + 1) {
+  filename = filelist[year.count]
+  test_tiff <- raster::raster(paste0(PopulationFolder, filename))
+  data_ext <- raster::extract(test_tiff, coords)
+  coords@data <- cbind(coords@data, data_ext)
+  colnames(coords@data)[ncol(coords@data)] <- paste0("Year_", as.character(year.count + 1999))
+  year.count <- year.count + 1
+}
+
+PopulationRasterDataset <- coords@data
+save(PopulationRasterDataset, file = "03_RawData/08_PopulationDataset.RData")
+coords <- addcoord(nx,xmin,xsize,ny,ymin,ysize,proj)
