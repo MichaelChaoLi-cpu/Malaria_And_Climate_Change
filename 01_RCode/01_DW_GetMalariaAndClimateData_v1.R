@@ -45,7 +45,7 @@ extractPointDataFromRaster <- function(RasterFolder, filelist, cityLocationSpati
   return(RasterDataset)
 }
 
-# make the raster -180 -60 180 90
+# make the raster -180 -60 180 60
 nx = 480                                       # number of cells in the x direction
 ny = 1440                                     # number of cells in the y direction
 xmin = -179.875                                     # x coordinate of lower, left cell center 
