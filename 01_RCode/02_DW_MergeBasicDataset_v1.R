@@ -10,6 +10,7 @@ library(stringr)
 library(matrixStats)
 library(plm)
 
+
 # malaria
 load("03_RawData/01_malariaDataframe.RData")
 malaria.dataframe <- malaria.dataframe %>% na.omit()
@@ -26,6 +27,7 @@ malaria.dataframe$year <- malaria.dataframe$year %>% str_sub(6,9) %>% as.numeric
 
 # temperature
 load("03_RawData/03_TempRasterDataset.RData")
+Temp29RasterDataset <- TempRasterDataset
 TempRasterDataset <- left_join(TempRasterDataset, malaria.id, by = "id")
 TempRasterDataset <- TempRasterDataset %>% filter(!is.na(flag)) %>% dplyr::select(-flag)
 TempRasterDataset$Temp <- TempRasterDataset$Temp - 273.16
@@ -92,9 +94,24 @@ PopulationRasterDataset <- PopulationRasterDataset %>%
   pivot_longer(!id, names_to = "year", values_to = "Population")
 PopulationRasterDataset$year <- PopulationRasterDataset$year %>% str_sub(6,9) %>% as.numeric()
 
+# GDP per capita USD currency
+load("03_RawData/09_incomeDataset.RData")
+
+# temperature to 29 degrees
+#load("03_RawData/03_TempRasterDataset.RData")
+Temp29RasterDataset <- left_join(Temp29RasterDataset, malaria.id, by = "id")
+Temp29RasterDataset <- Temp29RasterDataset %>% filter(!is.na(flag)) %>% dplyr::select(-flag)
+Temp29RasterDataset$Temp <- Temp29RasterDataset$Temp - 273.16
+Temp29RasterDataset$Temp <- (29 - Temp29RasterDataset$Temp)^2
+Temp29RasterDataset <- Temp29RasterDataset %>% pivot_wider(names_from = "month", values_from = "Temp")
+Temp29RasterDataset$Temp29Mean <- rowMeans(Temp29RasterDataset[3:14], na.rm = T)
+Temp29RasterDataset <- Temp29RasterDataset %>% dplyr::select(id, year, Temp29Mean)
+
 dataset_used <- left_join(malaria.dataframe, TempRasterDataset, by = c("id","year"))  
 cor.test(dataset_used$PfPR, dataset_used$TempMean)
 cor.test(dataset_used$PfPR, dataset_used$TempSd)
+dataset_used <- left_join(dataset_used, Temp29RasterDataset, by = c("id","year"))  
+cor.test(dataset_used$PfPR, dataset_used$Temp29Mean)
 dataset_used <- left_join(dataset_used, NDVIRasterDataset, by = c("id","year"))  
 cor.test(dataset_used$PfPR, dataset_used$NDVIMean)
 cor.test(dataset_used$PfPR, dataset_used$NDVISd)
@@ -112,5 +129,8 @@ cor.test(dataset_used$PfPR, dataset_used$WindSpeedMean)
 cor.test(dataset_used$PfPR, dataset_used$WindSpeedSd)
 dataset_used <- left_join(dataset_used, PopulationRasterDataset, by = c("id","year"))  
 cor.test(dataset_used$PfPR, dataset_used$Population)
+dataset_used <- left_join(dataset_used, income, by = c("id","year"))  
+cor.test(dataset_used$PfPR, dataset_used$GDPperCap)
 
+dataset_used$TempSquare <- dataset_used$TempMean ^2
 save(dataset_used, file = "04_Data/01_dataset_used.RData")

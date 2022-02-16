@@ -10,6 +10,7 @@ library(sp)
 library(raster)
 library(tmap)
 library(stringr)
+library("rnaturalearth")
 
 extractPointDataFromRaster <- function(RasterFolder, filelist, cityLocationSpatialPoint,
                                        year_start_location, month_start_location, flip_reverse = T,
@@ -184,3 +185,21 @@ while (year.count < length(filelist) + 1) {
 PopulationRasterDataset <- coords@data
 save(PopulationRasterDataset, file = "03_RawData/08_PopulationDataset.RData")
 coords <- addcoord(nx,xmin,xsize,ny,ymin,ysize,proj)
+
+# GDP per capita USD currency
+incomeCountry <- read.csv("F:/13_Article/08_Income/API_NY.GDP.PCAP.CD_DS2_en_csv_v2_3603754.csv",
+                          skip = 4) %>% dplyr::select(Country.Code, X2000:X2019)
+#incomeCountry <- incomeCountry %>% pivot_longer(!Country.Code, names_to = "year", values_to = "GDPperCap")
+world <- ne_countries(scale = "medium", returnclass = "sp")
+world@data <- world@data %>% dplyr::select(iso_a3)
+incomeCountry <- incomeCountry %>% rename("iso_a3" = "Country.Code")
+world@data <- left_join(world@data, incomeCountry)
+
+income <- over(coords, world) 
+income <- income %>% as.data.frame()
+income$id <- coords$id
+income <- income %>% dplyr::select(-iso_a3)
+income <- income %>%  pivot_longer(!id, names_to = "year", values_to = "GDPperCap")
+income$year <- income$year %>% str_sub(2,5) %>% as.numeric()
+income <- income %>% filter(!is.na(GDPperCap))
+save(income, file = "03_RawData/09_incomeDataset.RData")

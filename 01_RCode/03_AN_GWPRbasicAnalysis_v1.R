@@ -47,12 +47,31 @@ coords <- addcoord(nx,xmin,xsize,ny,ymin,ysize,proj)
 
 load("04_Data/01_dataset_used.RData")
 
-cor(dataset_used %>% dplyr::select(-id, -year) %>% na.omit())
+run <- F
+if(run){
+  cor.matrix <- cor(dataset_used %>% dplyr::select(-id, -year) %>% na.omit())
+  cor.matrix %>% write.csv("05_Results/CorrelationMatrix.csv")
+  
+  formula <- PfPR ~ TempMean + TempSd + AirPressureMean + AirPressureSd +  
+    NDVIMean + NDVISd + 
+    HumidityMean + HumiditySd + PrecipitationMean + PrecipitationSd + 
+    WindSpeedMean + WindSpeedSd + Population
+  pdata <- pdata.frame(dataset_used, index = c("id", "year"))
+  ols <- plm(formula, pdata, model = "pooling")
+  summary(ols)
+  fem <- plm(formula, pdata, model = "within")
+  summary(fem)
+  rem <- plm(formula, pdata, model = "random")
+  summary(rem)
+  pFtest(fem, ols)
+  phtest(fem, rem)
+  plmtest(ols, type = c("bp"))
+  rm(fem, ols, rem, pdata)
+}
 
-formula <- PfPR ~ TempMean + TempSd + AirPressureMean + AirPressureSd +  
-  NDVIMean + NDVISd + 
-  HumidityMean + HumiditySd + PrecipitationMean + PrecipitationSd + 
-  WindSpeedMean + WindSpeedSd + Population
+## several variables
+formula <- PfPR ~ TempMean + TempSquare + TempSd + NDVIMean + Population + GDPperCap
+cor(dataset_used %>% dplyr::select(all.vars(formula)) %>% na.omit())
 pdata <- pdata.frame(dataset_used, index = c("id", "year"))
 ols <- plm(formula, pdata, model = "pooling")
 summary(ols)
@@ -65,7 +84,7 @@ phtest(fem, rem)
 plmtest(ols, type = c("bp"))
 rm(fem, ols, rem, pdata)
 
-dataset_used <- dataset_used %>% na.omit()
+dataset_used <- dataset_used %>% dplyr::select(id, year, all.vars(formula)) %>% na.omit()
 dataset.id <- dataset_used %>% dplyr::select(id) %>% distinct()
 
 location <- coordinates(coords) %>% as.data.frame()
