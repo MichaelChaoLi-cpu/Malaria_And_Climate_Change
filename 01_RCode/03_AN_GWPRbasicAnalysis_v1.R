@@ -106,4 +106,4 @@ GWPR.FEM.bandwidth <- # this is about fixed bandwidth
                          GI.step = 0.25, GI.upper = 20, GI.lower = 0.5)
 GWPR.FEM.bandwidth.step.list <- GWPR.FEM.bandwidth
 plot(GWPR.FEM.bandwidth.step.list[,1], GWPR.FEM.bandwidth.step.list[,2])
-save(GWPR.FEM.bandwidth.step.list, file = "03_Results/GWPR_BW_setp_list.Tokyo.001025.0005.Rdata")
+save(GWPR.FEM.bandwidth.step.list, file = "05_Results/GWPR_BW_setp_list_0.5_20_0.25.Rdata")
