@@ -107,3 +107,10 @@ GWPR.FEM.bandwidth <- # this is about fixed bandwidth
 GWPR.FEM.bandwidth.step.list <- GWPR.FEM.bandwidth
 plot(GWPR.FEM.bandwidth.step.list[,1], GWPR.FEM.bandwidth.step.list[,2])
 save(GWPR.FEM.bandwidth.step.list, file = "05_Results/GWPR_BW_setp_list_0.5_20_0.25.Rdata")
+
+################################ this is GWPR based on FEM
+GWPR.FEM.bandwidth = 4.25
+GWPR.FEM.CV.F.result <- GWPR(formula = formula, dataset_used, index = c("id", "year"),
+                             SDF = coords.df, bw = GWPR.FEM.bandwidth, adaptive = F,
+                             p = 2, effect = "individual", kernel = "bisquare", longlat = F, 
+                             model = "within")
