@@ -114,3 +114,6 @@ GWPR.FEM.CV.F.result <- GWPR(formula = formula, dataset_used, index = c("id", "y
                              SDF = coords.df, bw = GWPR.FEM.bandwidth, adaptive = F,
                              p = 2, effect = "individual", kernel = "bisquare", longlat = F, 
                              model = "within")
+GWPR.FEM.CV.F.result$SDF@data %>% View()
+GWPR.FEM.CV.F.result$SDF@data %>% summary()
+save(GWPR.FEM.CV.F.result, file = "05_Results/GWPR_FEM_CV_F_result_425.Rdata")

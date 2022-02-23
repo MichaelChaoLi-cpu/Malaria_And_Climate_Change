@@ -5,3 +5,4 @@
 03_RawData/02_NDVIRasterDataset.RData
 03_RawData/*.RData
 04_Data/01_dataset_used.RData
+05_Results/GWPR_FEM_CV_F_result_425.Rdata
