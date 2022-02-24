@@ -105,65 +105,7 @@ TempRasterDataset.ssp126$TempSd <- rowSds(as.matrix(TempRasterDataset.ssp126[3:1
 TempRasterDataset.ssp126 <- TempRasterDataset.ssp126 %>%
   filter(!is.na(TempMean))
 TempRasterDataset.ssp126 <- TempRasterDataset.ssp126 %>% dplyr::select(id, year, TempMean, TempSd)
-colnames(TempRasterDataset.ssp126) <- c("id", "year.2041", "TempMean.2041", "TempSd.2041")
-
-# malaria
-load("03_RawData/01_malariaDataframe.RData")
-malaria.dataframe <- malaria.dataframe %>% na.omit()
-malaria.dataframe$rowsum <- rowSums(malaria.dataframe[2:21])
-malaria.dataframe <- malaria.dataframe %>% filter(rowsum > 0) %>%
-  dplyr::select(-rowsum)
-
-malaria.id <- malaria.dataframe %>% dplyr::select(id) %>% distinct()
-malaria.id$flag <- 1
-
-malaria.dataframe <- malaria.dataframe %>%
-  pivot_longer(!id, names_to = "year", values_to = "PfPR")
-malaria.dataframe$year <- malaria.dataframe$year %>% str_sub(6,9) %>% as.numeric()
-
-malaria.dataframe <- malaria.dataframe %>% filter(year == 2019) %>%
-  dplyr::select(-year)
-
-prediction.dataframe <- left_join(malaria.dataframe, TempRasterDataset.ssp126)
-
-# temperature # 2019
-load("03_RawData/03_TempRasterDataset.RData")
-TempRasterDataset <- left_join(TempRasterDataset, malaria.id, by = "id")
-TempRasterDataset <- TempRasterDataset %>% filter(!is.na(flag)) %>% dplyr::select(-flag)
-TempRasterDataset <- TempRasterDataset %>% filter(year == 2019)
-TempRasterDataset$Temp <- TempRasterDataset$Temp - 273.16
-TempRasterDataset <- TempRasterDataset %>% pivot_wider(names_from = "month", values_from = "Temp")
-TempRasterDataset$TempMean <- rowMeans(TempRasterDataset[3:14], na.rm = T)
-TempRasterDataset$TempSd <- rowSds(as.matrix(TempRasterDataset[3:14]), na.rm = T)
-TempRasterDataset <- TempRasterDataset %>% dplyr::select(id,  TempMean, TempSd)
-colnames(TempRasterDataset) <- c("id", "TempMean.2019", "TempSd.2019")
-
-prediction.dataframe <- left_join(prediction.dataframe, TempRasterDataset)
-prediction.dataframe$TempMeanDelta <- prediction.dataframe$TempMean.2041 - prediction.dataframe$TempMean.2019
-prediction.dataframe$TempSdDelta <- prediction.dataframe$TempSd.2041 - prediction.dataframe$TempSd.2019
-prediction.dataframe$TempSquareDelta <- 2 * prediction.dataframe$TempMeanDelta * prediction.dataframe$TempMean.2019 +
-  prediction.dataframe$TempMeanDelta ^ 2
-
-prediction.dataframe <- prediction.dataframe %>%
-  dplyr::select(id, PfPR, TempMeanDelta, TempSdDelta, TempSquareDelta)
-
-load("05_Results/GWPR_FEM_CV_F_result_425.Rdata")
-GWPR.FEM.CV.F.result$SDF@data <- GWPR.FEM.CV.F.result$SDF@data %>%
-  mutate(TempMean = ifelse(abs(TempMean_TVa) < 1.645, 0, TempMean),
-         TempSquare = ifelse(abs(TempSquare_TVa) < 1.645, 0, TempSquare),
-         TempSd = ifelse(abs(TempSd_TVa) < 1.645, 0, TempSd)
-  )
-
-GWPR.FEM.CV.F.result$SDF@data <- left_join(GWPR.FEM.CV.F.result$SDF@data, prediction.dataframe)
-GWPR.FEM.CV.F.result$SDF@data$predictPfPR <- 
-  GWPR.FEM.CV.F.result$SDF@data$TempMean * GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta +
-  GWPR.FEM.CV.F.result$SDF@data$TempSquare * GWPR.FEM.CV.F.result$SDF@data$TempSquareDelta +
-  GWPR.FEM.CV.F.result$SDF@data$TempSd + GWPR.FEM.CV.F.result$SDF@data$TempSdDelta +
-  GWPR.FEM.CV.F.result$SDF@data$PfPR
-
-GWPR.FEM.CV.F.result$SDF@data <- GWPR.FEM.CV.F.result$SDF@data %>%
-  mutate(predictPfPR = ifelse(predictPfPR > 1, 1, predictPfPR),
-         predictPfPR = ifelse(predictPfPR < 0, 0, predictPfPR))
+colnames(TempRasterDataset.ssp126) <- c("id", "year.2041", "TempMean.2041.ssp126", "TempSd.2041.ssp126")
 
 #ssp245
 filelist.ssp245 <- filelist[c(2,6)]
@@ -185,32 +127,7 @@ TempRasterDataset.ssp245$TempSd <- rowSds(as.matrix(TempRasterDataset.ssp245[3:1
 TempRasterDataset.ssp245 <- TempRasterDataset.ssp245 %>%
   filter(!is.na(TempMean))
 TempRasterDataset.ssp245 <- TempRasterDataset.ssp245 %>% dplyr::select(id, year, TempMean, TempSd)
-colnames(TempRasterDataset.ssp245) <- c("id", "year.2041", "TempMean.2041", "TempSd.2041")
-
-prediction.dataframe <- left_join(malaria.dataframe, TempRasterDataset.ssp245)
-
-prediction.dataframe <- left_join(prediction.dataframe, TempRasterDataset)
-prediction.dataframe$TempMeanDelta <- prediction.dataframe$TempMean.2041 - prediction.dataframe$TempMean.2019
-prediction.dataframe$TempSdDelta <- prediction.dataframe$TempSd.2041 - prediction.dataframe$TempSd.2019
-prediction.dataframe$TempSquareDelta <- 2 * prediction.dataframe$TempMeanDelta * prediction.dataframe$TempMean.2019 +
-  prediction.dataframe$TempMeanDelta ^ 2
-
-prediction.dataframe <- prediction.dataframe %>%
-  dplyr::select(id, TempMeanDelta, TempSdDelta, TempSquareDelta)
-colnames(prediction.dataframe) <- c("id", "TempMeanDelta.spp245", "TempSdDelta.spp245", "TempSquareDelta.spp245")
-
-
-GWPR.FEM.CV.F.result$SDF@data <- left_join(GWPR.FEM.CV.F.result$SDF@data, prediction.dataframe)
-GWPR.FEM.CV.F.result$SDF@data$predictPfPR.spp245 <- 
-  GWPR.FEM.CV.F.result$SDF@data$TempMean * GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta.spp245 +
-  GWPR.FEM.CV.F.result$SDF@data$TempSquare * GWPR.FEM.CV.F.result$SDF@data$TempSquareDelta.spp245 +
-  GWPR.FEM.CV.F.result$SDF@data$TempSd + GWPR.FEM.CV.F.result$SDF@data$TempSdDelta.spp245 +
-  GWPR.FEM.CV.F.result$SDF@data$PfPR
-
-GWPR.FEM.CV.F.result$SDF@data <- GWPR.FEM.CV.F.result$SDF@data %>%
-  mutate(predictPfPR.spp245 = ifelse(predictPfPR.spp245 > 1, 1, predictPfPR.spp245),
-         predictPfPR.spp245 = ifelse(predictPfPR.spp245 < 0, 0, predictPfPR.spp245))
-
+colnames(TempRasterDataset.ssp245) <- c("id", "year.2041", "TempMean.2041.ssp245", "TempSd.2041.ssp245")
 
 #ssp370
 filelist.ssp370 <- filelist[c(3,7)]
@@ -232,31 +149,7 @@ TempRasterDataset.ssp370$TempSd <- rowSds(as.matrix(TempRasterDataset.ssp370[3:1
 TempRasterDataset.ssp370 <- TempRasterDataset.ssp370 %>%
   filter(!is.na(TempMean))
 TempRasterDataset.ssp370 <- TempRasterDataset.ssp370 %>% dplyr::select(id, year, TempMean, TempSd)
-colnames(TempRasterDataset.ssp370) <- c("id", "year.2041", "TempMean.2041", "TempSd.2041")
-
-prediction.dataframe <- left_join(malaria.dataframe, TempRasterDataset.ssp370)
-
-prediction.dataframe <- left_join(prediction.dataframe, TempRasterDataset)
-prediction.dataframe$TempMeanDelta <- prediction.dataframe$TempMean.2041 - prediction.dataframe$TempMean.2019
-prediction.dataframe$TempSdDelta <- prediction.dataframe$TempSd.2041 - prediction.dataframe$TempSd.2019
-prediction.dataframe$TempSquareDelta <- 2 * prediction.dataframe$TempMeanDelta * prediction.dataframe$TempMean.2019 +
-  prediction.dataframe$TempMeanDelta ^ 2
-
-prediction.dataframe <- prediction.dataframe %>%
-  dplyr::select(id, TempMeanDelta, TempSdDelta, TempSquareDelta)
-colnames(prediction.dataframe) <- c("id", "TempMeanDelta.spp370", "TempSdDelta.spp370", "TempSquareDelta.spp370")
-
-
-GWPR.FEM.CV.F.result$SDF@data <- left_join(GWPR.FEM.CV.F.result$SDF@data, prediction.dataframe)
-GWPR.FEM.CV.F.result$SDF@data$predictPfPR.spp370 <- 
-  GWPR.FEM.CV.F.result$SDF@data$TempMean * GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta.spp370 +
-  GWPR.FEM.CV.F.result$SDF@data$TempSquare * GWPR.FEM.CV.F.result$SDF@data$TempSquareDelta.spp370 +
-  GWPR.FEM.CV.F.result$SDF@data$TempSd + GWPR.FEM.CV.F.result$SDF@data$TempSdDelta.spp370 +
-  GWPR.FEM.CV.F.result$SDF@data$PfPR
-
-GWPR.FEM.CV.F.result$SDF@data <- GWPR.FEM.CV.F.result$SDF@data %>%
-  mutate(predictPfPR.spp370 = ifelse(predictPfPR.spp370 > 1, 1, predictPfPR.spp370),
-         predictPfPR.spp370 = ifelse(predictPfPR.spp370 < 0, 0, predictPfPR.spp370))
+colnames(TempRasterDataset.ssp370) <- c("id", "year.2041", "TempMean.2041.ssp370", "TempSd.2041.ssp370")
 
 #ssp585
 filelist.ssp585 <- filelist[c(4,8)]
@@ -278,28 +171,57 @@ TempRasterDataset.ssp585$TempSd <- rowSds(as.matrix(TempRasterDataset.ssp585[3:1
 TempRasterDataset.ssp585 <- TempRasterDataset.ssp585 %>%
   filter(!is.na(TempMean))
 TempRasterDataset.ssp585 <- TempRasterDataset.ssp585 %>% dplyr::select(id, year, TempMean, TempSd)
-colnames(TempRasterDataset.ssp585) <- c("id", "year.2041", "TempMean.2041", "TempSd.2041")
+colnames(TempRasterDataset.ssp585) <- c("id", "year.2041", "TempMean.2041.ssp585", "TempSd.2041.ssp585")
 
-prediction.dataframe <- left_join(malaria.dataframe, TempRasterDataset.ssp585)
+future.temp.dataframe <- left_join(TempRasterDataset.ssp126, TempRasterDataset.ssp245)
+future.temp.dataframe <- left_join(future.temp.dataframe, TempRasterDataset.ssp370)
+future.temp.dataframe <- left_join(future.temp.dataframe, TempRasterDataset.ssp585)
 
-prediction.dataframe <- left_join(prediction.dataframe, TempRasterDataset)
-prediction.dataframe$TempMeanDelta <- prediction.dataframe$TempMean.2041 - prediction.dataframe$TempMean.2019
-prediction.dataframe$TempSdDelta <- prediction.dataframe$TempSd.2041 - prediction.dataframe$TempSd.2019
-prediction.dataframe$TempSquareDelta <- 2 * prediction.dataframe$TempMeanDelta * prediction.dataframe$TempMean.2019 +
-  prediction.dataframe$TempMeanDelta ^ 2
+load("05_Results/GWPR_FEM_CV_F_result_425.Rdata")
+#GWPR.FEM.CV.F.result$SDF@data <- GWPR.FEM.CV.F.result$SDF@data %>%
+#  mutate(TempMean = ifelse(abs(TempMean_TVa) < 1.645, 0, TempMean),
+#         TempSquare = ifelse(abs(TempSquare_TVa) < 1.645, 0, TempSquare),
+#         TempSd = ifelse(abs(TempSd_TVa) < 1.645, 0, TempSd)
+#  )
 
-prediction.dataframe <- prediction.dataframe %>%
-  dplyr::select(id, TempMeanDelta, TempSdDelta, TempSquareDelta)
-colnames(prediction.dataframe) <- c("id", "TempMeanDelta.spp585", "TempSdDelta.spp585", "TempSquareDelta.spp585")
+GWPR.FEM.CV.F.result$SDF@data <- left_join(GWPR.FEM.CV.F.result$SDF@data, future.temp.dataframe)
+GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta <- GWPR.FEM.CV.F.result$SDF@data$TempMean.2041.ssp245 - 
+  GWPR.FEM.CV.F.result$SDF@data$TempMean.2041.ssp126
+GWPR.FEM.CV.F.result$SDF@data$TempSquareDelta <- 
+  2*GWPR.FEM.CV.F.result$SDF@data$TempMean.2041.ssp126*GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta +
+  GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta^2
+GWPR.FEM.CV.F.result$SDF@data$TempSdDelta <- GWPR.FEM.CV.F.result$SDF@data$TempSd.2041.ssp245 - 
+  GWPR.FEM.CV.F.result$SDF@data$TempSd.2041.ssp126
+
+GWPR.FEM.CV.F.result$SDF@data$predictPfPR126_245 <- 
+  GWPR.FEM.CV.F.result$SDF@data$TempMean * GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta +
+  GWPR.FEM.CV.F.result$SDF@data$TempSquare * GWPR.FEM.CV.F.result$SDF@data$TempSquareDelta +
+  GWPR.FEM.CV.F.result$SDF@data$TempSd + GWPR.FEM.CV.F.result$SDF@data$TempSdDelta 
+
+GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta <- GWPR.FEM.CV.F.result$SDF@data$TempMean.2041.ssp370 - 
+  GWPR.FEM.CV.F.result$SDF@data$TempMean.2041.ssp126
+GWPR.FEM.CV.F.result$SDF@data$TempSquareDelta <- 
+  2*GWPR.FEM.CV.F.result$SDF@data$TempMean.2041.ssp126*GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta +
+  GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta^2
+GWPR.FEM.CV.F.result$SDF@data$TempSdDelta <- GWPR.FEM.CV.F.result$SDF@data$TempSd.2041.ssp370 - 
+  GWPR.FEM.CV.F.result$SDF@data$TempSd.2041.ssp126
+
+GWPR.FEM.CV.F.result$SDF@data$predictPfPR126_370 <- 
+  GWPR.FEM.CV.F.result$SDF@data$TempMean * GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta +
+  GWPR.FEM.CV.F.result$SDF@data$TempSquare * GWPR.FEM.CV.F.result$SDF@data$TempSquareDelta +
+  GWPR.FEM.CV.F.result$SDF@data$TempSd + GWPR.FEM.CV.F.result$SDF@data$TempSdDelta 
+
+GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta <- GWPR.FEM.CV.F.result$SDF@data$TempMean.2041.ssp585 - 
+  GWPR.FEM.CV.F.result$SDF@data$TempMean.2041.ssp126
+GWPR.FEM.CV.F.result$SDF@data$TempSquareDelta <- 
+  2*GWPR.FEM.CV.F.result$SDF@data$TempMean.2041.ssp126*GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta +
+  GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta^2
+GWPR.FEM.CV.F.result$SDF@data$TempSdDelta <- GWPR.FEM.CV.F.result$SDF@data$TempSd.2041.ssp585 - 
+  GWPR.FEM.CV.F.result$SDF@data$TempSd.2041.ssp126
+
+GWPR.FEM.CV.F.result$SDF@data$predictPfPR126_585 <- 
+  GWPR.FEM.CV.F.result$SDF@data$TempMean * GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta +
+  GWPR.FEM.CV.F.result$SDF@data$TempSquare * GWPR.FEM.CV.F.result$SDF@data$TempSquareDelta +
+  GWPR.FEM.CV.F.result$SDF@data$TempSd + GWPR.FEM.CV.F.result$SDF@data$TempSdDelta 
 
 
-GWPR.FEM.CV.F.result$SDF@data <- left_join(GWPR.FEM.CV.F.result$SDF@data, prediction.dataframe)
-GWPR.FEM.CV.F.result$SDF@data$predictPfPR.spp585 <- 
-  GWPR.FEM.CV.F.result$SDF@data$TempMean * GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta.spp585 +
-  GWPR.FEM.CV.F.result$SDF@data$TempSquare * GWPR.FEM.CV.F.result$SDF@data$TempSquareDelta.spp585 +
-  GWPR.FEM.CV.F.result$SDF@data$TempSd + GWPR.FEM.CV.F.result$SDF@data$TempSdDelta.spp585 +
-  GWPR.FEM.CV.F.result$SDF@data$PfPR
-
-GWPR.FEM.CV.F.result$SDF@data <- GWPR.FEM.CV.F.result$SDF@data %>%
-  mutate(predictPfPR.spp585 = ifelse(predictPfPR.spp585 > 1, 1, predictPfPR.spp585),
-         predictPfPR.spp585 = ifelse(predictPfPR.spp585 < 0, 0, predictPfPR.spp585))
