@@ -1,5 +1,17 @@
 # Author: M.L.
 
+# input: GWPR_FEM_CV_F_result_425.Rdata
+# GWPR_FEM_CV_F_result_425.Rdata: this is a result of GWPR based on FEM with 4.25
+
+# input: TempRasterDataset.ssp***
+# note: these data are from BCC-CSM2-MR model based on ssp123 245 370 585
+#       https://www.worldclim.org/data/cmip6/cmip6_clim5m.html
+
+# output: GWPR_FEM_CV_F_result.predict.Rdata
+# GWPR_FEM_CV_F_result.predict.Rdata: "predictPfPR126_245" marginal effects from ssp126 to ssp245
+# GWPR_FEM_CV_F_result.predict.Rdata: "predictPfPR126_370" marginal effects from ssp126 to ssp370
+# GWPR_FEM_CV_F_result.predict.Rdata: "predictPfPR126_585" marginal effects from ssp126 to ssp585
+
 # note: From this project, the data base is built in outside disk F:
 
 # end

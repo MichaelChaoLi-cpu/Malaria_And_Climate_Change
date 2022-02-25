@@ -1,5 +1,48 @@
 # Author: M.L.
 
+# input: 01_malariaDataframe.RData
+# 01_malariaDataframe.RData: "PfPR": Plasmodium falciparum parasite rate, range 0 ~ 1
+
+# input: 02_NDVIRasterDataset.RData
+# 02_NDVIRasterDataset.RData: "NDVI": NDVI value -100% ~ 100% from M*D13C2
+
+# input: 03_TempRasterDataset.RData
+# 03_TempRasterDataset.RData: "Temp": Monthly average temperature Kelvin
+
+# input: 04_AirPressureRasterDataset.RData
+# 04_AirPressureRasterDataset.RData: "AirPressure" Pa
+
+# input: 05_HumidityRasterDataset.RData
+# 05_HumidityRasterDataset.RData: "Humidity" unit is g/g
+
+# input: 06_PrecipitationRasterDataset.RData
+# 06_PrecipitationRasterDataset.RData: "Precipitation" g / (cm2 * s)
+
+# input: 07_WindSpeedRasterDataset.RData
+# 07_WindSpeedRasterDataset.RData: "WindSpeed" m/s
+
+# input: 08_PopulationDataset.RData
+# 08_PopulationDataset.RData: "PopulationDensity" cap/km2
+
+# input: 09_incomeDataset.RData
+# 09_incomeDataset.RData: "GDPperCap" USD/Cap
+
+# note: climate data are from
+#       https://hydro1.gesdisc.eosdis.nasa.gov/data/GLDAS/GLDAS_NOAH025_M.2.1/doc/README_GLDAS2.pdf
+
+# output: 01_dataset_used.RData
+# 01_dataset_used.RData: "PfPR": Plasmodium falciparum parasite rate, range 0 ~ 1
+# 01_dataset_used.RData: "NDVIMean": NDVI value -100% ~ 100% from M*D13C2
+# 01_dataset_used.RData: "TempMean": Annually average temperature C
+# 01_dataset_used.RData: "AirPressureMean" kPa
+# 01_dataset_used.RData: "HumidityMean" unit is g/kg
+# 01_dataset_used.RData: "PrecipitationMean" g / (m2 * h)
+# 01_dataset_used.RData: "WindSpeedMean" m/s
+# 01_dataset_used.RData: "PopulationDensity" cap/km2
+# 01_dataset_used.RData: "GDPperCap" USD/Cap
+# 01_dataset_used.RData: "TempSd": Annually standard deviation temperature C
+# 01_dataset_used.RData: "TempSquare": Annually average temperature square C2
+
 # note: From this project, the data base is built in outside disk F:
 
 # end

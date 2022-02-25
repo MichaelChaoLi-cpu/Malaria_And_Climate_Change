@@ -1,5 +1,32 @@
 # Author: M.L.
 
+# output: 01_malariaDataframe.RData
+# 01_malariaDataframe.RData: "PfPR": Plasmodium falciparum parasite rate, range 0 ~ 1
+
+# output: 02_NDVIRasterDataset.RData
+# 02_NDVIRasterDataset.RData: "NDVI": NDVI value -100% ~ 100% from M*D13C2
+
+# output: 03_TempRasterDataset.RData
+# 03_TempRasterDataset.RData: "Temp": Monthly average temperature Kelvin
+
+# output: 04_AirPressureRasterDataset.RData
+# 04_AirPressureRasterDataset.RData: "AirPressure" Pa
+
+# output: 05_HumidityRasterDataset.RData
+# 05_HumidityRasterDataset.RData: "Humidity" unit is g/g
+
+# output: 06_PrecipitationRasterDataset.RData
+# 06_PrecipitationRasterDataset.RData: "Precipitation" g / (cm2 * s)
+
+# output: 07_WindSpeedRasterDataset.RData
+# 07_WindSpeedRasterDataset.RData: "WindSpeed" m/s
+
+# output: 08_PopulationDataset.RData
+# 08_PopulationDataset.RData: "PopulationDensity" cap/km2
+
+# output: 09_incomeDataset.RData
+# 09_incomeDataset.RData: "GDPperCap" USD/Cap
+
 # note: From this project, the data base is built in outside disk F:
 
 # end
