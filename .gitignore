@@ -6,3 +6,4 @@
 03_RawData/*.RData
 04_Data/01_dataset_used.RData
 05_Results/GWPR_FEM_CV_F_result_425.Rdata
+05_Results/GWPR_FEM_CV_F_result.predict.Rdata

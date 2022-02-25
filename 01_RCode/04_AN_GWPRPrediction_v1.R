@@ -224,4 +224,5 @@ GWPR.FEM.CV.F.result$SDF@data$predictPfPR126_585 <-
   GWPR.FEM.CV.F.result$SDF@data$TempSquare * GWPR.FEM.CV.F.result$SDF@data$TempSquareDelta +
   GWPR.FEM.CV.F.result$SDF@data$TempSd + GWPR.FEM.CV.F.result$SDF@data$TempSdDelta 
 
-
+GWPR.FEM.CV.F.result.predict <- GWPR.FEM.CV.F.result
+save(GWPR.FEM.CV.F.result.predict, file = "05_Results/GWPR_FEM_CV_F_result.predict.Rdata")
