@@ -1,5 +1,7 @@
 # Author: M.L.
 
+# note: when we perform FEM Cross Validation, we should care about the formula in the function (+ 0)
+
 # end
 
 library(tidyverse)
@@ -73,7 +75,7 @@ femTransformationDataset$year <- rawCrossValidationDataset$year
 
 #### bw FEM CV
 source("01_RCode/05_AF_GWPRRevisedForCrossValidation_v1.R")
-bw.GWPR.FEM = 1.15
+bw.GWPR.FEM = 4.25
 
 set.seed(42)
 
