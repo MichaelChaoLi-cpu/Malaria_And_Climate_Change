@@ -44,7 +44,8 @@ coords <- addcoord(nx,xmin,xsize,ny,ymin,ysize,proj)
 load("04_Data/01_dataset_used.RData")
 
 ## several variables
-formula <- PfPR ~ TempMean + TempSquare + TempSd + NDVIMean + Population + GDPperCap
+formula.CV.FEM <- PfPR ~ TempMean + TempSquare + TempSd + NDVIMean + Population + GDPperCap + 0
+###### it must be careful, if cross-validation in FEM the formula must be revised + 0 ^^^
 dataset_used <- dataset_used %>% dplyr::select(id, year, all.vars(formula)) %>% na.omit()
 dataset.id <- dataset_used %>% dplyr::select(id) %>% distinct()
 
@@ -90,7 +91,7 @@ CV.F.result.table <- data.frame(Doubles=double(),
                                 stringsAsFactors=FALSE)
 
 while (foldNumberth < 11){
-  meanValueOfVariables.use <- meanValueOfVariables
+  meanValueOfVariables.use <- meanValueOfVariables %>% dplyr::select(-year) %>% distinct()
   if (foldNumberth == 10){
     rows.test <- rows[((foldNumberth-1)*singleFoldNumber+1):nrow(femTransformationDataset)]
   } else {
@@ -110,61 +111,47 @@ while (foldNumberth < 11){
   rm(xy)
   # get the train city points 
   
-  GWPR.FEM.CV.F.result.CV1 <- GWPR.user(formula = formula, data = train, index = c("id", "year"),
+  GWPR.FEM.CV.F.result.CV1 <- GWPR.user(formula = formula.CV.FEM, data = train, index = c("id", "year"),
                                         SDF = trainCityLocationSpatialPoint, bw = bw.GWPR.FEM, adaptive = F,
                                         p = 2, effect = "individual", kernel = "bisquare", longlat = F, 
                                         model = "pooling")
-  #CVtrain.R2 <- GWPR.FEM.CV.F.result.CV1$R2
-  coef.CV1 <- GWPR.FEM.CV.F.result.CV1$SDF@data
-  coef.CV1 <- coef.CV1[,1:17]
-  colnames(coef.CV1) <- paste0(colnames(coef.CV1), "_Coef")
-  colnames(coef.CV1)[1] <- "CityCode"
+  residual.result <- GWPR.FEM.CV.F.result.CV1$GWPR.residuals
   colnames(meanValueOfVariables.use) <- paste0(colnames(meanValueOfVariables.use), "_mean")
-  colnames(meanValueOfVariables.use)[1] <- "CityCode"
-  meanValueOfVariables.use <- meanValueOfVariables.use %>% dplyr::select(-"period_mean") %>% distinct()
-  
-  train.predict <- left_join(train, coef.CV1, by = "CityCode")
-  train.predict <- left_join(train.predict, meanValueOfVariables.use, by = "CityCode")
-  train.predict <- train.predict %>%
-    mutate(predictNo2 = ug_m2_troposphere_no2_Coef * (ug_m2_troposphere_no2) + 
-             ter_pressure_Coef * (ter_pressure) + 
-             temp_Coef * temp +
-             ndvi_Coef * (ndvi) +
-             precipitation_Coef * (precipitation) +
-             PBLH_Coef * (PBLH) +
-             Y2016_Coef * (Y2016) + Y2017_Coef * (Y2017) +
-             Y2018_Coef * (Y2018) + Y2019_Coef * (Y2019) +
-             Y2020_Coef * (Y2020) + Y2021_Coef * (Y2021) + no2_measured_ug.m3_mean
-    )
-  train.predict$no2_measured_ug.m3.ori <- train.predict$no2_measured_ug.m3 + train.predict$no2_measured_ug.m3_mean
-  #ss.tot <- sum((train.predict$no2_measured_ug.m3.ori - mean(train.predict$no2_measured_ug.m3.ori))^2)
-  ss.tot <- sum((train.predict$no2_measured_ug.m3.ori - mean(train.predict$no2_measured_ug.m3))^2)
-  ss.res <- sum((train.predict$no2_measured_ug.m3.ori - train.predict$predictNo2)^2)
+  colnames(meanValueOfVariables.use)[1] <- "id"
+  meanValueOfVariables.use <- meanValueOfVariables.use %>% dplyr::select(id, PfPR_mean)
+  residual.result <- left_join(residual.result, meanValueOfVariables.use, by = "id")
+  residual.result$yhat.fem <- residual.result$yhat + residual.result$PfPR_mean
+  residual.result$y.ori <- residual.result$y + residual.result$PfPR_mean
+  ss.tot <- sum((residual.result$y.ori - mean(residual.result$y.ori))^2)
+  ss.res <- sum((residual.result$y.ori - residual.result$yhat.fem)^2)
   CVtrain.R2 <- 1 - ss.res/ss.tot
-  reg <- lm(predictNo2 ~ no2_measured_ug.m3.ori, data = train.predict)
-  coeff.train = coefficients(reg)
-  N.train = length(train.predict$predictNo2)
-  corre.train <- cor(train.predict$predictNo2, train.predict$no2_measured_ug.m3.ori)
-  rmse.train <- sqrt(ss.res/nrow(train.predict)) 
-  mae.train <- mean(abs(train.predict$no2_measured_ug.m3.ori - train.predict$predictNo2))
   
-  test.predict <- left_join(test, coef.CV1, by = "CityCode")
-  test.predict <- left_join(test.predict, meanValueOfVariables.use, by = "CityCode")
+  reg <- lm(yhat.fem ~ y.ori, data = residual.result)
+  coeff.train = coefficients(reg)
+  N.train = length(residual.result$y.ori)
+  corre.train <- cor(residual.result$y.ori, residual.result$yhat.fem)
+  rmse.train <- sqrt(ss.res/nrow(residual.result)) 
+  mae.train <- mean(abs(residual.result$y.ori - residual.result$yhat.fem))
+  
+  coef.CV1 <- GWPR.FEM.CV.F.result.CV1$SDF@data
+  coef.CV1 <- coef.CV1[,1:7]
+  colnames(coef.CV1) <- paste0(colnames(coef.CV1), "_Coef")
+  colnames(coef.CV1)[1] <- "id"
+  test.predict <- left_join(test, coef.CV1, by = "id")
+  test.predict <- left_join(test.predict, meanValueOfVariables.use, by = "id")
   test.predict <- test.predict %>%
-    mutate(predictNo2 = ug_m2_troposphere_no2_Coef * (ug_m2_troposphere_no2) + 
-             ter_pressure_Coef * (ter_pressure) + 
-             temp_Coef * temp +
-             ndvi_Coef * (ndvi) +
-             precipitation_Coef * (precipitation) +
-             PBLH_Coef * (PBLH) +
-             Y2016_Coef * (Y2016) + Y2017_Coef * (Y2017) +
-             Y2018_Coef * (Y2018) + Y2019_Coef * (Y2019) +
-             Y2020_Coef * (Y2020) + Y2021_Coef * (Y2021) + no2_measured_ug.m3_mean
+    mutate(predictPfPR = TempMean_Coef * (TempMean) + 
+             TempSquare_Coef * (TempSquare) +
+             TempSd_Coef * (TempSd) + NDVIMean_Coef * NDVIMean +
+             Population_Coef * (Population) + GDPperCap_Coef * (GDPperCap) +
+             PfPR_mean
     )
-  test.predict$no2_measured_ug.m3.ori <- test.predict$no2_measured_ug.m3 + test.predict$no2_measured_ug.m3_mean
-  #ss.tot <- sum((test.predict$no2_measured_ug.m3.ori - mean(test.predict$no2_measured_ug.m3.ori))^2)
-  ss.tot <- sum((test.predict$no2_measured_ug.m3.ori - mean(test.predict$no2_measured_ug.m3))^2)
-  ss.res <- sum((test.predict$no2_measured_ug.m3.ori - test.predict$predictNo2)^2)
+  test.predict$PfPR.ori <- test.predict$PfPR + test.predict$PfPR_mean
+  test.predict <- test.predict %>%
+    mutate(predictPfPR = ifelse(predictPfPR > 1, 1, predictPfPR),
+           predictPfPR = ifelse(predictPfPR < 0, 0, predictPfPR))
+  ss.tot <- sum((test.predict$PfPR.ori - mean(test.predict$PfPR.ori))^2)
+  ss.res <- sum((test.predict$PfPR.ori - test.predict$predictPfPR)^2)
   CVtest.R2 <- 1 - ss.res/ss.tot
   reg <- lm(predictNo2 ~ no2_measured_ug.m3.ori, data = test.predict)
   coeff.test = coefficients(reg)
