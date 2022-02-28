@@ -149,23 +149,20 @@ while (foldNumberth < 11){
              PfPR_mean
     )
   test.predict$PfPR.ori <- test.predict$PfPR + test.predict$PfPR_mean
-  test.predict <- test.predict %>%
-    mutate(predictPfPR = ifelse(predictPfPR > 1, 1, predictPfPR),
-           predictPfPR = ifelse(predictPfPR < 0, 0, predictPfPR))
   ss.tot <- sum((test.predict$PfPR.ori - mean(test.predict$PfPR.ori))^2)
   ss.res <- sum((test.predict$PfPR.ori - test.predict$predictPfPR)^2)
   CVtest.R2 <- 1 - ss.res/ss.tot
-  reg <- lm(predictNo2 ~ no2_measured_ug.m3.ori, data = test.predict)
+  reg <- lm(predictPfPR ~ PfPR.ori, data = test.predict)
   coeff.test = coefficients(reg)
-  N.test = length(test.predict$predictNo2)
-  corre.test <- cor(test.predict$predictNo2, test.predict$no2_measured_ug.m3.ori)
+  N.test = length(test.predict$predictPfPR)
+  corre.test <- cor(test.predict$predictPfPR, test.predict$PfPR.ori)
   rmse.test <- sqrt(ss.res/nrow(test.predict))
-  mae.test <- mean(abs(test.predict$no2_measured_ug.m3.ori - test.predict$predictNo2))
+  mae.test <- mean(abs(test.predict$PfPR.ori - test.predict$predictPfPR))
   
   result <- c(foldNumberth, CVtrain.R2, coeff.train, N.train, corre.train, rmse.train, mae.train,
               CVtest.R2, coeff.test, N.test, corre.test, rmse.test, mae.test)
   print(result)
-  CV.A.result.table <- rbind(CV.A.result.table, result)
+  CV.F.result.table <- rbind(CV.F.result.table, result)
   foldNumberth <- foldNumberth + 1
 }
 colnames(CV.A.result.table) <- c("foldNumber", "CVtrain.R2", "train.inter", "train.slope", "N.train", "corre.train",
