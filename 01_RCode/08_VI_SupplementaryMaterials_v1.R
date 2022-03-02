@@ -88,8 +88,8 @@ mean.PfPR.tmap <- tm_shape(coords.df) +
   tm_raster("Mean.PfPR", palette = pal(10), breaks = brks, 
             style = 'cont', legend.is.portrait = F, title = "The Mean of PfPR in 2-10 year olds",
             labels = labels_brks) +
-  #tm_shape(world) +
-  #tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_shape(world) +
+  tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
   tm_grid(alpha = .25) + 
   tm_scale_bar(position = c("right", "bottom")) + 
   tm_layout(
