@@ -123,7 +123,7 @@ GWPR.FEM.bandwidth <- # this is about fixed bandwidth
                          SDF = coords.df, adaptive = F, p = 2, bigdata = F,
                          upperratio = 0.10, effect = "individual", model = "within", approach = "CV",
                          kernel = "bisquare",doParallel = T, cluster.number = 6, gradientIncrecement = T,
-                         GI.step = 0.25, GI.upper = 20, GI.lower = 0.5)
+                         GI.step = 0.25, GI.upper = 25, GI.lower = 20)
 GWPR.FEM.bandwidth.step.list <- GWPR.FEM.bandwidth
 plot(GWPR.FEM.bandwidth.step.list[,1], GWPR.FEM.bandwidth.step.list[,2])
 save(GWPR.FEM.bandwidth.step.list, file = "05_Results/GWPR_BW_setp_list_0.5_20_0.25.Rdata")

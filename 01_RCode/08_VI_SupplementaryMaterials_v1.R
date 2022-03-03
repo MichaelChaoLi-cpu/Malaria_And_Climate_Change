@@ -103,4 +103,16 @@ mean.PfPR.tmap %>%
   tmap_save(filename = "06_Figure/S1.mean.PfPR.tmap.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
 # mean PfPR figure S1
 
+# bandwidth selection figure s2
+load("05_Results/GWPR_BW_setp_list_0.5_20_0.25.Rdata")
+GWPR.FEM.bandwidth.step.list <- GWPR.FEM.bandwidth.step.list %>% as.data.frame()
+plot.S2 <- ggplot(GWPR.FEM.bandwidth.step.list, aes(x = BandwidthVector, y = ScoreVector)) +
+  geom_point() +
+  scale_x_continuous(name = "Bandwidth (Arc Degree)") +
+  scale_y_continuous(name = "Mean Square Prediction Error") +
+  theme_bw()
 
+jpeg(file="06_Figure/bwselection.jpeg", width = 297, height = 105, units = "mm", quality = 300, res = 300)
+plot.S2
+dev.off()
+# bandwidth selection figure s2
