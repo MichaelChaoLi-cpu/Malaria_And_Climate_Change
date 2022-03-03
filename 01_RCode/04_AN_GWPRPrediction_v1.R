@@ -97,18 +97,46 @@ coords <- addcoord(nx,xmin,xsize,ny,ymin,ysize,proj)
 TempRasterFolder <- "F:/13_Article/09_TempPrediction/Res025/"
 filelist <- list.files(TempRasterFolder)
 
-#ssp126
-filelist.ssp126 <- filelist[c(1,5)]
-TempRasterDataset.ssp126 <- 
-  extractPointDataFromRasterMultiband(TempRasterFolder, filelist.ssp126, coords,
-                                      2041, F, "TempSSP126", 12)
-TempRasterDataset.ssp126 <- aggregate(TempRasterDataset.ssp126$TempSSP126,
-                               by = list(TempRasterDataset.ssp126$id, 
-                                         TempRasterDataset.ssp126$year, 
-                                         TempRasterDataset.ssp126$month), 
-                               FUN = "mean", na.rm = T
-)
-colnames(TempRasterDataset.ssp126) <- c("id", "year", "month", "TempSSP126")
+#sub
+num <- 1
+future.temperature <-
+  data.frame(Date=as.Date(character()),
+                 File=character(), 
+                 User=character(), 
+                 stringsAsFactors=FALSE) 
+scenario.name <- c("ssp126", "ssp245", "ssp460", "ssp585")
+
+while(num < 13){
+  filelist.sub <- filelist[c(num, num + 12)]
+  year_num <- num%%3
+  scenario.num <- floor(num/3) + 1
+  TempRasterDataset <- 
+    extractPointDataFromRasterMultiband(TempRasterFolder, filelist.sub, coords,
+                                        num, F, "Temp", 12)
+  TempRasterDataset <- TempRasterDataset %>% na.omit()
+  TempRasterDataset <- aggregate(TempRasterDataset$Temp,
+                                 by = list(TempRasterDataset$id, 
+                                           TempRasterDataset$year, 
+                                           TempRasterDataset$month), 
+                                 FUN = "mean", na.rm = T
+  )
+  colnames(TempRasterDataset) <- c("id", "year", "month", "Temp")
+  TempRasterDataset <- TempRasterDataset %>% dplyr::select(id, Temp)
+  TempRasterDataset.mean <- aggregate(TempRasterDataset$Temp, by = list(TempRasterDataset$id), 
+                                      FUN = "mean", na.rm = T)
+  colnames(TempRasterDataset.mean) <- c("id", "TempMean")
+  TempRasterDataset.sd <- aggregate(TempRasterDataset$Temp, by = list(TempRasterDataset$id), 
+                                      FUN = sd, na.rm = T)
+  colnames(TempRasterDataset.sd) <- c("id", "TempSD")
+  TempRasterDataset <- left_join(TempRasterDataset.mean, TempRasterDataset.sd)
+  TempRasterDataset$year <- year_num
+  TempRasterDataset$scenario <- scenario.name[scenario.num]
+  future.temperature <- rbind(future.temperature, TempRasterDataset)
+  num <- num + 1
+}
+
+
+
 
 TempRasterDataset.ssp126 <- TempRasterDataset.ssp126 %>%
   pivot_wider(names_from = "month", values_from = "TempSSP126")
