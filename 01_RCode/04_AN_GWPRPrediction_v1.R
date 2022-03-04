@@ -97,6 +97,9 @@ coords <- addcoord(nx,xmin,xsize,ny,ymin,ysize,proj)
 TempRasterFolder <- "F:/13_Article/09_TempPrediction/Res025/"
 filelist <- list.files(TempRasterFolder)
 
+load("05_Results/GWPR_FEM_CV_F_result_425.Rdata")
+coef.SDF <- GWPR.FEM.CV.F.result$SDF
+
 #sub
 num <- 1
 future.temperature <-
@@ -109,7 +112,7 @@ scenario.name <- c("ssp126", "ssp245", "ssp460", "ssp585")
 while(num < 13){
   filelist.sub <- filelist[c(num, num + 12)]
   year_num <- num%%3
-  scenario.num <- floor(num/3) + 1
+  scenario.num <- floor((num-1)/3) + 1
   TempRasterDataset <- 
     extractPointDataFromRasterMultiband(TempRasterFolder, filelist.sub, coords,
                                         num, F, "Temp", 12)
@@ -135,134 +138,122 @@ while(num < 13){
   num <- num + 1
 }
 
+year2060.mean <- future.temperature %>%
+  filter(year == 0) %>% dplyr::select(id, TempMean, scenario) %>%
+  pivot_wider(names_from = scenario, values_from = TempMean)
+year2060.square <- year2060.mean
+year2060.square[2:5] <- year2060.square[2:5]^2 
+year2060.sd <- future.temperature %>%
+  filter(year == 0) %>% dplyr::select(id, TempSD, scenario) %>%
+  pivot_wider(names_from = scenario, values_from = TempSD)
+year2060.mean <- year2060.mean %>%
+  mutate(mean.dif.245.126 = ssp245 - ssp126,
+         mean.dif.460.126 = ssp460 - ssp126,
+         mean.dif.585.126 = ssp585 - ssp126) %>%
+  dplyr::select(id, mean.dif.245.126, mean.dif.460.126, mean.dif.585.126)
+year2060.square <- year2060.square %>%
+  mutate(square.dif.245.126 = ssp245 - ssp126,
+         square.dif.460.126 = ssp460 - ssp126,
+         square.dif.585.126 = ssp585 - ssp126) %>%
+  dplyr::select(id, square.dif.245.126, square.dif.460.126, square.dif.585.126)
+year2060.sd <- year2060.sd %>%
+  mutate(sd.dif.245.126 = ssp245 - ssp126,
+         sd.dif.460.126 = ssp460 - ssp126,
+         sd.dif.585.126 = ssp585 - ssp126) %>%
+  dplyr::select(id, sd.dif.245.126, sd.dif.460.126, sd.dif.585.126)
+year2060.dataset <- left_join(year2060.mean, year2060.square)
+year2060.dataset <- left_join(year2060.dataset, year2060.sd)
+rm(year2060.mean, year2060.square, year2060.sd)
 
+prediction.2060 <- coef.SDF
+prediction.2060@data <- left_join(prediction.2060@data, year2060.dataset)
+prediction.2060@data <- prediction.2060@data %>%
+  mutate(
+    predictPfPR.245.126 = TempMean * mean.dif.245.126 + TempSquare * square.dif.245.126 +
+      TempSd * sd.dif.245.126,
+    predictPfPR.460.126 = TempMean * mean.dif.460.126 + TempSquare * square.dif.460.126 +
+      TempSd * sd.dif.460.126,
+    predictPfPR.585.126 = TempMean * mean.dif.585.126 + TempSquare * square.dif.585.126 +
+      TempSd * sd.dif.585.126 )
 
+save(prediction.2060, file = "05_Results/prediction.2060.Rdata")
 
-TempRasterDataset.ssp126 <- TempRasterDataset.ssp126 %>%
-  pivot_wider(names_from = "month", values_from = "TempSSP126")
-TempRasterDataset.ssp126$TempMean <- rowMeans(TempRasterDataset.ssp126[3:14], na.rm = T)
-TempRasterDataset.ssp126$TempSd <- rowSds(as.matrix(TempRasterDataset.ssp126[3:14]), na.rm = T)
-TempRasterDataset.ssp126 <- TempRasterDataset.ssp126 %>%
-  filter(!is.na(TempMean))
-TempRasterDataset.ssp126 <- TempRasterDataset.ssp126 %>% dplyr::select(id, year, TempMean, TempSd)
-colnames(TempRasterDataset.ssp126) <- c("id", "year.2041", "TempMean.2041.ssp126", "TempSd.2041.ssp126")
+year2080.mean <- future.temperature %>%
+  filter(year == 1) %>% dplyr::select(id, TempMean, scenario) %>%
+  pivot_wider(names_from = scenario, values_from = TempMean)
+year2080.square <- year2080.mean
+year2080.square[2:5] <- year2080.square[2:5]^2 
+year2080.sd <- future.temperature %>%
+  filter(year == 1) %>% dplyr::select(id, TempSD, scenario) %>%
+  pivot_wider(names_from = scenario, values_from = TempSD)
+year2080.mean <- year2080.mean %>%
+  mutate(mean.dif.245.126 = ssp245 - ssp126,
+         mean.dif.460.126 = ssp460 - ssp126,
+         mean.dif.585.126 = ssp585 - ssp126) %>%
+  dplyr::select(id, mean.dif.245.126, mean.dif.460.126, mean.dif.585.126)
+year2080.square <- year2080.square %>%
+  mutate(square.dif.245.126 = ssp245 - ssp126,
+         square.dif.460.126 = ssp460 - ssp126,
+         square.dif.585.126 = ssp585 - ssp126) %>%
+  dplyr::select(id, square.dif.245.126, square.dif.460.126, square.dif.585.126)
+year2080.sd <- year2080.sd %>%
+  mutate(sd.dif.245.126 = ssp245 - ssp126,
+         sd.dif.460.126 = ssp460 - ssp126,
+         sd.dif.585.126 = ssp585 - ssp126) %>%
+  dplyr::select(id, sd.dif.245.126, sd.dif.460.126, sd.dif.585.126)
+year2080.dataset <- left_join(year2080.mean, year2080.square)
+year2080.dataset <- left_join(year2080.dataset, year2080.sd)
+rm(year2080.mean, year2080.square, year2080.sd)
 
-#ssp245
-filelist.ssp245 <- filelist[c(2,6)]
-TempRasterDataset.ssp245 <- 
-  extractPointDataFromRasterMultiband(TempRasterFolder, filelist.ssp245, coords,
-                                      2041, F, "TempSSP245", 12)
-TempRasterDataset.ssp245 <- aggregate(TempRasterDataset.ssp245$TempSSP245,
-                                      by = list(TempRasterDataset.ssp245$id, 
-                                                TempRasterDataset.ssp245$year, 
-                                                TempRasterDataset.ssp245$month), 
-                                      FUN = "mean", na.rm = T
-)
-colnames(TempRasterDataset.ssp245) <- c("id", "year", "month", "TempSSP245")
+prediction.2080 <- coef.SDF
+prediction.2080@data <- left_join(prediction.2080@data, year2080.dataset)
+prediction.2080@data <- prediction.2080@data %>%
+  mutate(
+    predictPfPR.245.126 = TempMean * mean.dif.245.126 + TempSquare * square.dif.245.126 +
+      TempSd * sd.dif.245.126,
+    predictPfPR.460.126 = TempMean * mean.dif.460.126 + TempSquare * square.dif.460.126 +
+      TempSd * sd.dif.460.126,
+    predictPfPR.585.126 = TempMean * mean.dif.585.126 + TempSquare * square.dif.585.126 +
+      TempSd * sd.dif.585.126 )
 
-TempRasterDataset.ssp245 <- TempRasterDataset.ssp245 %>%
-  pivot_wider(names_from = "month", values_from = "TempSSP245")
-TempRasterDataset.ssp245$TempMean <- rowMeans(TempRasterDataset.ssp245[3:14], na.rm = T)
-TempRasterDataset.ssp245$TempSd <- rowSds(as.matrix(TempRasterDataset.ssp245[3:14]), na.rm = T)
-TempRasterDataset.ssp245 <- TempRasterDataset.ssp245 %>%
-  filter(!is.na(TempMean))
-TempRasterDataset.ssp245 <- TempRasterDataset.ssp245 %>% dplyr::select(id, year, TempMean, TempSd)
-colnames(TempRasterDataset.ssp245) <- c("id", "year.2041", "TempMean.2041.ssp245", "TempSd.2041.ssp245")
+save(prediction.2080, file = "05_Results/prediction.2080.Rdata")
 
-#ssp370
-filelist.ssp370 <- filelist[c(3,7)]
-TempRasterDataset.ssp370 <- 
-  extractPointDataFromRasterMultiband(TempRasterFolder, filelist.ssp370, coords,
-                                      2041, F, "TempSSP370", 12)
-TempRasterDataset.ssp370 <- aggregate(TempRasterDataset.ssp370$TempSSP370,
-                                      by = list(TempRasterDataset.ssp370$id, 
-                                                TempRasterDataset.ssp370$year, 
-                                                TempRasterDataset.ssp370$month), 
-                                      FUN = "mean", na.rm = T
-)
-colnames(TempRasterDataset.ssp370) <- c("id", "year", "month", "TempSSP370")
+year2100.mean <- future.temperature %>%
+  filter(year == 2) %>% dplyr::select(id, TempMean, scenario) %>%
+  pivot_wider(names_from = scenario, values_from = TempMean)
+year2100.square <- year2100.mean
+year2100.square[2:5] <- year2100.square[2:5]^2 
+year2100.sd <- future.temperature %>%
+  filter(year == 2) %>% dplyr::select(id, TempSD, scenario) %>%
+  pivot_wider(names_from = scenario, values_from = TempSD)
+year2100.mean <- year2100.mean %>%
+  mutate(mean.dif.245.126 = ssp245 - ssp126,
+         mean.dif.460.126 = ssp460 - ssp126,
+         mean.dif.585.126 = ssp585 - ssp126) %>%
+  dplyr::select(id, mean.dif.245.126, mean.dif.460.126, mean.dif.585.126)
+year2100.square <- year2100.square %>%
+  mutate(square.dif.245.126 = ssp245 - ssp126,
+         square.dif.460.126 = ssp460 - ssp126,
+         square.dif.585.126 = ssp585 - ssp126) %>%
+  dplyr::select(id, square.dif.245.126, square.dif.460.126, square.dif.585.126)
+year2100.sd <- year2100.sd %>%
+  mutate(sd.dif.245.126 = ssp245 - ssp126,
+         sd.dif.460.126 = ssp460 - ssp126,
+         sd.dif.585.126 = ssp585 - ssp126) %>%
+  dplyr::select(id, sd.dif.245.126, sd.dif.460.126, sd.dif.585.126)
+year2100.dataset <- left_join(year2100.mean, year2100.square)
+year2100.dataset <- left_join(year2100.dataset, year2100.sd)
+rm(year2100.mean, year2100.square, year2100.sd)
 
-TempRasterDataset.ssp370 <- TempRasterDataset.ssp370 %>%
-  pivot_wider(names_from = "month", values_from = "TempSSP370")
-TempRasterDataset.ssp370$TempMean <- rowMeans(TempRasterDataset.ssp370[3:14], na.rm = T)
-TempRasterDataset.ssp370$TempSd <- rowSds(as.matrix(TempRasterDataset.ssp370[3:14]), na.rm = T)
-TempRasterDataset.ssp370 <- TempRasterDataset.ssp370 %>%
-  filter(!is.na(TempMean))
-TempRasterDataset.ssp370 <- TempRasterDataset.ssp370 %>% dplyr::select(id, year, TempMean, TempSd)
-colnames(TempRasterDataset.ssp370) <- c("id", "year.2041", "TempMean.2041.ssp370", "TempSd.2041.ssp370")
+prediction.2100 <- coef.SDF
+prediction.2100@data <- left_join(prediction.2100@data, year2100.dataset)
+prediction.2100@data <- prediction.2100@data %>%
+  mutate(
+    predictPfPR.245.126 = TempMean * mean.dif.245.126 + TempSquare * square.dif.245.126 +
+      TempSd * sd.dif.245.126,
+    predictPfPR.460.126 = TempMean * mean.dif.460.126 + TempSquare * square.dif.460.126 +
+      TempSd * sd.dif.460.126,
+    predictPfPR.585.126 = TempMean * mean.dif.585.126 + TempSquare * square.dif.585.126 +
+      TempSd * sd.dif.585.126 )
 
-#ssp585
-filelist.ssp585 <- filelist[c(4,8)]
-TempRasterDataset.ssp585 <- 
-  extractPointDataFromRasterMultiband(TempRasterFolder, filelist.ssp585, coords,
-                                      2041, F, "TempSSP585", 12)
-TempRasterDataset.ssp585 <- aggregate(TempRasterDataset.ssp585$TempSSP585,
-                                      by = list(TempRasterDataset.ssp585$id, 
-                                                TempRasterDataset.ssp585$year, 
-                                                TempRasterDataset.ssp585$month), 
-                                      FUN = "mean", na.rm = T
-)
-colnames(TempRasterDataset.ssp585) <- c("id", "year", "month", "TempSSP585")
-
-TempRasterDataset.ssp585 <- TempRasterDataset.ssp585 %>%
-  pivot_wider(names_from = "month", values_from = "TempSSP585")
-TempRasterDataset.ssp585$TempMean <- rowMeans(TempRasterDataset.ssp585[3:14], na.rm = T)
-TempRasterDataset.ssp585$TempSd <- rowSds(as.matrix(TempRasterDataset.ssp585[3:14]), na.rm = T)
-TempRasterDataset.ssp585 <- TempRasterDataset.ssp585 %>%
-  filter(!is.na(TempMean))
-TempRasterDataset.ssp585 <- TempRasterDataset.ssp585 %>% dplyr::select(id, year, TempMean, TempSd)
-colnames(TempRasterDataset.ssp585) <- c("id", "year.2041", "TempMean.2041.ssp585", "TempSd.2041.ssp585")
-
-future.temp.dataframe <- left_join(TempRasterDataset.ssp126, TempRasterDataset.ssp245)
-future.temp.dataframe <- left_join(future.temp.dataframe, TempRasterDataset.ssp370)
-future.temp.dataframe <- left_join(future.temp.dataframe, TempRasterDataset.ssp585)
-
-load("05_Results/GWPR_FEM_CV_F_result_425.Rdata")
-#GWPR.FEM.CV.F.result$SDF@data <- GWPR.FEM.CV.F.result$SDF@data %>%
-#  mutate(TempMean = ifelse(abs(TempMean_TVa) < 1.645, 0, TempMean),
-#         TempSquare = ifelse(abs(TempSquare_TVa) < 1.645, 0, TempSquare),
-#         TempSd = ifelse(abs(TempSd_TVa) < 1.645, 0, TempSd)
-#  )
-
-GWPR.FEM.CV.F.result$SDF@data <- left_join(GWPR.FEM.CV.F.result$SDF@data, future.temp.dataframe)
-GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta <- GWPR.FEM.CV.F.result$SDF@data$TempMean.2041.ssp245 - 
-  GWPR.FEM.CV.F.result$SDF@data$TempMean.2041.ssp126
-GWPR.FEM.CV.F.result$SDF@data$TempSquareDelta <- 
-  2*GWPR.FEM.CV.F.result$SDF@data$TempMean.2041.ssp126*GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta +
-  GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta^2
-GWPR.FEM.CV.F.result$SDF@data$TempSdDelta <- GWPR.FEM.CV.F.result$SDF@data$TempSd.2041.ssp245 - 
-  GWPR.FEM.CV.F.result$SDF@data$TempSd.2041.ssp126
-
-GWPR.FEM.CV.F.result$SDF@data$predictPfPR126_245 <- 
-  GWPR.FEM.CV.F.result$SDF@data$TempMean * GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta +
-  GWPR.FEM.CV.F.result$SDF@data$TempSquare * GWPR.FEM.CV.F.result$SDF@data$TempSquareDelta +
-  GWPR.FEM.CV.F.result$SDF@data$TempSd + GWPR.FEM.CV.F.result$SDF@data$TempSdDelta 
-
-GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta <- GWPR.FEM.CV.F.result$SDF@data$TempMean.2041.ssp370 - 
-  GWPR.FEM.CV.F.result$SDF@data$TempMean.2041.ssp126
-GWPR.FEM.CV.F.result$SDF@data$TempSquareDelta <- 
-  2*GWPR.FEM.CV.F.result$SDF@data$TempMean.2041.ssp126*GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta +
-  GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta^2
-GWPR.FEM.CV.F.result$SDF@data$TempSdDelta <- GWPR.FEM.CV.F.result$SDF@data$TempSd.2041.ssp370 - 
-  GWPR.FEM.CV.F.result$SDF@data$TempSd.2041.ssp126
-
-GWPR.FEM.CV.F.result$SDF@data$predictPfPR126_370 <- 
-  GWPR.FEM.CV.F.result$SDF@data$TempMean * GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta +
-  GWPR.FEM.CV.F.result$SDF@data$TempSquare * GWPR.FEM.CV.F.result$SDF@data$TempSquareDelta +
-  GWPR.FEM.CV.F.result$SDF@data$TempSd + GWPR.FEM.CV.F.result$SDF@data$TempSdDelta 
-
-GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta <- GWPR.FEM.CV.F.result$SDF@data$TempMean.2041.ssp585 - 
-  GWPR.FEM.CV.F.result$SDF@data$TempMean.2041.ssp126
-GWPR.FEM.CV.F.result$SDF@data$TempSquareDelta <- 
-  2*GWPR.FEM.CV.F.result$SDF@data$TempMean.2041.ssp126*GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta +
-  GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta^2
-GWPR.FEM.CV.F.result$SDF@data$TempSdDelta <- GWPR.FEM.CV.F.result$SDF@data$TempSd.2041.ssp585 - 
-  GWPR.FEM.CV.F.result$SDF@data$TempSd.2041.ssp126
-
-GWPR.FEM.CV.F.result$SDF@data$predictPfPR126_585 <- 
-  GWPR.FEM.CV.F.result$SDF@data$TempMean * GWPR.FEM.CV.F.result$SDF@data$TempMeanDelta +
-  GWPR.FEM.CV.F.result$SDF@data$TempSquare * GWPR.FEM.CV.F.result$SDF@data$TempSquareDelta +
-  GWPR.FEM.CV.F.result$SDF@data$TempSd + GWPR.FEM.CV.F.result$SDF@data$TempSdDelta 
-
-GWPR.FEM.CV.F.result.predict <- GWPR.FEM.CV.F.result
-save(GWPR.FEM.CV.F.result.predict, file = "05_Results/GWPR_FEM_CV_F_result.predict.Rdata")
+save(prediction.2100, file = "05_Results/prediction.2100.Rdata")
