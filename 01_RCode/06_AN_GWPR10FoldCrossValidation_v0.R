@@ -165,8 +165,8 @@ while (foldNumberth < 11){
   CV.F.result.table <- rbind(CV.F.result.table, result)
   foldNumberth <- foldNumberth + 1
 }
-colnames(CV.A.result.table) <- c("foldNumber", "CVtrain.R2", "train.inter", "train.slope", "N.train", "corre.train",
+colnames(CV.F.result.table) <- c("foldNumber", "CVtrain.R2", "train.inter", "train.slope", "N.train", "corre.train",
                                  "rmse.train", "mae.train",
                                  "CVtest.R2", "test.inter", "test.slope", "N.test", "corre.test", "rmse.test", "mae.test")
-save(CV.A.result.table, file = "04_Results/AdaptivefemCrossValidation.Rdata")
-write.csv(CV.A.result.table, file = "08_Tables/AdaptivefemCrossValidation.csv")
+save(CV.F.result.table, file = "05_Results/femCrossValidation.Rdata")
+write.csv(CV.F.result.table, file = "05_Results/femCrossValidation.csv")

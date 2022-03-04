@@ -116,3 +116,237 @@ jpeg(file="06_Figure/bwselection.jpeg", width = 297, height = 105, units = "mm",
 plot.S2
 dev.off()
 # bandwidth selection figure s2
+
+# figure 3 
+load("05_Results/prediction.2060.Rdata")
+cols <- c("blue","green", "white", "yellow","red")
+pal.n.p <- colorRampPalette(cols)
+prediction.2060 <- as(prediction.2060, 'SpatialPixelsDataFrame')
+prediction.2060 <- as(prediction.2060, "SpatialGridDataFrame")
+prediction.2060.245.126 <- prediction.2060
+prediction.2060.245.126@data <- prediction.2060.245.126@data %>% dplyr::select(predictPfPR.245.126)
+prediction.2060.245.126 <- raster::raster(prediction.2060.245.126)
+brks <- c(-0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0,
+          0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4)
+labels_brks <- c("-40%", "", "-30%", "", "-20%", "", "-10%", "", "0%",
+                 "", "10%", "", "20%", "", "30%", "", "40%")
+PredictionMap.245.126.2060 <- tm_shape(prediction.2060.245.126) +
+  tm_raster("predictPfPR.245.126", palette = pal.n.p(16), breaks = brks, 
+            style = 'cont', legend.is.portrait = F, title = "The Difference of PfPRs between SSP1-2.6 and SSP2-4.5 (2041 - 2060)",
+            labels = labels_brks, midpoint = 0) +
+  tm_shape(world) +
+  tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_grid(alpha = .25) + 
+  tm_scale_bar(position = c("right", "bottom")) + 
+  tm_layout(
+    inner.margins = c(margin, margin, margin, margin),
+    title.size = title_size, 
+    legend.position = c("right", "bottom"),
+    legend.title.size = legend_title_size,
+    legend.text.size = legend_title_size * 0.75
+  ) 
+PredictionMap.245.126.2060 %>%
+  tmap_save(filename = "06_Figure/S3_PredictMap.245.126.2060.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+# figure 3 
+
+# figure 4
+prediction.2060.370.126 <- prediction.2060
+prediction.2060.370.126@data <- prediction.2060.370.126@data %>% dplyr::select(predictPfPR.460.126)
+prediction.2060.370.126 <- raster::raster(prediction.2060.370.126)
+PredictionMap.370.126.2060 <- tm_shape(prediction.2060.370.126) +
+  tm_raster("predictPfPR.460.126", palette = pal.n.p(16), breaks = brks, 
+            style = 'cont', legend.is.portrait = F, title = "The Difference of PfPRs between SSP1-2.6 and SSP3-7.0 (2041 - 2060)",
+            labels = labels_brks, midpoint = 0) +
+  tm_shape(world) +
+  tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_grid(alpha = .25) + 
+  tm_scale_bar(position = c("right", "bottom")) + 
+  tm_layout(
+    inner.margins = c(margin, margin, margin, margin),
+    title.size = title_size, 
+    legend.position = c("right", "bottom"),
+    legend.title.size = legend_title_size,
+    legend.text.size = legend_title_size * 0.75
+  ) 
+PredictionMap.370.126.2060 %>%
+  tmap_save(filename = "06_Figure/S4_PredictMap.370.126.2060.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+# figure 4
+
+# figure 5
+prediction.2060.585.126 <- prediction.2060
+prediction.2060.585.126@data <- prediction.2060.585.126@data %>% dplyr::select(predictPfPR.585.126)
+prediction.2060.585.126 <- raster::raster(prediction.2060.585.126)
+PredictionMap.585.126.2060 <- tm_shape(prediction.2060.585.126) +
+  tm_raster("predictPfPR.585.126", palette = pal.n.p(16), breaks = brks, 
+            style = 'cont', legend.is.portrait = F, title = "The Difference of PfPRs between SSP1-2.6 and SSP5-8.5 (2041 - 2060)",
+            labels = labels_brks, midpoint = 0) +
+  tm_shape(world) +
+  tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_grid(alpha = .25) + 
+  tm_scale_bar(position = c("right", "bottom")) + 
+  tm_layout(
+    inner.margins = c(margin, margin, margin, margin),
+    title.size = title_size, 
+    legend.position = c("right", "bottom"),
+    legend.title.size = legend_title_size,
+    legend.text.size = legend_title_size * 0.75
+  ) 
+PredictionMap.585.126.2060 %>%
+  tmap_save(filename = "06_Figure/S5_PredictMap.585.126.2060.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+# figure 5
+
+# figure 6 
+load("05_Results/prediction.2080.Rdata")
+cols <- c("blue","green", "white", "yellow","red")
+pal.n.p <- colorRampPalette(cols)
+prediction.2080 <- as(prediction.2080, 'SpatialPixelsDataFrame')
+prediction.2080 <- as(prediction.2080, "SpatialGridDataFrame")
+prediction.2080.245.126 <- prediction.2080
+prediction.2080.245.126@data <- prediction.2080.245.126@data %>% dplyr::select(predictPfPR.245.126)
+prediction.2080.245.126 <- raster::raster(prediction.2080.245.126)
+brks <- c(-0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0,
+          0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4)
+labels_brks <- c("-40%", "", "-30%", "", "-20%", "", "-10%", "", "0%",
+                 "", "10%", "", "20%", "", "30%", "", "40%")
+PredictionMap.245.126.2080 <- tm_shape(prediction.2080.245.126) +
+  tm_raster("predictPfPR.245.126", palette = pal.n.p(16), breaks = brks, 
+            style = 'cont', legend.is.portrait = F, title = "The Difference of PfPRs between SSP1-2.6 and SSP2-4.5 (2061 - 2080)",
+            labels = labels_brks, midpoint = 0) +
+  tm_shape(world) +
+  tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_grid(alpha = .25) + 
+  tm_scale_bar(position = c("right", "bottom")) + 
+  tm_layout(
+    inner.margins = c(margin, margin, margin, margin),
+    title.size = title_size, 
+    legend.position = c("right", "bottom"),
+    legend.title.size = legend_title_size,
+    legend.text.size = legend_title_size * 0.75
+  ) 
+PredictionMap.245.126.2080 %>%
+  tmap_save(filename = "06_Figure/S6_PredictMap.245.126.2080.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+# figure 6 
+
+# figure 7
+prediction.2080.370.126 <- prediction.2080
+prediction.2080.370.126@data <- prediction.2080.370.126@data %>% dplyr::select(predictPfPR.460.126)
+prediction.2080.370.126 <- raster::raster(prediction.2080.370.126)
+PredictionMap.370.126.2080 <- tm_shape(prediction.2080.370.126) +
+  tm_raster("predictPfPR.460.126", palette = pal.n.p(16), breaks = brks, 
+            style = 'cont', legend.is.portrait = F, title = "The Difference of PfPRs between SSP1-2.6 and SSP3-7.0 (2061 - 2080)",
+            labels = labels_brks, midpoint = 0) +
+  tm_shape(world) +
+  tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_grid(alpha = .25) + 
+  tm_scale_bar(position = c("right", "bottom")) + 
+  tm_layout(
+    inner.margins = c(margin, margin, margin, margin),
+    title.size = title_size, 
+    legend.position = c("right", "bottom"),
+    legend.title.size = legend_title_size,
+    legend.text.size = legend_title_size * 0.75
+  ) 
+PredictionMap.370.126.2080 %>%
+  tmap_save(filename = "06_Figure/S7_PredictMap.370.126.2080.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+# figure 7
+
+# figure 8
+prediction.2080.585.126 <- prediction.2080
+prediction.2080.585.126@data <- prediction.2080.585.126@data %>% dplyr::select(predictPfPR.585.126)
+prediction.2080.585.126 <- raster::raster(prediction.2080.585.126)
+PredictionMap.585.126.2080 <- tm_shape(prediction.2080.585.126) +
+  tm_raster("predictPfPR.585.126", palette = pal.n.p(16), breaks = brks, 
+            style = 'cont', legend.is.portrait = F, title = "The Difference of PfPRs between SSP1-2.6 and SSP5-8.5 (2061 - 2080)",
+            labels = labels_brks, midpoint = 0) +
+  tm_shape(world) +
+  tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_grid(alpha = .25) + 
+  tm_scale_bar(position = c("right", "bottom")) + 
+  tm_layout(
+    inner.margins = c(margin, margin, margin, margin),
+    title.size = title_size, 
+    legend.position = c("right", "bottom"),
+    legend.title.size = legend_title_size,
+    legend.text.size = legend_title_size * 0.75
+  ) 
+PredictionMap.585.126.2080 %>%
+  tmap_save(filename = "06_Figure/S8_PredictMap.585.126.2080.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+# figure 8
+
+# figure 9 
+load("05_Results/prediction.2100.Rdata")
+cols <- c("blue","green", "white", "yellow","red")
+pal.n.p <- colorRampPalette(cols)
+prediction.2100 <- as(prediction.2100, 'SpatialPixelsDataFrame')
+prediction.2100 <- as(prediction.2100, "SpatialGridDataFrame")
+prediction.2100.245.126 <- prediction.2100
+prediction.2100.245.126@data <- prediction.2100.245.126@data %>% dplyr::select(predictPfPR.245.126)
+prediction.2100.245.126 <- raster::raster(prediction.2100.245.126)
+brks <- c(-0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0,
+          0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4)
+labels_brks <- c("-40%", "", "-30%", "", "-20%", "", "-10%", "", "0%",
+                 "", "10%", "", "20%", "", "30%", "", "40%")
+PredictionMap.245.126.2100 <- tm_shape(prediction.2100.245.126) +
+  tm_raster("predictPfPR.245.126", palette = pal.n.p(16), breaks = brks, 
+            style = 'cont', legend.is.portrait = F, title = "The Difference of PfPRs between SSP1-2.6 and SSP2-4.5 (2081 - 2100)",
+            labels = labels_brks, midpoint = 0) +
+  tm_shape(world) +
+  tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_grid(alpha = .25) + 
+  tm_scale_bar(position = c("right", "bottom")) + 
+  tm_layout(
+    inner.margins = c(margin, margin, margin, margin),
+    title.size = title_size, 
+    legend.position = c("right", "bottom"),
+    legend.title.size = legend_title_size,
+    legend.text.size = legend_title_size * 0.75
+  ) 
+PredictionMap.245.126.2100 %>%
+  tmap_save(filename = "06_Figure/S9_PredictMap.245.126.2100.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+# figure 9 
+
+# figure 10
+prediction.2100.370.126 <- prediction.2100
+prediction.2100.370.126@data <- prediction.2100.370.126@data %>% dplyr::select(predictPfPR.460.126)
+prediction.2100.370.126 <- raster::raster(prediction.2100.370.126)
+PredictionMap.370.126.2100 <- tm_shape(prediction.2100.370.126) +
+  tm_raster("predictPfPR.460.126", palette = pal.n.p(16), breaks = brks, 
+            style = 'cont', legend.is.portrait = F, title = "The Difference of PfPRs between SSP1-2.6 and SSP3-7.0 (2081 - 2100)",
+            labels = labels_brks, midpoint = 0) +
+  tm_shape(world) +
+  tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_grid(alpha = .25) + 
+  tm_scale_bar(position = c("right", "bottom")) + 
+  tm_layout(
+    inner.margins = c(margin, margin, margin, margin),
+    title.size = title_size, 
+    legend.position = c("right", "bottom"),
+    legend.title.size = legend_title_size,
+    legend.text.size = legend_title_size * 0.75
+  ) 
+PredictionMap.370.126.2100 %>%
+  tmap_save(filename = "06_Figure/S10_PredictMap.370.126.2100.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+# figure 10
+
+# figure 11
+prediction.2100.585.126 <- prediction.2100
+prediction.2100.585.126@data <- prediction.2100.585.126@data %>% dplyr::select(predictPfPR.585.126)
+prediction.2100.585.126 <- raster::raster(prediction.2100.585.126)
+PredictionMap.585.126.2100 <- tm_shape(prediction.2100.585.126) +
+  tm_raster("predictPfPR.585.126", palette = pal.n.p(16), breaks = brks, 
+            style = 'cont', legend.is.portrait = F, title = "The Difference of PfPRs between SSP1-2.6 and SSP5-8.5 (2081 - 2100)",
+            labels = labels_brks, midpoint = 0) +
+  tm_shape(world) +
+  tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_grid(alpha = .25) + 
+  tm_scale_bar(position = c("right", "bottom")) + 
+  tm_layout(
+    inner.margins = c(margin, margin, margin, margin),
+    title.size = title_size, 
+    legend.position = c("right", "bottom"),
+    legend.title.size = legend_title_size,
+    legend.text.size = legend_title_size * 0.75
+  ) 
+PredictionMap.585.126.2100 %>%
+  tmap_save(filename = "06_Figure/S11_PredictMap.585.126.2100.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+# figure 11
