@@ -509,3 +509,31 @@ prediction.2100@data %>%
 ggsave(file = "06_Figure/S20_Dis_PredictMap.585.126.2100.jpg", device = "jpg", width = 8,
        height = 6)
 # figure 20
+
+# figure 21 
+load("05_Results/symmetry_distribution.Rdata")
+symmetry_distribution <- as(symmetry_distribution, 'SpatialPixelsDataFrame')
+symmetry_distribution <- as(symmetry_distribution, "SpatialGridDataFrame")
+symmetry_distribution <- symmetry_distribution
+symmetry_distribution@data <- symmetry_distribution@data %>% dplyr::select(distribution_category)
+symmetry_distribution <- raster::raster(symmetry_distribution)
+pal.6 <- c("red", "chocolate1", "gold1", "darkgreen", "deepskyblue", "gray40")
+brks_label <- c("Invert U-Shape", "U-Shape", "Increase Invert U", "Decrease U",
+                "Decrease Invert U", "Increase U")
+symmetry_distribution.map <- tm_shape(symmetry_distribution) +
+  tm_raster("distribution_category", palette = pal.6, 
+            style = 'cont', legend.is.portrait = F, title = "The Shape of Relationship between 0 C and 50 C",
+            labels = brks_label) +
+  tm_shape(world) +
+  tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_grid(alpha = .25) + 
+  tm_scale_bar(position = c("right", "bottom")) + 
+  tm_layout(
+    inner.margins = c(margin, margin, margin, margin),
+    title.size = title_size, 
+    legend.position = c("right", "bottom"),
+    legend.title.size = legend_title_size,
+    legend.text.size = legend_title_size * 0.75
+  ) 
+symmetry_distribution.map %>%
+  tmap_save(filename = "06_Figure/S21_symmetry_distribution.map.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)

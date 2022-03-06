@@ -257,3 +257,15 @@ prediction.2100@data <- prediction.2100@data %>%
       TempSd * sd.dif.585.126 )
 
 save(prediction.2100, file = "05_Results/prediction.2100.Rdata")
+
+#symmetry distribution
+symmetry_distribution <- coef.SDF
+symmetry_distribution$symmetry <- - (symmetry_distribution$TempMean/2/symmetry_distribution$TempSquare) 
+symmetry_distribution$u_shape <- ifelse(symmetry_distribution$TempSquare > 0, 1, 0)
+symmetry_distribution$symmetry_over_50 <- ifelse(symmetry_distribution$symmetry > 50, 10, 0)
+symmetry_distribution$symmetry_below_0 <- ifelse(symmetry_distribution$symmetry < 10, 20, 0)
+symmetry_distribution$distribution_category <- symmetry_distribution$u_shape + 
+  symmetry_distribution$symmetry_over_50 + symmetry_distribution$symmetry_below_0
+symmetry_distribution$distribution_category <- symmetry_distribution$distribution_category %>% as.factor()
+save(symmetry_distribution, file = "05_Results/symmetry_distribution.Rdata")
+#symmetry distribution
