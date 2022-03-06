@@ -119,7 +119,8 @@ dev.off()
 
 # figure 3 
 load("05_Results/prediction.2060.Rdata")
-cols <- c("blue","green", "white", "yellow","red")
+cols <- c( "blue4", "blue3", "blue2", "blue1", "blue", "green2", "green1", "green",
+           "orange", "orange1", "orange2", "red",  "red1", "red2", "red3", "red4")
 pal.n.p <- colorRampPalette(cols)
 prediction.2060 <- as(prediction.2060, 'SpatialPixelsDataFrame')
 prediction.2060 <- as(prediction.2060, "SpatialGridDataFrame")
@@ -197,7 +198,8 @@ PredictionMap.585.126.2060 %>%
 
 # figure 6 
 load("05_Results/prediction.2080.Rdata")
-cols <- c("blue","green", "white", "yellow","red")
+cols <- c( "blue4", "blue3", "blue2", "blue1", "blue", "green2", "green1", "green",
+           "orange", "orange1", "orange2", "red",  "red1", "red2", "red3", "red4")
 pal.n.p <- colorRampPalette(cols)
 prediction.2080 <- as(prediction.2080, 'SpatialPixelsDataFrame')
 prediction.2080 <- as(prediction.2080, "SpatialGridDataFrame")
@@ -275,7 +277,8 @@ PredictionMap.585.126.2080 %>%
 
 # figure 9 
 load("05_Results/prediction.2100.Rdata")
-cols <- c("blue","green", "white", "yellow","red")
+cols <- c( "blue4", "blue3", "blue2", "blue1", "blue", "green2", "green1", "green",
+           "orange", "orange1", "orange2", "red",  "red1", "red2", "red3", "red4")
 pal.n.p <- colorRampPalette(cols)
 prediction.2100 <- as(prediction.2100, 'SpatialPixelsDataFrame')
 prediction.2100 <- as(prediction.2100, "SpatialGridDataFrame")
