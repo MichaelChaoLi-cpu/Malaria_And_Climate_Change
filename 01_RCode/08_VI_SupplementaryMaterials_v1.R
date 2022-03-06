@@ -57,6 +57,15 @@ addcoord <- function(nx,xmin,xsize,ny,ymin,ysize,proj) { # Michael Pyrcz, March,
 
 coords <- addcoord(nx,xmin,xsize,ny,ymin,ysize,proj)
 
+# continent to id
+world_continent <- world
+world_continent@data <- world_continent@data %>% dplyr::select(continent)
+coords_continent <- over(coords, world_continent)
+coords_continent <- coords_continent %>% as.data.frame()
+coords_continent$id <- coords$id
+coords_continent$continent <- coords_continent$continent %>% as.factor() 
+# continent to id
+
 load("04_Data/01_dataset_used.RData")
 
 dataset_used.mean <- aggregate(dataset_used$PfPR, by = list(dataset_used$id), 
@@ -119,8 +128,7 @@ dev.off()
 
 # figure 3 
 load("05_Results/prediction.2060.Rdata")
-cols <- c( "blue4", "blue3", "blue2", "blue1", "blue", "green2", "green1", "green",
-           "orange", "orange1", "orange2", "red",  "red1", "red2", "red3", "red4")
+cols <- c( "blue","green", "gray88","yellow","red")
 pal.n.p <- colorRampPalette(cols)
 prediction.2060 <- as(prediction.2060, 'SpatialPixelsDataFrame')
 prediction.2060 <- as(prediction.2060, "SpatialGridDataFrame")
@@ -198,8 +206,7 @@ PredictionMap.585.126.2060 %>%
 
 # figure 6 
 load("05_Results/prediction.2080.Rdata")
-cols <- c( "blue4", "blue3", "blue2", "blue1", "blue", "green2", "green1", "green",
-           "orange", "orange1", "orange2", "red",  "red1", "red2", "red3", "red4")
+cols <- c( "blue","green", "gray88","yellow","red")
 pal.n.p <- colorRampPalette(cols)
 prediction.2080 <- as(prediction.2080, 'SpatialPixelsDataFrame')
 prediction.2080 <- as(prediction.2080, "SpatialGridDataFrame")
@@ -277,8 +284,7 @@ PredictionMap.585.126.2080 %>%
 
 # figure 9 
 load("05_Results/prediction.2100.Rdata")
-cols <- c( "blue4", "blue3", "blue2", "blue1", "blue", "green2", "green1", "green",
-           "orange", "orange1", "orange2", "red",  "red1", "red2", "red3", "red4")
+cols <- c( "blue","green", "gray88","yellow","red")
 pal.n.p <- colorRampPalette(cols)
 prediction.2100 <- as(prediction.2100, 'SpatialPixelsDataFrame')
 prediction.2100 <- as(prediction.2100, "SpatialGridDataFrame")
@@ -353,3 +359,153 @@ PredictionMap.585.126.2100 <- tm_shape(prediction.2100.585.126) +
 PredictionMap.585.126.2100 %>%
   tmap_save(filename = "06_Figure/S11_PredictMap.585.126.2100.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
 # figure 11
+
+# figure 12
+load("05_Results/prediction.2060.Rdata")
+prediction.2060@data <- left_join(prediction.2060@data, coords_continent, by = 'id')
+prediction.2060@data %>%
+  ggplot(aes(x = predictPfPR.245.126*100, fill = continent)) +
+  geom_histogram(breaks = seq(-30, 20, by = 5), color = "black") +
+  scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
+                             "chocolate1", "darkgreen", "orchid3"), 
+                    name = "Continent") + 
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.8)) +
+  labs(x = "Difference of PfPRs (%)", 
+       y = "Number of Grids",
+       title = "Difference of PfPRs between SSP2-4.5 and SSP1-2.6 during 2041 - 2060") 
+ggsave(file = "06_Figure/S12_Dis_PredictMap.245.126.2060.jpg", device = "jpg", width = 8,
+       height = 6)
+# figure 12
+
+# figure 13
+prediction.2060@data %>%
+  ggplot(aes(x = predictPfPR.460.126*100, fill = continent)) +
+  geom_histogram(breaks = seq(-85, 45, by = 5), color = "black") +
+  scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
+                             "chocolate1", "darkgreen", "orchid3"), 
+                    name = "Continent") + 
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.8)) +
+  labs(x = "Difference of PfPRs (%)", 
+       y = "Number of Grids",
+       title = "Difference of PfPRs between SSP3-7.0 and SSP1-2.6 during 2041 - 2060") 
+ggsave(file = "06_Figure/S13_Dis_PredictMap.370.126.2060.jpg", device = "jpg", width = 8,
+       height = 6)
+# figure 13
+
+# figure 14
+prediction.2060@data %>%
+  ggplot(aes(x = predictPfPR.585.126*100, fill = continent)) +
+  geom_histogram(breaks = seq(-70, 45, by = 5), color = "black") +
+  scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
+                             "chocolate1", "darkgreen", "orchid3"), 
+                    name = "Continent") + 
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.8)) +
+  labs(x = "Difference of PfPRs (%)", 
+       y = "Number of Grids",
+       title = "Difference of PfPRs between SSP5-8.5 and SSP1-2.6 during 2041 - 2060") 
+ggsave(file = "06_Figure/S14_Dis_PredictMap.585.126.2060.jpg", device = "jpg", width = 8,
+       height = 6)
+# figure 14
+
+# figure 15
+load("05_Results/prediction.2080.Rdata")
+prediction.2080@data <- left_join(prediction.2080@data, coords_continent, by = 'id')
+prediction.2080@data %>%
+  ggplot(aes(x = predictPfPR.245.126*100, fill = continent)) +
+  geom_histogram(breaks = seq(-15, 10, by = 5), color = "black") +
+  scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
+                             "chocolate1", "darkgreen", "orchid3"), 
+                    name = "Continent") + 
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.8)) +
+  labs(x = "Difference of PfPRs (%)", 
+       y = "Number of Grids",
+       title = "Difference of PfPRs between SSP2-4.5 and SSP1-2.6 during 2061 - 2080") 
+ggsave(file = "06_Figure/S15_Dis_PredictMap.245.126.2080.jpg", device = "jpg", width = 8,
+       height = 6)
+# figure 15
+
+# figure 16
+prediction.2080@data %>%
+  ggplot(aes(x = predictPfPR.460.126*100, fill = continent)) +
+  geom_histogram(breaks = seq(-20, 10, by = 5), color = "black") +
+  scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
+                             "chocolate1", "darkgreen", "orchid3"), 
+                    name = "Continent") + 
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.8)) +
+  labs(x = "Difference of PfPRs (%)", 
+       y = "Number of Grids",
+       title = "Difference of PfPRs between SSP3-7.0 and SSP1-2.6 during 2061 - 2080") 
+ggsave(file = "06_Figure/S16_Dis_PredictMap.370.126.2080.jpg", device = "jpg", width = 8,
+       height = 6)
+# figure 16
+
+# figure 17
+prediction.2080@data %>%
+  ggplot(aes(x = predictPfPR.585.126*100, fill = continent)) +
+  geom_histogram(breaks = seq(-15, 15, by = 5), color = "black") +
+  scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
+                             "chocolate1", "darkgreen", "orchid3"), 
+                    name = "Continent") + 
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.8)) +
+  labs(x = "Difference of PfPRs (%)", 
+       y = "Number of Grids",
+       title = "Difference of PfPRs between SSP5-8.5 and SSP1-2.6 during 2061 - 2080") 
+ggsave(file = "06_Figure/S17_Dis_PredictMap.585.126.2080.jpg", device = "jpg", width = 8,
+       height = 6)
+# figure 17
+
+# figure 18
+load("05_Results/prediction.2100.Rdata")
+prediction.2100@data <- left_join(prediction.2100@data, coords_continent, by = 'id')
+prediction.2100@data %>%
+  ggplot(aes(x = predictPfPR.245.126*100, fill = continent)) +
+  geom_histogram(breaks = seq(-20, 15, by = 5), color = "black") +
+  scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
+                             "chocolate1", "darkgreen", "orchid3"), 
+                    name = "Continent") + 
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.8)) +
+  labs(x = "Difference of PfPRs (%)", 
+       y = "Number of Grids",
+       title = "Difference of PfPRs between SSP2-4.5 and SSP1-2.6 during 2081 - 2100") 
+ggsave(file = "06_Figure/S18_Dis_PredictMap.245.126.2100.jpg", device = "jpg", width = 8,
+       height = 6)
+# figure 18
+
+# figure 19
+prediction.2100@data %>%
+  ggplot(aes(x = predictPfPR.460.126*100, fill = continent)) +
+  geom_histogram(breaks = seq(-45, 25, by = 5), color = "black") +
+  scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
+                             "chocolate1", "darkgreen", "orchid3"), 
+                    name = "Continent") + 
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.8)) +
+  labs(x = "Difference of PfPRs (%)", 
+       y = "Number of Grids",
+       title = "Difference of PfPRs between SSP3-7.0 and SSP1-2.6 during 2081 - 2100") 
+ggsave(file = "06_Figure/S19_Dis_PredictMap.370.126.2100.jpg", device = "jpg", width = 8,
+       height = 6)
+# figure 19
+
+# figure 20
+prediction.2100@data %>%
+  ggplot(aes(x = predictPfPR.585.126*100, fill = continent)) +
+  geom_histogram(breaks = seq(-35, 25, by = 5), color = "black") +
+  scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
+                             "chocolate1", "darkgreen", "orchid3"), 
+                    name = "Continent") + 
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.8)) +
+  labs(x = "Difference of PfPRs (%)", 
+       y = "Number of Grids",
+       title = "Difference of PfPRs between SSP5-8.5 and SSP1-2.6 during 2081 - 2100") 
+ggsave(file = "06_Figure/S20_Dis_PredictMap.585.126.2100.jpg", device = "jpg", width = 8,
+       height = 6)
+# figure 20
