@@ -99,6 +99,7 @@ mean.PfPR.tmap <- tm_shape(coords.df) +
             labels = labels_brks) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_text("iso_a2", size = legend_title_size * 0.5, remove.overlap = T) + 
   tm_grid(alpha = .25) + 
   tm_scale_bar(position = c("right", "bottom")) + 
   tm_layout(
@@ -145,6 +146,7 @@ PredictionMap.245.126.2060 <- tm_shape(prediction.2060.245.126) +
             labels = labels_brks, midpoint = 0) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_text("iso_a2", size = legend_title_size * 0.5, remove.overlap = T) + 
   tm_grid(alpha = .25) + 
   tm_scale_bar(position = c("right", "bottom")) + 
   tm_layout(
@@ -155,7 +157,7 @@ PredictionMap.245.126.2060 <- tm_shape(prediction.2060.245.126) +
     legend.text.size = legend_title_size * 0.75
   ) 
 PredictionMap.245.126.2060 %>%
-  tmap_save(filename = "06_Figure/S3_PredictMap.245.126.2060.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+  tmap_save(filename = "06_Figure/S3_PredictMap.245.126.2060.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
 # figure 3 
 
 # figure 4
@@ -168,6 +170,7 @@ PredictionMap.370.126.2060 <- tm_shape(prediction.2060.370.126) +
             labels = labels_brks, midpoint = 0) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_text("iso_a2", size = legend_title_size * 0.5, remove.overlap = T) + 
   tm_grid(alpha = .25) + 
   tm_scale_bar(position = c("right", "bottom")) + 
   tm_layout(
@@ -178,7 +181,7 @@ PredictionMap.370.126.2060 <- tm_shape(prediction.2060.370.126) +
     legend.text.size = legend_title_size * 0.75
   ) 
 PredictionMap.370.126.2060 %>%
-  tmap_save(filename = "06_Figure/S4_PredictMap.370.126.2060.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+  tmap_save(filename = "06_Figure/S4_PredictMap.370.126.2060.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
 # figure 4
 
 # figure 5
@@ -191,6 +194,7 @@ PredictionMap.585.126.2060 <- tm_shape(prediction.2060.585.126) +
             labels = labels_brks, midpoint = 0) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_text("iso_a2", size = legend_title_size * 0.5, remove.overlap = T) + 
   tm_grid(alpha = .25) + 
   tm_scale_bar(position = c("right", "bottom")) + 
   tm_layout(
@@ -201,7 +205,7 @@ PredictionMap.585.126.2060 <- tm_shape(prediction.2060.585.126) +
     legend.text.size = legend_title_size * 0.75
   ) 
 PredictionMap.585.126.2060 %>%
-  tmap_save(filename = "06_Figure/S5_PredictMap.585.126.2060.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+  tmap_save(filename = "06_Figure/S5_PredictMap.585.126.2060.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
 # figure 5
 
 # figure 6 
@@ -223,6 +227,7 @@ PredictionMap.245.126.2080 <- tm_shape(prediction.2080.245.126) +
             labels = labels_brks, midpoint = 0) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_text("iso_a2", size = legend_title_size * 0.5, remove.overlap = T) + 
   tm_grid(alpha = .25) + 
   tm_scale_bar(position = c("right", "bottom")) + 
   tm_layout(
@@ -233,7 +238,7 @@ PredictionMap.245.126.2080 <- tm_shape(prediction.2080.245.126) +
     legend.text.size = legend_title_size * 0.75
   ) 
 PredictionMap.245.126.2080 %>%
-  tmap_save(filename = "06_Figure/S6_PredictMap.245.126.2080.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+  tmap_save(filename = "06_Figure/S6_PredictMap.245.126.2080.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
 # figure 6 
 
 # figure 7
@@ -246,6 +251,7 @@ PredictionMap.370.126.2080 <- tm_shape(prediction.2080.370.126) +
             labels = labels_brks, midpoint = 0) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_text("iso_a2", size = legend_title_size * 0.5, remove.overlap = T) + 
   tm_grid(alpha = .25) + 
   tm_scale_bar(position = c("right", "bottom")) + 
   tm_layout(
@@ -256,7 +262,7 @@ PredictionMap.370.126.2080 <- tm_shape(prediction.2080.370.126) +
     legend.text.size = legend_title_size * 0.75
   ) 
 PredictionMap.370.126.2080 %>%
-  tmap_save(filename = "06_Figure/S7_PredictMap.370.126.2080.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+  tmap_save(filename = "06_Figure/S7_PredictMap.370.126.2080.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
 # figure 7
 
 # figure 8
@@ -269,6 +275,7 @@ PredictionMap.585.126.2080 <- tm_shape(prediction.2080.585.126) +
             labels = labels_brks, midpoint = 0) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_text("iso_a2", size = legend_title_size * 0.5, remove.overlap = T) + 
   tm_grid(alpha = .25) + 
   tm_scale_bar(position = c("right", "bottom")) + 
   tm_layout(
@@ -279,7 +286,7 @@ PredictionMap.585.126.2080 <- tm_shape(prediction.2080.585.126) +
     legend.text.size = legend_title_size * 0.75
   ) 
 PredictionMap.585.126.2080 %>%
-  tmap_save(filename = "06_Figure/S8_PredictMap.585.126.2080.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+  tmap_save(filename = "06_Figure/S8_PredictMap.585.126.2080.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
 # figure 8
 
 # figure 9 
@@ -301,6 +308,7 @@ PredictionMap.245.126.2100 <- tm_shape(prediction.2100.245.126) +
             labels = labels_brks, midpoint = 0) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_text("iso_a2", size = legend_title_size * 0.5, remove.overlap = T) + 
   tm_grid(alpha = .25) + 
   tm_scale_bar(position = c("right", "bottom")) + 
   tm_layout(
@@ -311,7 +319,7 @@ PredictionMap.245.126.2100 <- tm_shape(prediction.2100.245.126) +
     legend.text.size = legend_title_size * 0.75
   ) 
 PredictionMap.245.126.2100 %>%
-  tmap_save(filename = "06_Figure/S9_PredictMap.245.126.2100.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+  tmap_save(filename = "06_Figure/S9_PredictMap.245.126.2100.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
 # figure 9 
 
 # figure 10
@@ -324,6 +332,7 @@ PredictionMap.370.126.2100 <- tm_shape(prediction.2100.370.126) +
             labels = labels_brks, midpoint = 0) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_text("iso_a2", size = legend_title_size * 0.5, remove.overlap = T) + 
   tm_grid(alpha = .25) + 
   tm_scale_bar(position = c("right", "bottom")) + 
   tm_layout(
@@ -334,7 +343,7 @@ PredictionMap.370.126.2100 <- tm_shape(prediction.2100.370.126) +
     legend.text.size = legend_title_size * 0.75
   ) 
 PredictionMap.370.126.2100 %>%
-  tmap_save(filename = "06_Figure/S10_PredictMap.370.126.2100.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+  tmap_save(filename = "06_Figure/S10_PredictMap.370.126.2100.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
 # figure 10
 
 # figure 11
@@ -347,6 +356,7 @@ PredictionMap.585.126.2100 <- tm_shape(prediction.2100.585.126) +
             labels = labels_brks, midpoint = 0) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_text("iso_a2", size = legend_title_size * 0.5, remove.overlap = T) + 
   tm_grid(alpha = .25) + 
   tm_scale_bar(position = c("right", "bottom")) + 
   tm_layout(
@@ -357,7 +367,7 @@ PredictionMap.585.126.2100 <- tm_shape(prediction.2100.585.126) +
     legend.text.size = legend_title_size * 0.75
   ) 
 PredictionMap.585.126.2100 %>%
-  tmap_save(filename = "06_Figure/S11_PredictMap.585.126.2100.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+  tmap_save(filename = "06_Figure/S11_PredictMap.585.126.2100.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
 # figure 11
 
 # figure 12
@@ -522,7 +532,8 @@ brks_label <- c("Invert U-Shape", "U-Shape", "Increase Invert U", "Decrease U",
                 "Decrease Invert U", "Increase U")
 symmetry_distribution.map <- tm_shape(symmetry_distribution) +
   tm_raster("distribution_category", palette = pal.6, 
-            style = 'cont', legend.is.portrait = F, title = "The Shape of Relationship between 0 C and 50 C",
+            style = 'cont', legend.is.portrait = F, 
+            title = paste0("The Shape of the Relationship between Temperature and PfPR\n","(Temperature from 0 C to 50 C)"),
             labels = brks_label) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
@@ -536,4 +547,4 @@ symmetry_distribution.map <- tm_shape(symmetry_distribution) +
     legend.text.size = legend_title_size * 0.75
   ) 
 symmetry_distribution.map %>%
-  tmap_save(filename = "06_Figure/S21_symmetry_distribution.map.jpg", width = 210, height = 120, units = 'mm', dpi = 1000)
+  tmap_save(filename = "06_Figure/S21_symmetry_distribution.map.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
