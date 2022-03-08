@@ -128,6 +128,87 @@ dev.off()
 # bandwidth selection figure s2
 
 # figure 3 
+load("05_Results/prediction.2040.Rdata")
+cols <- c( "blue","green", "gray88","yellow","red")
+pal.n.p <- colorRampPalette(cols)
+prediction.2040 <- as(prediction.2040, 'SpatialPixelsDataFrame')
+prediction.2040 <- as(prediction.2040, "SpatialGridDataFrame")
+prediction.2040.245.126 <- prediction.2040
+prediction.2040.245.126@data <- prediction.2040.245.126@data %>% dplyr::select(predictPfPR.245.126)
+prediction.2040.245.126 <- raster::raster(prediction.2040.245.126)
+brks <- c(-0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0,
+          0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4)
+labels_brks <- c("-40%", "", "-30%", "", "-20%", "", "-10%", "", "0%",
+                 "", "10%", "", "20%", "", "30%", "", "40%")
+PredictionMap.245.126.2040 <- tm_shape(prediction.2040.245.126) +
+  tm_raster("predictPfPR.245.126", palette = pal.n.p(16), breaks = brks, 
+            style = 'cont', legend.is.portrait = F, title = "The Difference of PfPRs between SSP1-2.6 and SSP2-4.5 (2021 - 2040)",
+            labels = labels_brks, midpoint = 0) +
+  tm_shape(world) +
+  tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_text("iso_a2", size = legend_title_size * 0.5, remove.overlap = T) + 
+  tm_grid(alpha = .25) + 
+  tm_scale_bar(position = c("right", "bottom")) + 
+  tm_layout(
+    inner.margins = c(margin, margin, margin, margin),
+    title.size = title_size, 
+    legend.position = c("right", "bottom"),
+    legend.title.size = legend_title_size,
+    legend.text.size = legend_title_size * 0.75
+  ) 
+PredictionMap.245.126.2040 %>%
+  tmap_save(filename = "06_Figure/S3_PredictMap.245.126.2040.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
+# figure 3 
+
+# figure 4
+prediction.2040.370.126 <- prediction.2040
+prediction.2040.370.126@data <- prediction.2040.370.126@data %>% dplyr::select(predictPfPR.460.126)
+prediction.2040.370.126 <- raster::raster(prediction.2040.370.126)
+PredictionMap.370.126.2040 <- tm_shape(prediction.2040.370.126) +
+  tm_raster("predictPfPR.460.126", palette = pal.n.p(16), breaks = brks, 
+            style = 'cont', legend.is.portrait = F, title = "The Difference of PfPRs between SSP1-2.6 and SSP3-7.0 (2021 - 2040)",
+            labels = labels_brks, midpoint = 0) +
+  tm_shape(world) +
+  tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_text("iso_a2", size = legend_title_size * 0.5, remove.overlap = T) + 
+  tm_grid(alpha = .25) + 
+  tm_scale_bar(position = c("right", "bottom")) + 
+  tm_layout(
+    inner.margins = c(margin, margin, margin, margin),
+    title.size = title_size, 
+    legend.position = c("right", "bottom"),
+    legend.title.size = legend_title_size,
+    legend.text.size = legend_title_size * 0.75
+  ) 
+PredictionMap.370.126.2040 %>%
+  tmap_save(filename = "06_Figure/S4_PredictMap.370.126.2040.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
+# figure 4
+
+# figure 5
+prediction.2040.585.126 <- prediction.2040
+prediction.2040.585.126@data <- prediction.2040.585.126@data %>% dplyr::select(predictPfPR.585.126)
+prediction.2040.585.126 <- raster::raster(prediction.2040.585.126)
+PredictionMap.585.126.2040 <- tm_shape(prediction.2040.585.126) +
+  tm_raster("predictPfPR.585.126", palette = pal.n.p(16), breaks = brks, 
+            style = 'cont', legend.is.portrait = F, title = "The Difference of PfPRs between SSP1-2.6 and SSP5-8.5 (2021 - 2040)",
+            labels = labels_brks, midpoint = 0) +
+  tm_shape(world) +
+  tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
+  tm_text("iso_a2", size = legend_title_size * 0.5, remove.overlap = T) + 
+  tm_grid(alpha = .25) + 
+  tm_scale_bar(position = c("right", "bottom")) + 
+  tm_layout(
+    inner.margins = c(margin, margin, margin, margin),
+    title.size = title_size, 
+    legend.position = c("right", "bottom"),
+    legend.title.size = legend_title_size,
+    legend.text.size = legend_title_size * 0.75
+  ) 
+PredictionMap.585.126.2040 %>%
+  tmap_save(filename = "06_Figure/S5_PredictMap.585.126.2040.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
+# figure 5
+
+# figure 6 
 load("05_Results/prediction.2060.Rdata")
 cols <- c( "blue","green", "gray88","yellow","red")
 pal.n.p <- colorRampPalette(cols)
@@ -157,10 +238,10 @@ PredictionMap.245.126.2060 <- tm_shape(prediction.2060.245.126) +
     legend.text.size = legend_title_size * 0.75
   ) 
 PredictionMap.245.126.2060 %>%
-  tmap_save(filename = "06_Figure/S3_PredictMap.245.126.2060.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
-# figure 3 
+  tmap_save(filename = "06_Figure/S6_PredictMap.245.126.2060.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
+# figure 6 
 
-# figure 4
+# figure 7
 prediction.2060.370.126 <- prediction.2060
 prediction.2060.370.126@data <- prediction.2060.370.126@data %>% dplyr::select(predictPfPR.460.126)
 prediction.2060.370.126 <- raster::raster(prediction.2060.370.126)
@@ -181,10 +262,10 @@ PredictionMap.370.126.2060 <- tm_shape(prediction.2060.370.126) +
     legend.text.size = legend_title_size * 0.75
   ) 
 PredictionMap.370.126.2060 %>%
-  tmap_save(filename = "06_Figure/S4_PredictMap.370.126.2060.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
-# figure 4
+  tmap_save(filename = "06_Figure/S7_PredictMap.370.126.2060.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
+# figure 7
 
-# figure 5
+# figure 8
 prediction.2060.585.126 <- prediction.2060
 prediction.2060.585.126@data <- prediction.2060.585.126@data %>% dplyr::select(predictPfPR.585.126)
 prediction.2060.585.126 <- raster::raster(prediction.2060.585.126)
@@ -205,88 +286,7 @@ PredictionMap.585.126.2060 <- tm_shape(prediction.2060.585.126) +
     legend.text.size = legend_title_size * 0.75
   ) 
 PredictionMap.585.126.2060 %>%
-  tmap_save(filename = "06_Figure/S5_PredictMap.585.126.2060.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
-# figure 5
-
-# figure 6 
-load("05_Results/prediction.2080.Rdata")
-cols <- c( "blue","green", "gray88","yellow","red")
-pal.n.p <- colorRampPalette(cols)
-prediction.2080 <- as(prediction.2080, 'SpatialPixelsDataFrame')
-prediction.2080 <- as(prediction.2080, "SpatialGridDataFrame")
-prediction.2080.245.126 <- prediction.2080
-prediction.2080.245.126@data <- prediction.2080.245.126@data %>% dplyr::select(predictPfPR.245.126)
-prediction.2080.245.126 <- raster::raster(prediction.2080.245.126)
-brks <- c(-0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0,
-          0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4)
-labels_brks <- c("-40%", "", "-30%", "", "-20%", "", "-10%", "", "0%",
-                 "", "10%", "", "20%", "", "30%", "", "40%")
-PredictionMap.245.126.2080 <- tm_shape(prediction.2080.245.126) +
-  tm_raster("predictPfPR.245.126", palette = pal.n.p(16), breaks = brks, 
-            style = 'cont', legend.is.portrait = F, title = "The Difference of PfPRs between SSP1-2.6 and SSP2-4.5 (2061 - 2080)",
-            labels = labels_brks, midpoint = 0) +
-  tm_shape(world) +
-  tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
-  tm_text("iso_a2", size = legend_title_size * 0.5, remove.overlap = T) + 
-  tm_grid(alpha = .25) + 
-  tm_scale_bar(position = c("right", "bottom")) + 
-  tm_layout(
-    inner.margins = c(margin, margin, margin, margin),
-    title.size = title_size, 
-    legend.position = c("right", "bottom"),
-    legend.title.size = legend_title_size,
-    legend.text.size = legend_title_size * 0.75
-  ) 
-PredictionMap.245.126.2080 %>%
-  tmap_save(filename = "06_Figure/S6_PredictMap.245.126.2080.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
-# figure 6 
-
-# figure 7
-prediction.2080.370.126 <- prediction.2080
-prediction.2080.370.126@data <- prediction.2080.370.126@data %>% dplyr::select(predictPfPR.460.126)
-prediction.2080.370.126 <- raster::raster(prediction.2080.370.126)
-PredictionMap.370.126.2080 <- tm_shape(prediction.2080.370.126) +
-  tm_raster("predictPfPR.460.126", palette = pal.n.p(16), breaks = brks, 
-            style = 'cont', legend.is.portrait = F, title = "The Difference of PfPRs between SSP1-2.6 and SSP3-7.0 (2061 - 2080)",
-            labels = labels_brks, midpoint = 0) +
-  tm_shape(world) +
-  tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
-  tm_text("iso_a2", size = legend_title_size * 0.5, remove.overlap = T) + 
-  tm_grid(alpha = .25) + 
-  tm_scale_bar(position = c("right", "bottom")) + 
-  tm_layout(
-    inner.margins = c(margin, margin, margin, margin),
-    title.size = title_size, 
-    legend.position = c("right", "bottom"),
-    legend.title.size = legend_title_size,
-    legend.text.size = legend_title_size * 0.75
-  ) 
-PredictionMap.370.126.2080 %>%
-  tmap_save(filename = "06_Figure/S7_PredictMap.370.126.2080.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
-# figure 7
-
-# figure 8
-prediction.2080.585.126 <- prediction.2080
-prediction.2080.585.126@data <- prediction.2080.585.126@data %>% dplyr::select(predictPfPR.585.126)
-prediction.2080.585.126 <- raster::raster(prediction.2080.585.126)
-PredictionMap.585.126.2080 <- tm_shape(prediction.2080.585.126) +
-  tm_raster("predictPfPR.585.126", palette = pal.n.p(16), breaks = brks, 
-            style = 'cont', legend.is.portrait = F, title = "The Difference of PfPRs between SSP1-2.6 and SSP5-8.5 (2061 - 2080)",
-            labels = labels_brks, midpoint = 0) +
-  tm_shape(world) +
-  tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
-  tm_text("iso_a2", size = legend_title_size * 0.5, remove.overlap = T) + 
-  tm_grid(alpha = .25) + 
-  tm_scale_bar(position = c("right", "bottom")) + 
-  tm_layout(
-    inner.margins = c(margin, margin, margin, margin),
-    title.size = title_size, 
-    legend.position = c("right", "bottom"),
-    legend.title.size = legend_title_size,
-    legend.text.size = legend_title_size * 0.75
-  ) 
-PredictionMap.585.126.2080 %>%
-  tmap_save(filename = "06_Figure/S8_PredictMap.585.126.2080.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
+  tmap_save(filename = "06_Figure/S8_PredictMap.585.126.2060.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
 # figure 8
 
 # figure 9 
@@ -371,9 +371,9 @@ PredictionMap.585.126.2100 %>%
 # figure 11
 
 # figure 12
-load("05_Results/prediction.2060.Rdata")
-prediction.2060@data <- left_join(prediction.2060@data, coords_continent, by = 'id')
-prediction.2060@data %>%
+load("05_Results/prediction.2040.Rdata")
+prediction.2040@data <- left_join(prediction.2040@data, coords_continent, by = 'id')
+prediction.2040@data %>%
   ggplot(aes(x = predictPfPR.245.126*100, fill = continent)) +
   geom_histogram(breaks = seq(-30, 20, by = 5), color = "black") +
   scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
@@ -383,13 +383,13 @@ prediction.2060@data %>%
   theme(legend.position = c(0.9, 0.8)) +
   labs(x = "Difference of PfPRs (%)", 
        y = "Number of Grids",
-       title = "Difference of PfPRs between SSP2-4.5 and SSP1-2.6 during 2041 - 2060") 
-ggsave(file = "06_Figure/S12_Dis_PredictMap.245.126.2060.jpg", device = "jpg", width = 8,
+       title = "Difference of PfPRs between SSP2-4.5 and SSP1-2.6 during 2021 - 2040") 
+ggsave(file = "06_Figure/S12_Dis_PredictMap.245.126.2040.jpg", device = "jpg", width = 8,
        height = 6)
 # figure 12
 
 # figure 13
-prediction.2060@data %>%
+prediction.2040@data %>%
   ggplot(aes(x = predictPfPR.460.126*100, fill = continent)) +
   geom_histogram(breaks = seq(-85, 45, by = 5), color = "black") +
   scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
@@ -399,13 +399,13 @@ prediction.2060@data %>%
   theme(legend.position = c(0.9, 0.8)) +
   labs(x = "Difference of PfPRs (%)", 
        y = "Number of Grids",
-       title = "Difference of PfPRs between SSP3-7.0 and SSP1-2.6 during 2041 - 2060") 
-ggsave(file = "06_Figure/S13_Dis_PredictMap.370.126.2060.jpg", device = "jpg", width = 8,
+       title = "Difference of PfPRs between SSP3-7.0 and SSP1-2.6 during 2021 - 2040") 
+ggsave(file = "06_Figure/S13_Dis_PredictMap.370.126.2040.jpg", device = "jpg", width = 8,
        height = 6)
 # figure 13
 
 # figure 14
-prediction.2060@data %>%
+prediction.2040@data %>%
   ggplot(aes(x = predictPfPR.585.126*100, fill = continent)) +
   geom_histogram(breaks = seq(-70, 45, by = 5), color = "black") +
   scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
@@ -415,15 +415,15 @@ prediction.2060@data %>%
   theme(legend.position = c(0.9, 0.8)) +
   labs(x = "Difference of PfPRs (%)", 
        y = "Number of Grids",
-       title = "Difference of PfPRs between SSP5-8.5 and SSP1-2.6 during 2041 - 2060") 
-ggsave(file = "06_Figure/S14_Dis_PredictMap.585.126.2060.jpg", device = "jpg", width = 8,
+       title = "Difference of PfPRs between SSP5-8.5 and SSP1-2.6 during 2021 - 2040") 
+ggsave(file = "06_Figure/S14_Dis_PredictMap.585.126.2040.jpg", device = "jpg", width = 8,
        height = 6)
 # figure 14
 
 # figure 15
-load("05_Results/prediction.2080.Rdata")
-prediction.2080@data <- left_join(prediction.2080@data, coords_continent, by = 'id')
-prediction.2080@data %>%
+load("05_Results/prediction.2060.Rdata")
+prediction.2060@data <- left_join(prediction.2060@data, coords_continent, by = 'id')
+prediction.2060@data %>%
   ggplot(aes(x = predictPfPR.245.126*100, fill = continent)) +
   geom_histogram(breaks = seq(-15, 10, by = 5), color = "black") +
   scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
@@ -433,13 +433,13 @@ prediction.2080@data %>%
   theme(legend.position = c(0.9, 0.8)) +
   labs(x = "Difference of PfPRs (%)", 
        y = "Number of Grids",
-       title = "Difference of PfPRs between SSP2-4.5 and SSP1-2.6 during 2061 - 2080") 
-ggsave(file = "06_Figure/S15_Dis_PredictMap.245.126.2080.jpg", device = "jpg", width = 8,
+       title = "Difference of PfPRs between SSP2-4.5 and SSP1-2.6 during 2041 - 2060") 
+ggsave(file = "06_Figure/S15_Dis_PredictMap.245.126.2060.jpg", device = "jpg", width = 8,
        height = 6)
 # figure 15
 
 # figure 16
-prediction.2080@data %>%
+prediction.2060@data %>%
   ggplot(aes(x = predictPfPR.460.126*100, fill = continent)) +
   geom_histogram(breaks = seq(-20, 10, by = 5), color = "black") +
   scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
@@ -449,13 +449,13 @@ prediction.2080@data %>%
   theme(legend.position = c(0.9, 0.8)) +
   labs(x = "Difference of PfPRs (%)", 
        y = "Number of Grids",
-       title = "Difference of PfPRs between SSP3-7.0 and SSP1-2.6 during 2061 - 2080") 
-ggsave(file = "06_Figure/S16_Dis_PredictMap.370.126.2080.jpg", device = "jpg", width = 8,
+       title = "Difference of PfPRs between SSP3-7.0 and SSP1-2.6 during 2041 - 2060") 
+ggsave(file = "06_Figure/S16_Dis_PredictMap.370.126.2060.jpg", device = "jpg", width = 8,
        height = 6)
 # figure 16
 
 # figure 17
-prediction.2080@data %>%
+prediction.2060@data %>%
   ggplot(aes(x = predictPfPR.585.126*100, fill = continent)) +
   geom_histogram(breaks = seq(-15, 15, by = 5), color = "black") +
   scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
@@ -465,8 +465,8 @@ prediction.2080@data %>%
   theme(legend.position = c(0.9, 0.8)) +
   labs(x = "Difference of PfPRs (%)", 
        y = "Number of Grids",
-       title = "Difference of PfPRs between SSP5-8.5 and SSP1-2.6 during 2061 - 2080") 
-ggsave(file = "06_Figure/S17_Dis_PredictMap.585.126.2080.jpg", device = "jpg", width = 8,
+       title = "Difference of PfPRs between SSP5-8.5 and SSP1-2.6 during 2041 - 2060") 
+ggsave(file = "06_Figure/S17_Dis_PredictMap.585.126.2060.jpg", device = "jpg", width = 8,
        height = 6)
 # figure 17
 

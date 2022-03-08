@@ -94,7 +94,7 @@ addcoord <- function(nx,xmin,xsize,ny,ymin,ysize,proj) { # Michael Pyrcz, March,
 
 coords <- addcoord(nx,xmin,xsize,ny,ymin,ysize,proj)
 
-TempRasterFolder <- "F:/13_Article/09_TempPrediction/Res025/"
+TempRasterFolder <- "F:/13_Article/09_TempPrediction/IPCC1degree/"
 filelist <- list.files(TempRasterFolder)
 
 load("05_Results/GWPR_FEM_CV_F_result_425.Rdata")
@@ -110,20 +110,14 @@ future.temperature <-
 scenario.name <- c("ssp126", "ssp245", "ssp460", "ssp585")
 
 while(num < 13){
-  filelist.sub <- filelist[c(num, num + 12)]
-  year_num <- num%%3
-  scenario.num <- floor((num-1)/3) + 1
+  filelist.sub <- filelist[(num*12-11):(num*12)]
+  year_num <- floor((num-1)/4)
+  scenario.num <- (num-1)%%4 + 1
   TempRasterDataset <- 
     extractPointDataFromRasterMultiband(TempRasterFolder, filelist.sub, coords,
-                                        num, F, "Temp", 12)
+                                        year_num, F, "Temp", 1)
   TempRasterDataset <- TempRasterDataset %>% na.omit()
-  TempRasterDataset <- aggregate(TempRasterDataset$Temp,
-                                 by = list(TempRasterDataset$id, 
-                                           TempRasterDataset$year, 
-                                           TempRasterDataset$month), 
-                                 FUN = "mean", na.rm = T
-  )
-  colnames(TempRasterDataset) <- c("id", "year", "month", "Temp")
+  
   TempRasterDataset <- TempRasterDataset %>% dplyr::select(id, Temp)
   TempRasterDataset.mean <- aggregate(TempRasterDataset$Temp, by = list(TempRasterDataset$id), 
                                       FUN = "mean", na.rm = T)
@@ -138,13 +132,54 @@ while(num < 13){
   num <- num + 1
 }
 
+
+year2040.mean <- future.temperature %>%
+  filter(year == 2) %>% dplyr::select(id, TempMean, scenario) %>%
+  pivot_wider(names_from = scenario, values_from = TempMean)
+year2040.square <- year2040.mean
+year2040.square[2:5] <- year2040.square[2:5]^2 
+year2040.sd <- future.temperature %>%
+  filter(year == 2) %>% dplyr::select(id, TempSD, scenario) %>%
+  pivot_wider(names_from = scenario, values_from = TempSD)
+year2040.mean <- year2040.mean %>%
+  mutate(mean.dif.245.126 = ssp245 - ssp126,
+         mean.dif.460.126 = ssp460 - ssp126,
+         mean.dif.585.126 = ssp585 - ssp126) %>%
+  dplyr::select(id, mean.dif.245.126, mean.dif.460.126, mean.dif.585.126)
+year2040.square <- year2040.square %>%
+  mutate(square.dif.245.126 = ssp245 - ssp126,
+         square.dif.460.126 = ssp460 - ssp126,
+         square.dif.585.126 = ssp585 - ssp126) %>%
+  dplyr::select(id, square.dif.245.126, square.dif.460.126, square.dif.585.126)
+year2040.sd <- year2040.sd %>%
+  mutate(sd.dif.245.126 = ssp245 - ssp126,
+         sd.dif.460.126 = ssp460 - ssp126,
+         sd.dif.585.126 = ssp585 - ssp126) %>%
+  dplyr::select(id, sd.dif.245.126, sd.dif.460.126, sd.dif.585.126)
+year2040.dataset <- left_join(year2040.mean, year2040.square)
+year2040.dataset <- left_join(year2040.dataset, year2040.sd)
+rm(year2040.mean, year2040.square, year2040.sd)
+
+prediction.2040 <- coef.SDF
+prediction.2040@data <- left_join(prediction.2040@data, year2040.dataset)
+prediction.2040@data <- prediction.2040@data %>%
+  mutate(
+    predictPfPR.245.126 = TempMean * mean.dif.245.126 + TempSquare * square.dif.245.126 +
+      TempSd * sd.dif.245.126,
+    predictPfPR.460.126 = TempMean * mean.dif.460.126 + TempSquare * square.dif.460.126 +
+      TempSd * sd.dif.460.126,
+    predictPfPR.585.126 = TempMean * mean.dif.585.126 + TempSquare * square.dif.585.126 +
+      TempSd * sd.dif.585.126 )
+
+save(prediction.2040, file = "05_Results/prediction.2040.Rdata")
+
 year2060.mean <- future.temperature %>%
-  filter(year == 0) %>% dplyr::select(id, TempMean, scenario) %>%
+  filter(year == 1) %>% dplyr::select(id, TempMean, scenario) %>%
   pivot_wider(names_from = scenario, values_from = TempMean)
 year2060.square <- year2060.mean
 year2060.square[2:5] <- year2060.square[2:5]^2 
 year2060.sd <- future.temperature %>%
-  filter(year == 0) %>% dplyr::select(id, TempSD, scenario) %>%
+  filter(year == 1) %>% dplyr::select(id, TempSD, scenario) %>%
   pivot_wider(names_from = scenario, values_from = TempSD)
 year2060.mean <- year2060.mean %>%
   mutate(mean.dif.245.126 = ssp245 - ssp126,
@@ -178,53 +213,13 @@ prediction.2060@data <- prediction.2060@data %>%
 
 save(prediction.2060, file = "05_Results/prediction.2060.Rdata")
 
-year2080.mean <- future.temperature %>%
-  filter(year == 1) %>% dplyr::select(id, TempMean, scenario) %>%
-  pivot_wider(names_from = scenario, values_from = TempMean)
-year2080.square <- year2080.mean
-year2080.square[2:5] <- year2080.square[2:5]^2 
-year2080.sd <- future.temperature %>%
-  filter(year == 1) %>% dplyr::select(id, TempSD, scenario) %>%
-  pivot_wider(names_from = scenario, values_from = TempSD)
-year2080.mean <- year2080.mean %>%
-  mutate(mean.dif.245.126 = ssp245 - ssp126,
-         mean.dif.460.126 = ssp460 - ssp126,
-         mean.dif.585.126 = ssp585 - ssp126) %>%
-  dplyr::select(id, mean.dif.245.126, mean.dif.460.126, mean.dif.585.126)
-year2080.square <- year2080.square %>%
-  mutate(square.dif.245.126 = ssp245 - ssp126,
-         square.dif.460.126 = ssp460 - ssp126,
-         square.dif.585.126 = ssp585 - ssp126) %>%
-  dplyr::select(id, square.dif.245.126, square.dif.460.126, square.dif.585.126)
-year2080.sd <- year2080.sd %>%
-  mutate(sd.dif.245.126 = ssp245 - ssp126,
-         sd.dif.460.126 = ssp460 - ssp126,
-         sd.dif.585.126 = ssp585 - ssp126) %>%
-  dplyr::select(id, sd.dif.245.126, sd.dif.460.126, sd.dif.585.126)
-year2080.dataset <- left_join(year2080.mean, year2080.square)
-year2080.dataset <- left_join(year2080.dataset, year2080.sd)
-rm(year2080.mean, year2080.square, year2080.sd)
-
-prediction.2080 <- coef.SDF
-prediction.2080@data <- left_join(prediction.2080@data, year2080.dataset)
-prediction.2080@data <- prediction.2080@data %>%
-  mutate(
-    predictPfPR.245.126 = TempMean * mean.dif.245.126 + TempSquare * square.dif.245.126 +
-      TempSd * sd.dif.245.126,
-    predictPfPR.460.126 = TempMean * mean.dif.460.126 + TempSquare * square.dif.460.126 +
-      TempSd * sd.dif.460.126,
-    predictPfPR.585.126 = TempMean * mean.dif.585.126 + TempSquare * square.dif.585.126 +
-      TempSd * sd.dif.585.126 )
-
-save(prediction.2080, file = "05_Results/prediction.2080.Rdata")
-
 year2100.mean <- future.temperature %>%
-  filter(year == 2) %>% dplyr::select(id, TempMean, scenario) %>%
+  filter(year == 0) %>% dplyr::select(id, TempMean, scenario) %>%
   pivot_wider(names_from = scenario, values_from = TempMean)
 year2100.square <- year2100.mean
 year2100.square[2:5] <- year2100.square[2:5]^2 
 year2100.sd <- future.temperature %>%
-  filter(year == 2) %>% dplyr::select(id, TempSD, scenario) %>%
+  filter(year == 0) %>% dplyr::select(id, TempSD, scenario) %>%
   pivot_wider(names_from = scenario, values_from = TempSD)
 year2100.mean <- year2100.mean %>%
   mutate(mean.dif.245.126 = ssp245 - ssp126,
@@ -269,3 +264,14 @@ symmetry_distribution$distribution_category <- symmetry_distribution$u_shape +
 symmetry_distribution$distribution_category <- symmetry_distribution$distribution_category %>% as.factor()
 save(symmetry_distribution, file = "05_Results/symmetry_distribution.Rdata")
 #symmetry distribution
+
+#future temperature grids
+id.dataset <- GWPR.FEM.CV.F.result$SDF@data %>% dplyr::select(id)
+id.dataset$flag <- 1
+future.temperature.grid <- left_join(future.temperature, id.dataset)
+future.temperature.grid <- future.temperature.grid %>% filter(flag == 1)
+
+future.temperature.summary <- future.temperature.grid %>%
+  group_by(year, scenario) %>% 
+  summarise(across(c(TempMean, TempSD), list(mean = mean, min = min,
+                                             median = median, max = max)))
