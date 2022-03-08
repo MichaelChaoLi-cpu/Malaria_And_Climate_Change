@@ -21,6 +21,7 @@ library(sp)
 library(tmap)
 library(raster)
 library("rnaturalearth")
+library(ggplot2)
 
 # mean PfPR figure S1
 world <- ne_countries(scale = "medium", returnclass = "sp")
@@ -136,10 +137,10 @@ prediction.2040 <- as(prediction.2040, "SpatialGridDataFrame")
 prediction.2040.245.126 <- prediction.2040
 prediction.2040.245.126@data <- prediction.2040.245.126@data %>% dplyr::select(predictPfPR.245.126)
 prediction.2040.245.126 <- raster::raster(prediction.2040.245.126)
-brks <- c(-0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0,
-          0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4)
-labels_brks <- c("-40%", "", "-30%", "", "-20%", "", "-10%", "", "0%",
-                 "", "10%", "", "20%", "", "30%", "", "40%")
+brks <- c( -0.2, -0.175, -0.15, -0.125, -0.1, -0.075, -0.05, -0.025, 0,
+           0.025, 0.05, 0.075, 0.1, 0.125, 0.15, 0.175, 0.2)
+labels_brks <- c("-20%", "", "-15%", "", "-10%", "", "-5", "", "0%",
+                "", "5%", "", "10%", "", "15%", "", "20%")
 PredictionMap.245.126.2040 <- tm_shape(prediction.2040.245.126) +
   tm_raster("predictPfPR.245.126", palette = pal.n.p(16), breaks = brks, 
             style = 'cont', legend.is.portrait = F, title = "The Difference of PfPRs between SSP1-2.6 and SSP2-4.5 (2021 - 2040)",
@@ -217,10 +218,10 @@ prediction.2060 <- as(prediction.2060, "SpatialGridDataFrame")
 prediction.2060.245.126 <- prediction.2060
 prediction.2060.245.126@data <- prediction.2060.245.126@data %>% dplyr::select(predictPfPR.245.126)
 prediction.2060.245.126 <- raster::raster(prediction.2060.245.126)
-brks <- c(-0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0,
-          0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4)
-labels_brks <- c("-40%", "", "-30%", "", "-20%", "", "-10%", "", "0%",
-                 "", "10%", "", "20%", "", "30%", "", "40%")
+brks <- c( -0.2, -0.175, -0.15, -0.125, -0.1, -0.075, -0.05, -0.025, 0,
+           0.025, 0.05, 0.075, 0.1, 0.125, 0.15, 0.175, 0.2)
+labels_brks <- c("-20%", "", "-15%", "", "-10%", "", "-5", "", "0%",
+                 "", "5%", "", "10%", "", "15%", "", "20%")
 PredictionMap.245.126.2060 <- tm_shape(prediction.2060.245.126) +
   tm_raster("predictPfPR.245.126", palette = pal.n.p(16), breaks = brks, 
             style = 'cont', legend.is.portrait = F, title = "The Difference of PfPRs between SSP1-2.6 and SSP2-4.5 (2041 - 2060)",
@@ -298,10 +299,10 @@ prediction.2100 <- as(prediction.2100, "SpatialGridDataFrame")
 prediction.2100.245.126 <- prediction.2100
 prediction.2100.245.126@data <- prediction.2100.245.126@data %>% dplyr::select(predictPfPR.245.126)
 prediction.2100.245.126 <- raster::raster(prediction.2100.245.126)
-brks <- c(-0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0,
-          0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4)
-labels_brks <- c("-40%", "", "-30%", "", "-20%", "", "-10%", "", "0%",
-                 "", "10%", "", "20%", "", "30%", "", "40%")
+brks <- c( -0.2, -0.175, -0.15, -0.125, -0.1, -0.075, -0.05, -0.025, 0,
+           0.025, 0.05, 0.075, 0.1, 0.125, 0.15, 0.175, 0.2)
+labels_brks <- c("-20%", "", "-15%", "", "-10%", "", "-5", "", "0%",
+                 "", "5%", "", "10%", "", "15%", "", "20%")
 PredictionMap.245.126.2100 <- tm_shape(prediction.2100.245.126) +
   tm_raster("predictPfPR.245.126", palette = pal.n.p(16), breaks = brks, 
             style = 'cont', legend.is.portrait = F, title = "The Difference of PfPRs between SSP1-2.6 and SSP2-4.5 (2081 - 2100)",
@@ -375,7 +376,7 @@ load("05_Results/prediction.2040.Rdata")
 prediction.2040@data <- left_join(prediction.2040@data, coords_continent, by = 'id')
 prediction.2040@data %>%
   ggplot(aes(x = predictPfPR.245.126*100, fill = continent)) +
-  geom_histogram(breaks = seq(-30, 20, by = 5), color = "black") +
+  geom_histogram(breaks = seq(-2, 3.5, by = 0.5), color = "black") +
   scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
                              "chocolate1", "darkgreen", "orchid3"), 
                     name = "Continent") + 
@@ -391,7 +392,7 @@ ggsave(file = "06_Figure/S12_Dis_PredictMap.245.126.2040.jpg", device = "jpg", w
 # figure 13
 prediction.2040@data %>%
   ggplot(aes(x = predictPfPR.460.126*100, fill = continent)) +
-  geom_histogram(breaks = seq(-85, 45, by = 5), color = "black") +
+  geom_histogram(breaks = seq(-2, 3, by = 0.5), color = "black") +
   scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
                              "chocolate1", "darkgreen", "orchid3"), 
                     name = "Continent") + 
@@ -407,7 +408,7 @@ ggsave(file = "06_Figure/S13_Dis_PredictMap.370.126.2040.jpg", device = "jpg", w
 # figure 14
 prediction.2040@data %>%
   ggplot(aes(x = predictPfPR.585.126*100, fill = continent)) +
-  geom_histogram(breaks = seq(-70, 45, by = 5), color = "black") +
+  geom_histogram(breaks = seq(-3.5, 3.5, by = 0.5), color = "black") +
   scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
                              "chocolate1", "darkgreen", "orchid3"), 
                     name = "Continent") + 
@@ -425,7 +426,7 @@ load("05_Results/prediction.2060.Rdata")
 prediction.2060@data <- left_join(prediction.2060@data, coords_continent, by = 'id')
 prediction.2060@data %>%
   ggplot(aes(x = predictPfPR.245.126*100, fill = continent)) +
-  geom_histogram(breaks = seq(-15, 10, by = 5), color = "black") +
+  geom_histogram(breaks = seq(-4, 6, by = 1), color = "black") +
   scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
                              "chocolate1", "darkgreen", "orchid3"), 
                     name = "Continent") + 
@@ -441,7 +442,7 @@ ggsave(file = "06_Figure/S15_Dis_PredictMap.245.126.2060.jpg", device = "jpg", w
 # figure 16
 prediction.2060@data %>%
   ggplot(aes(x = predictPfPR.460.126*100, fill = continent)) +
-  geom_histogram(breaks = seq(-20, 10, by = 5), color = "black") +
+  geom_histogram(breaks = seq(-12, 12, by = 2), color = "black") +
   scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
                              "chocolate1", "darkgreen", "orchid3"), 
                     name = "Continent") + 
@@ -457,7 +458,7 @@ ggsave(file = "06_Figure/S16_Dis_PredictMap.370.126.2060.jpg", device = "jpg", w
 # figure 17
 prediction.2060@data %>%
   ggplot(aes(x = predictPfPR.585.126*100, fill = continent)) +
-  geom_histogram(breaks = seq(-15, 15, by = 5), color = "black") +
+  geom_histogram(breaks = seq(-14, 18, by = 2), color = "black") +
   scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
                              "chocolate1", "darkgreen", "orchid3"), 
                     name = "Continent") + 
@@ -475,7 +476,7 @@ load("05_Results/prediction.2100.Rdata")
 prediction.2100@data <- left_join(prediction.2100@data, coords_continent, by = 'id')
 prediction.2100@data %>%
   ggplot(aes(x = predictPfPR.245.126*100, fill = continent)) +
-  geom_histogram(breaks = seq(-20, 15, by = 5), color = "black") +
+  geom_histogram(breaks = seq(-25, 35, by = 5), color = "black") +
   scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
                              "chocolate1", "darkgreen", "orchid3"), 
                     name = "Continent") + 
@@ -491,7 +492,7 @@ ggsave(file = "06_Figure/S18_Dis_PredictMap.245.126.2100.jpg", device = "jpg", w
 # figure 19
 prediction.2100@data %>%
   ggplot(aes(x = predictPfPR.460.126*100, fill = continent)) +
-  geom_histogram(breaks = seq(-45, 25, by = 5), color = "black") +
+  geom_histogram(breaks = seq(-65, 75, by = 5), color = "black") +
   scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
                              "chocolate1", "darkgreen", "orchid3"), 
                     name = "Continent") + 
@@ -507,7 +508,7 @@ ggsave(file = "06_Figure/S19_Dis_PredictMap.370.126.2100.jpg", device = "jpg", w
 # figure 20
 prediction.2100@data %>%
   ggplot(aes(x = predictPfPR.585.126*100, fill = continent)) +
-  geom_histogram(breaks = seq(-35, 25, by = 5), color = "black") +
+  geom_histogram(breaks = seq(-80, 100, by = 5), color = "black") +
   scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
                              "chocolate1", "darkgreen", "orchid3"), 
                     name = "Continent") + 
@@ -528,8 +529,8 @@ symmetry_distribution <- symmetry_distribution
 symmetry_distribution@data <- symmetry_distribution@data %>% dplyr::select(distribution_category)
 symmetry_distribution <- raster::raster(symmetry_distribution)
 pal.6 <- c("red", "chocolate1", "gold1", "darkgreen", "deepskyblue", "gray40")
-brks_label <- c("Invert U-Shape", "U-Shape", "Increase Invert U", "Decrease U",
-                "Decrease Invert U", "Increase U")
+brks_label <- c("Inverted U-Shape", "U-Shape", "Increase Inverted U", "Decrease U",
+                "Decrease Inverted U", "Increase U")
 symmetry_distribution.map <- tm_shape(symmetry_distribution) +
   tm_raster("distribution_category", palette = pal.6, 
             style = 'cont', legend.is.portrait = F, 
