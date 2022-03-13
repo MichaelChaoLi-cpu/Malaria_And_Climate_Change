@@ -46,7 +46,7 @@ PredictionMap.245.126.2040 <- tm_shape(prediction.2040.245.126) +
     legend.text.size = legend_title_size * 0.75, 
     main.title = "From SSP1-2.6 to SSP 2-4.5", 
     main.title.position = "center",
-    main.title.size = 0.5
+    main.title.size = 1
   ) 
 # sub panel 1 
 
@@ -61,7 +61,7 @@ PredictionMap.370.126.2040 <- tm_shape(prediction.2040.370.126) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
   tm_text("iso_a2", size = legend_title_size * 0.2, remove.overlap = T) + 
-  tm_grid(alpha = .25, labels.show = F) + 
+  tm_grid(alpha = .25, labels.show = c(F, T)) + 
   tm_layout(
     inner.margins = c(margin, margin, margin, margin),
     title.size = title_size, 
@@ -70,7 +70,7 @@ PredictionMap.370.126.2040 <- tm_shape(prediction.2040.370.126) +
     legend.text.size = legend_title_size * 0.75,
     main.title = "From SSP1-2.6 to SSP 3-7.0", 
     main.title.position = "center",
-    main.title.size = 0.5
+    main.title.size = 1
   )  
 # sub panel 2
 
@@ -85,7 +85,7 @@ PredictionMap.585.126.2040 <- tm_shape(prediction.2040.585.126) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
   tm_text("iso_a2", size = legend_title_size * 0.2, remove.overlap = T) + 
-  tm_grid(alpha = .25, labels.show = F) + 
+  tm_grid(alpha = .25, labels.show = c(F, T)) + 
   tm_layout(
     inner.margins = c(margin, margin, margin, margin),
     title.size = title_size, 
@@ -94,7 +94,7 @@ PredictionMap.585.126.2040 <- tm_shape(prediction.2040.585.126) +
     legend.text.size = legend_title_size * 0.75,
     main.title = "From SSP1-2.6 to SSP 3-7.0", 
     main.title.position = "center",
-    main.title.size = 0.5
+    main.title.size = 1
   ) 
 # sub panel 3
 
@@ -140,7 +140,7 @@ PredictionMap.370.126.2060 <- tm_shape(prediction.2060.370.126) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
   tm_text("iso_a2", size = legend_title_size * 0.2, remove.overlap = T) + 
-  tm_grid(alpha = .25, labels.show = c(F, F)) + 
+  tm_grid(alpha = .25, labels.show = c(F, T)) + 
   tm_layout(
     inner.margins = c(margin, margin, margin, margin),
     title.size = title_size, 
@@ -161,7 +161,7 @@ PredictionMap.585.126.2060 <- tm_shape(prediction.2060.585.126) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
   tm_text("iso_a2", size = legend_title_size * 0.2, remove.overlap = T) + 
-  tm_grid(alpha = .25, labels.show = c(F, F)) + 
+  tm_grid(alpha = .25, labels.show = c(F, T)) + 
   tm_layout(
     inner.margins = c(margin, margin, margin, margin),
     title.size = title_size, 
@@ -214,7 +214,7 @@ PredictionMap.370.126.2100 <- tm_shape(prediction.2100.370.126) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
   tm_text("iso_a2", size = legend_title_size * 0.2, remove.overlap = T) + 
-  tm_grid(alpha = .25, labels.show = c(T, F)) + 
+  tm_grid(alpha = .25, labels.show = c(T, T)) + 
   tm_layout(
     inner.margins = c(margin, margin, margin, margin),
     title.size = title_size, 
@@ -235,7 +235,7 @@ PredictionMap.585.126.2100 <- tm_shape(prediction.2100.585.126) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
   tm_text("iso_a2", size = legend_title_size * 0.2, remove.overlap = T) + 
-  tm_grid(alpha = .25, labels.show = c(T, F)) + 
+  tm_grid(alpha = .25, labels.show = c(T, T)) + 
   tm_layout(
     inner.margins = c(margin, margin, margin, margin),
     title.size = title_size * 2, 

@@ -65,6 +65,7 @@ coords_continent <- over(coords, world_continent)
 coords_continent <- coords_continent %>% as.data.frame()
 coords_continent$id <- coords$id
 coords_continent$continent <- coords_continent$continent %>% as.factor() 
+save(coords_continent, file = "04_Data/02_coords_continent.RData")
 # continent to id
 
 load("04_Data/01_dataset_used.RData")
