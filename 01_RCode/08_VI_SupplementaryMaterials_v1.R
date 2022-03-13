@@ -549,11 +549,3 @@ symmetry_distribution.map <- tm_shape(symmetry_distribution) +
   ) 
 symmetry_distribution.map %>%
   tmap_save(filename = "06_Figure/S21_symmetry_distribution.map.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
-
-multi.panel <-
-  tmap_arrange(PredictionMap.245.126.2040, PredictionMap.370.126.2040, PredictionMap.585.126.2040,
-               PredictionMap.245.126.2060, PredictionMap.370.126.2060, PredictionMap.585.126.2060,
-               PredictionMap.245.126.2100, PredictionMap.370.126.2100, PredictionMap.585.126.2100,
-               ncol = 3, nrow = 3)
-multi.panel %>%
-  tmap_save(filename = "06_Figure/S22_multiPanel.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
