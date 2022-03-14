@@ -51,6 +51,25 @@ prediction.2040.continent <- prediction.2040.continent %>%
     ) 
 
 load("05_Results/prediction.2060.Rdata")
+
+mean <- (prediction.2060@data$predictPfPR.245.126*100) %>% mean()
+se <- (prediction.2060@data$predictPfPR.245.126*100) %>% std.error()
+mean
+mean - 1.96 * se
+mean + 1.96 * se
+
+mean <- (prediction.2060@data$predictPfPR.460.126*100) %>% mean()
+se <- (prediction.2060@data$predictPfPR.460.126*100) %>% std.error()
+mean
+mean - 1.96 * se
+mean + 1.96 * se
+
+mean <- (prediction.2060@data$predictPfPR.585.126*100) %>% mean()
+se <- (prediction.2060@data$predictPfPR.585.126*100) %>% std.error()
+mean
+mean - 1.96 * se
+mean + 1.96 * se
+
 prediction.2060@data <- left_join(prediction.2060@data, coords_continent, by = 'id')
 prediction.2060.continent <- prediction.2060@data %>%
   dplyr::select("predictPfPR.245.126", "predictPfPR.460.126",
@@ -63,6 +82,25 @@ prediction.2060.continent <- prediction.2060.continent %>%
   ) 
 
 load("05_Results/prediction.2100.Rdata")
+
+mean <- (prediction.2100@data$predictPfPR.245.126*100) %>% mean()
+se <- (prediction.2100@data$predictPfPR.245.126*100) %>% std.error()
+mean
+mean - 1.96 * se
+mean + 1.96 * se
+
+mean <- (prediction.2100@data$predictPfPR.460.126*100) %>% mean()
+se <- (prediction.2100@data$predictPfPR.460.126*100) %>% std.error()
+mean
+mean - 1.96 * se
+mean + 1.96 * se
+
+mean <- (prediction.2100@data$predictPfPR.585.126*100) %>% mean()
+se <- (prediction.2100@data$predictPfPR.585.126*100) %>% std.error()
+mean
+mean - 1.96 * se
+mean + 1.96 * se
+
 prediction.2100@data <- left_join(prediction.2100@data, coords_continent, by = 'id')
 prediction.2100.continent <- prediction.2100@data %>%
   dplyr::select("predictPfPR.245.126", "predictPfPR.460.126",
