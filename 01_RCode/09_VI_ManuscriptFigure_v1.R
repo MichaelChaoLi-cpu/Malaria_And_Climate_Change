@@ -26,6 +26,8 @@ library("plotrix")
 
 # mean PfPR figure S1
 world <- ne_countries(scale = "medium", returnclass = "sp")
+world@data <- world@data %>% 
+  mutate(name_sort = ifelse(name_sort == "Côte d'Ivoire", "Cote d'Ivoire", name_sort))
 
 # make the raster -180 -60 180 60
 nx = 480                                       # number of cells in the x direction
@@ -97,7 +99,7 @@ prediction.2040.df <- left_join(prediction.2040.df.mean, prediction.2040.df.se,
 prediction.2040.df <- left_join(prediction.2040.df, world_continent)
 prediction.2040.df$name_sort <- prediction.2040.df$name_sort %>% as.factor()
 prediction.2040.df$continent <- prediction.2040.df$continent %>% as.factor()
-levels(prediction.2040.df$name_sort) <- rev(levels(prediction.2040.df$name_sort))
+#levels(prediction.2040.df$name_sort) <- rev(levels(prediction.2040.df$name_sort))
 
 country.2040 <- 
   ggplot(prediction.2040.df, aes(x = PfPR.change*100, y = name_sort, color = scenarios.change)) +
@@ -106,8 +108,9 @@ country.2040 <-
   scale_color_manual(values = c("darkgreen", "orange", "orchid3"), name = "Scenarios",
                      labels = c("SSP1-2.6 -> SSP2-4.5", "SSP1-2.6 -> SSP3-7.0", "SSP1-2.6 -> SSP5-8.5")) +
   scale_shape_manual(values = c(15, 16, 17, 18, 22, 25), name = "Continent") +
+  scale_y_discrete(limits = rev(levels(prediction.2040.df$name_sort)) ) +
   theme_bw() +
-  theme(legend.position = c(0.8, 0.7),
+  theme(legend.position = c(0.8, 0.35),
         axis.text.y = element_text(size=5), legend.background = element_blank()) +
   labs(x = "Difference of PfPRs (%)", 
        y = NULL, title = "Near Term (2021 - 2040)")
@@ -138,7 +141,7 @@ prediction.2060.df <- left_join(prediction.2060.df.mean, prediction.2060.df.se,
 prediction.2060.df <- left_join(prediction.2060.df, world_continent)
 prediction.2060.df$name_sort <- prediction.2060.df$name_sort %>% as.factor()
 prediction.2060.df$continent <- prediction.2060.df$continent %>% as.factor()
-levels(prediction.2060.df$name_sort) <- rev(levels(prediction.2060.df$name_sort))
+#levels(prediction.2060.df$name_sort) <- rev(levels(prediction.2060.df$name_sort))
 
 country.2060 <- 
   ggplot(prediction.2060.df, aes(x = PfPR.change*100, y = name_sort, color = scenarios.change)) +
@@ -147,6 +150,7 @@ country.2060 <-
   scale_color_manual(values = c("darkgreen", "orange", "orchid3"), name = "Scenarios",
                      labels = c("SSP1-2.6 -> SSP2-4.5", "SSP1-2.6 -> SSP3-7.0", "SSP1-2.6 -> SSP5-8.5")) +
   scale_shape_manual(values = c(15, 16, 17, 18, 22, 25), name = "Continent") +
+  scale_y_discrete(limits = rev(levels(prediction.2040.df$name_sort)) ) +
   theme_bw() +
   theme(legend.position = c(0.2, 0.70),
         axis.text.y = element_text(size=5), legend.background = element_blank()) +
@@ -180,7 +184,7 @@ prediction.2100.df <- left_join(prediction.2100.df.mean, prediction.2100.df.se,
 prediction.2100.df <- left_join(prediction.2100.df, world_continent)
 prediction.2100.df$name_sort <- prediction.2100.df$name_sort %>% as.factor()
 prediction.2100.df$continent <- prediction.2100.df$continent %>% as.factor()
-levels(prediction.2100.df$name_sort) <- rev(levels(prediction.2100.df$name_sort))
+#levels(prediction.2100.df$name_sort) <- rev(levels(prediction.2100.df$name_sort))
 
 country.2100 <- 
   ggplot(prediction.2100.df, aes(x = PfPR.change*100, y = name_sort, color = scenarios.change)) +
@@ -189,6 +193,7 @@ country.2100 <-
   scale_color_manual(values = c("darkgreen", "orange", "orchid3"), name = "Scenarios",
                      labels = c("SSP1-2.6 -> SSP2-4.5", "SSP1-2.6 -> SSP3-7.0", "SSP1-2.6 -> SSP5-8.5")) +
   scale_shape_manual(values = c(15, 16, 17, 18, 22, 25), name = "Continent") +
+  scale_y_discrete(limits = rev(levels(prediction.2040.df$name_sort)) ) +
   theme_bw() +
   theme(legend.position = c(0.2, 0.70),
         axis.text.y = element_text(size=5), legend.background = element_blank()) +

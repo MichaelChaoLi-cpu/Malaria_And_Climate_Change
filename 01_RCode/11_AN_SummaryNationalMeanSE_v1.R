@@ -1,0 +1,86 @@
+# Author: M.L.
+
+# end
+
+library(tidyverse)
+library(dplyr)
+library("plotrix")
+
+make.table.with.95CI <- function(table){
+  table[,8] <- table[,2] + 1.96 * table[,3]
+  table[,9] <- table[,2] - 1.96 * table[,3]
+  table[,10] <- table[,4] + 1.96 * table[,5]
+  table[,11] <- table[,4] - 1.96 * table[,5]
+  table[,12] <- table[,6] + 1.96 * table[,7]
+  table[,13] <- table[,6] - 1.96 * table[,7]
+  table <- table[,c(1,2,4,6,8:13)]
+  return(table)
+}
+  
+
+load("04_Data/02_coords_continent.RData")
+
+load("05_Results/prediction.2040.Rdata")
+
+mean <- (prediction.2040@data$predictPfPR.245.126*100) %>% mean()
+se <- (prediction.2040@data$predictPfPR.245.126*100) %>% std.error()
+mean - 1.96 * se
+mean + 1.96 * se
+
+mean <- (prediction.2040@data$predictPfPR.460.126*100) %>% mean()
+se <- (prediction.2040@data$predictPfPR.460.126*100) %>% std.error()
+mean
+mean - 1.96 * se
+mean + 1.96 * se
+
+mean <- (prediction.2040@data$predictPfPR.585.126*100) %>% mean()
+se <- (prediction.2040@data$predictPfPR.585.126*100) %>% std.error()
+mean
+mean - 1.96 * se
+mean + 1.96 * se
+
+prediction.2040@data <- left_join(prediction.2040@data, coords_continent, by = 'id')
+prediction.2040.continent <- prediction.2040@data %>%
+  dplyr::select("predictPfPR.245.126", "predictPfPR.460.126",
+                "predictPfPR.585.126", "continent")
+prediction.2040.continent <- prediction.2040.continent %>%
+  group_by(prediction.2040.continent$continent) %>%
+  summarise(
+    across(c("predictPfPR.245.126","predictPfPR.460.126","predictPfPR.585.126"), 
+                   list(mean = base::mean, se = plotrix::std.error))
+    ) 
+
+load("05_Results/prediction.2060.Rdata")
+prediction.2060@data <- left_join(prediction.2060@data, coords_continent, by = 'id')
+prediction.2060.continent <- prediction.2060@data %>%
+  dplyr::select("predictPfPR.245.126", "predictPfPR.460.126",
+                "predictPfPR.585.126", "continent")
+prediction.2060.continent <- prediction.2060.continent %>%
+  group_by(prediction.2060.continent$continent) %>%
+  summarise(
+    across(c("predictPfPR.245.126","predictPfPR.460.126","predictPfPR.585.126"), 
+           list(mean = base::mean, se = plotrix::std.error))
+  ) 
+
+load("05_Results/prediction.2100.Rdata")
+prediction.2100@data <- left_join(prediction.2100@data, coords_continent, by = 'id')
+prediction.2100.continent <- prediction.2100@data %>%
+  dplyr::select("predictPfPR.245.126", "predictPfPR.460.126",
+                "predictPfPR.585.126", "continent")
+prediction.2100.continent <- prediction.2100.continent %>%
+  group_by(prediction.2100.continent$continent) %>%
+  summarise(
+    across(c("predictPfPR.245.126","predictPfPR.460.126","predictPfPR.585.126"), 
+           list(mean = base::mean, se = plotrix::std.error))
+  ) 
+
+table.2040 <- make.table.with.95CI(prediction.2040.continent)
+table.2060 <- make.table.with.95CI(prediction.2060.continent)
+table.2100 <- make.table.with.95CI(prediction.2100.continent)
+colnames(table.2040)[1] <- "continent"
+colnames(table.2060)[1] <- "continent"
+colnames(table.2100)[1] <- "continent"
+
+table.se <- rbind(table.2040, table.2060, table.2100)
+
+table.se %>% write.csv("05_Results/table.se.csv")
