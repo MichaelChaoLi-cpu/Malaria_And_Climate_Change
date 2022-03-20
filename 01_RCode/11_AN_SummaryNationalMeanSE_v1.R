@@ -1,5 +1,26 @@
 # Author: M.L.
 
+# input: prediction.2040.Rdata
+# prediction.2040.Rdata: "predictPfPR.245.126" marginal effects from ssp126 to ssp245
+# prediction.2040.Rdata: "predictPfPR.460.126" marginal effects from ssp126 to ssp370 
+# note: here "460" is a typo, it should 370. the period is from 2021 to 2040
+# prediction.2040.Rdata: "predictPfPR.585.126" marginal effects from ssp126 to ssp585 
+
+# input: prediction.2060.Rdata
+# prediction.2060.Rdata: "predictPfPR.245.126" marginal effects from ssp126 to ssp245
+# prediction.2060.Rdata: "predictPfPR.460.126" marginal effects from ssp126 to ssp370 
+# note: here "460" is a typo, it should 370. the period is from 2041 to 2060
+# prediction.2060.Rdata: "predictPfPR.585.126" marginal effects from ssp126 to ssp585 
+
+# input: prediction.2100.Rdata
+# prediction.2100.Rdata: "predictPfPR.245.126" marginal effects from ssp126 to ssp245
+# prediction.2100.Rdata: "predictPfPR.460.126" marginal effects from ssp126 to ssp370 
+# note: here "460" is a typo, it should 370. the period is from 2081 to 2100
+# prediction.2100.Rdata: "predictPfPR.585.126" marginal effects from ssp126 to ssp585
+
+# output: table.se.csv
+# table.se.csv: this is Table 1
+
 # end
 
 library(tidyverse)

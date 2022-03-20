@@ -1,17 +1,6 @@
 # Author: M.L.
 
-# input: 01_dataset_used.RData
-# 01_dataset_used.RData: "PfPR": Plasmodium falciparum parasite rate, range 0 ~ 1
-# 01_dataset_used.RData: "NDVIMean": NDVI value -100% ~ 100% from M*D13C2
-# 01_dataset_used.RData: "TempMean": Annually average temperature C
-# 01_dataset_used.RData: "AirPressureMean" kPa
-# 01_dataset_used.RData: "HumidityMean" unit is g/kg
-# 01_dataset_used.RData: "PrecipitationMean" g / (m2 * h)
-# 01_dataset_used.RData: "WindSpeedMean" m/s
-# 01_dataset_used.RData: "PopulationDensity" cap/km2
-# 01_dataset_used.RData: "GDPperCap" USD/Cap
-# 01_dataset_used.RData: "TempSd": Annually standard deviation temperature C
-# 01_dataset_used.RData: "TempSquare": Annually average temperature square C2
+# output: Figure xx
 
 # end
 

@@ -4,13 +4,29 @@
 # GWPR_FEM_CV_F_result_425.Rdata: this is a result of GWPR based on FEM with 4.25
 
 # input: TempRasterDataset.ssp***
-# note: these data are from BCC-CSM2-MR model based on ssp123 245 370 585
-#       https://www.worldclim.org/data/cmip6/cmip6_clim5m.html
+# note: these data are from BCC-CSM2-MR model based on ssp123 245 370 585, resolution is 1 degree
+#       https://interactive-atlas.ipcc.ch/
 
-# output: GWPR_FEM_CV_F_result.predict.Rdata
-# GWPR_FEM_CV_F_result.predict.Rdata: "predictPfPR126_245" marginal effects from ssp126 to ssp245
-# GWPR_FEM_CV_F_result.predict.Rdata: "predictPfPR126_370" marginal effects from ssp126 to ssp370
-# GWPR_FEM_CV_F_result.predict.Rdata: "predictPfPR126_585" marginal effects from ssp126 to ssp585
+# output: prediction.2040.Rdata
+# prediction.2040.Rdata: "predictPfPR.245.126" marginal effects from ssp126 to ssp245
+# prediction.2040.Rdata: "predictPfPR.460.126" marginal effects from ssp126 to ssp370 
+# note: here "460" is a typo, it should 370. the period is from 2021 to 2040
+# prediction.2040.Rdata: "predictPfPR.585.126" marginal effects from ssp126 to ssp585 
+
+# output: prediction.2060.Rdata
+# prediction.2060.Rdata: "predictPfPR.245.126" marginal effects from ssp126 to ssp245
+# prediction.2060.Rdata: "predictPfPR.460.126" marginal effects from ssp126 to ssp370 
+# note: here "460" is a typo, it should 370. the period is from 2041 to 2060
+# prediction.2060.Rdata: "predictPfPR.585.126" marginal effects from ssp126 to ssp585 
+
+# output: prediction.2100.Rdata
+# prediction.2100.Rdata: "predictPfPR.245.126" marginal effects from ssp126 to ssp245
+# prediction.2100.Rdata: "predictPfPR.460.126" marginal effects from ssp126 to ssp370 
+# note: here "460" is a typo, it should 370. the period is from 2081 to 2100
+# prediction.2100.Rdata: "predictPfPR.585.126" marginal effects from ssp126 to ssp585
+
+# output: symmetry_distribution.Rdata
+# symmetry_distribution.Rdata: "distribution_category" discribe the shape of symmetry
 
 # note: From this project, the data base is built in outside disk F:
 
