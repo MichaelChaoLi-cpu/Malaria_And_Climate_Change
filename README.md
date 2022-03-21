@@ -2,16 +2,16 @@
 This repo (DP13) is used to detect the relationship between malaria and climate change.  
   
 ## Summary:  
-###Background: 
+###Background:  
 As a long-standing public health issue, malaria still severely hits many parts of this world, especially Africa. With greenhouse gas emissions, temperatures keep rising. We aim to quantify the impacts of global warming on the malaria infection rate in all epidemic regions and identify the most vulnerable areas.  
   
-###Methods:
+###Methods:  
 We estimate the coefficients of relationships among variables by geographically weighted panel regression. Four scenarios based on diverse shared socio-economic pathways (SSPs) are employed, including SSP1-2.6, SSP2-4.6, SSP3-7.0, and SSP5-8.5. We estimate the difference between the predicted PfPR2-10 globally under different SSP scenarios during several periods.  
   
-###Findings:
+###Findings:  
 The globally average difference of PfPR2-10 between SSP2-4.6 and SSP1-2.6 is 0.164% (95% uncertainty interal [UI] 0.160% - 0.168%) during 2021 – 2040, while the differences between SSP3-7.0 and SSP1-2.6 and between SSP5-8.5 and SSP1-2.6 are 0.104% (0.101% - 0.107%) and 0.041 (0.038% - 0.044%), respectively. The global average differences of PfPR2-10 of three scenario shifts during 2041 – 2060 and 2081 – 2100 are -0.181% (-0.185% - -0.177%), -0.482% (-0.493% - -0.472%), -0.730% (-0.762% - -0.730%), 1.287% (-1.315% - -1.260%), -3.036% (-3.105% - -2.967%), and -4.096% (-4.190% - -4.002%), respectively. Moreover, the increase in temperature adversely affects malaria the most in Africa during 2021 – 2040, where is most severely hit by malaria.  
   
-###Interpretation: 
+###Interpretation:   
 Global warming would increase the danger and risk of malaria in the most vulnerable regions in the near term, which aggravates the difficulty of eliminating malaria. GHG emissions reduction is a potential pathway to protect the people from malaria.  
   
 ## Author  
@@ -25,9 +25,21 @@ Chao Li, Shunsuke Managi
 [Supplementary Materials](07_Manuscript/Materials.pdf)  
 
 ## Data
-### Used in 01_DW_GetMalariaAndClimateData_v1.R  
-
-
+### 01_dataset_used.RData  
+**Note:** in this repo, we only upload the aggregated data set. In the seperated data sets, the size is over 100MB. To save the storage, we did not upload them. Therefore, in the section, we focus on the description of [01_dataset_used.RData](04_Data/01_dataset_used.RData).  
+**[01_dataset_used.RData](04_Data/01_dataset_used.RData):**  
+**PfPR:** Plasmodium falciparum parasite rate, range 0 ~ 1. The data is download from <https://malariaatlas.org/explorer/#/>.  
+**NDVIMean:** NDVI value -100% ~ 100% from M*D13C2.  
+**TempMean:** Annually average temperature C. The data is download from <https://disc.gsfc.nasa.gov/datasets/GLDAS_NOAH025_M_2.1/summary>.  
+**AirPressureMean:** kPa. 
+**HumidityMean:** unit is g/kg  
+**PrecipitationMean:** g / (m2 * h)
+**WindSpeedMean:** m/s
+**PopulationDensity:** cap/km2. The data is download from <https://www.worldpop.org/>.  
+**GDPperCap:** country-level USD/Cap.The data is download from  <https://data.worldbank.org/indicator/NY.GDP.PCAP.CD>.  
+**TempSd:** Annually standard deviation temperature C.  
+**TempSquare:** Annually average temperature square C2.  
+  
 ## Code
 ### Python Code  
   
