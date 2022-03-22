@@ -3,19 +3,19 @@ This repo (DP13) is used to detect the relationship between malaria and climate 
   
 ## Summary:  
 
-###Background:  
+### Background:  
 
 As a long-standing public health issue, malaria still severely hits many parts of this world, especially Africa. With greenhouse gas emissions, temperatures keep rising. We aim to quantify the impacts of global warming on the malaria infection rate in all epidemic regions and identify the most vulnerable areas.  
   
-###Methods:  
+### Methods:  
 
 We estimate the coefficients of relationships among variables by geographically weighted panel regression. Four scenarios based on diverse shared socio-economic pathways (SSPs) are employed, including SSP1-2.6, SSP2-4.6, SSP3-7.0, and SSP5-8.5. We estimate the difference between the predicted PfPR2-10 globally under different SSP scenarios during several periods.  
   
-###Findings:  
+### Findings:  
 
 The globally average difference of PfPR2-10 between SSP2-4.6 and SSP1-2.6 is 0.164% (95% uncertainty interal [UI] 0.160% - 0.168%) during 2021 – 2040, while the differences between SSP3-7.0 and SSP1-2.6 and between SSP5-8.5 and SSP1-2.6 are 0.104% (0.101% - 0.107%) and 0.041 (0.038% - 0.044%), respectively. The global average differences of PfPR2-10 of three scenario shifts during 2041 – 2060 and 2081 – 2100 are -0.181% (-0.185% - -0.177%), -0.482% (-0.493% - -0.472%), -0.730% (-0.762% - -0.730%), 1.287% (-1.315% - -1.260%), -3.036% (-3.105% - -2.967%), and -4.096% (-4.190% - -4.002%), respectively. Moreover, the increase in temperature adversely affects malaria the most in Africa during 2021 – 2040, where is most severely hit by malaria.  
   
-###Interpretation:   
+### Interpretation:   
 Global warming would increase the danger and risk of malaria in the most vulnerable regions in the near term, which aggravates the difficulty of eliminating malaria. GHG emissions reduction is a potential pathway to protect the people from malaria.  
   
 ## Author  
@@ -57,7 +57,7 @@ In this project, the python codes are mainly used to process the he5, nc4, or ti
 **[02_DW_MergeBasicDataset_v1.R](01_RCode/02_DW_MergeBasicDataset_v1.R)**: This script is to get the panel data set with all the control variables. The input data sets are listed in [01_DW_GetMalariaAndClimateData_v1.R](01_RCode/01_DW_GetMalariaAndClimateData_v1.R). The result of this script is the [01_dataset_used.RData](04_Data/01_dataset_used.RData), including "PfPR": Plasmodium falciparum parasite rate, range 0 ~ 1, "NDVIMean": NDVI value -100% ~ 100% from M*D13C2, "TempMean": Annually average temperature C, "AirPressureMean" kPa, "HumidityMean" unit is g/kg, "PrecipitationMean" g / (m2 h), "WindSpeedMean" m/s, "PopulationDensity" cap/km2, "GDPperCap" USD/Cap, "TempSd": Annually standard deviation temperature C, and "TempSquare": Annually average temperature square C2.  
 **[03_AN_GWPRbasicAnalysis_v1.R](01_RCode/03_AN_GWPRbasicAnalysis_v1.R)**: This script conducts the analysis based on GWPR. Outputs are the results of GWPR based on the FEM. The GWPR, GWPR_FEM_CV_F_result_425.RData, is the result of GWPR based on FEM, using the **Fixed** distance bandwidth, which is 4.25 degree.  [GWPR_BW_setp_list_0.5_20_0.25.Rdata](05_Results/GWPR_BW_setp_list_0.5_20_0.25.Rdata) is the bandwidth selection process. Bandwidth is selected to be 4.25. 
 **[04_AN_GWPRPrediction_v1.R](01_RCode/04_AN_GWPRPrediction_v1.R)**: This script is to predict the difference of PfPR2-10 between two scenarios at the grid level. The results including [prediction.2040.Rdata](05_Results/prediction.2040.Rdata), [prediction.2060.Rdata](05_Results/prediction.2060.Rdata), and [prediction.2100.Rdata](05_Results/prediction.2100.Rdata). All of these data set includes three variables, which are "predictPfPR.245.126", "predictPfPR.460.126", "predictPfPR.585.126". **Note**: here "460" is a typo, it should 370.  
-**[05_AF_GWPRRevisedForCrossValidation_v1.R](01_RCode/05_AF_GWPRRevisedForCrossValidation_v1.R)**: This script revises the function in GWPR.light to complete 10-fold CV, used in 
+**[05_AF_GWPRRevisedForCrossValidation_v1.R](01_RCode/05_AF_GWPRRevisedForCrossValidation_v1.R)**: This script revises the function in GWPR.light to complete 10-fold CV.  
 **[06_AN_GWPR10FoldCrossValidation_v0.R](01_RCode/06_AN_GWPR10FoldCrossValidation_v0.R)**: This script performs 10-fold CV. The input data sets are [01_dataset_used.RData](04_Data/01_dataset_used.RData). The output is [femCrossValidation.Rdata](05_Results/femCrossValidation.Rdata).  
 **[07_AF_GWPRBandwidthStepSelection_v1.R](01_RCode/07_AF_GWPRBandwidthStepSelection_v1.R)**: This script revises the function in GWPR.light to perform step bandwidth selection, used in [03_AN_GWPRbasicAnalysis_v1.R](01_RCode/03_AN_GWPRbasicAnalysis_v1.R).  
 **[08_VI_SupplementaryMaterials_v1.R](01_RCode/08_VI_SupplementaryMaterials_v1.R)**: Visualization for supplementary material, Figure Sxx.  
