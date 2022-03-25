@@ -12,18 +12,36 @@
 # prediction.2040.Rdata: "predictPfPR.460.126" marginal effects from ssp126 to ssp370 
 # note: here "460" is a typo, it should 370. the period is from 2021 to 2040
 # prediction.2040.Rdata: "predictPfPR.585.126" marginal effects from ssp126 to ssp585 
+# prediction.2040.Rdata: "PfPR_incr_2040_245.126" the increase malaria infection 
+#                        due to temperature change from ssp 1-2.6 to 2-4.6 (capita)  
+# prediction.2040.Rdata: "PfPR_incr_2040_460.126" the increase malaria infection 
+#                        due to temperature change from ssp 1-2.6 to 3-7.0 (capita)  
+# prediction.2040.Rdata: "PfPR_incr_2040_585.126" the increase malaria infection 
+#                        due to temperature change from ssp 1-2.6 to 5-8.5 (capita)  
 
 # output: prediction.2060.Rdata
 # prediction.2060.Rdata: "predictPfPR.245.126" marginal effects from ssp126 to ssp245
 # prediction.2060.Rdata: "predictPfPR.460.126" marginal effects from ssp126 to ssp370 
 # note: here "460" is a typo, it should 370. the period is from 2041 to 2060
 # prediction.2060.Rdata: "predictPfPR.585.126" marginal effects from ssp126 to ssp585 
+# prediction.2060.Rdata: "PfPR_incr_2060_245.126" the increase malaria infection 
+#                        due to temperature change from ssp 1-2.6 to 2-4.6 (capita)  
+# prediction.2060.Rdata: "PfPR_incr_2060_460.126" the increase malaria infection 
+#                        due to temperature change from ssp 1-2.6 to 3-7.0 (capita)  
+# prediction.2060.Rdata: "PfPR_incr_2060_585.126" the increase malaria infection 
+#                        due to temperature change from ssp 1-2.6 to 5-8.5 (capita)
 
 # output: prediction.2100.Rdata
 # prediction.2100.Rdata: "predictPfPR.245.126" marginal effects from ssp126 to ssp245
 # prediction.2100.Rdata: "predictPfPR.460.126" marginal effects from ssp126 to ssp370 
 # note: here "460" is a typo, it should 370. the period is from 2081 to 2100
 # prediction.2100.Rdata: "predictPfPR.585.126" marginal effects from ssp126 to ssp585
+# prediction.2100.Rdata: "PfPR_incr_2100_245.126" the increase malaria infection 
+#                        due to temperature change from ssp 1-2.6 to 2-4.6 (capita)  
+# prediction.2100.Rdata: "PfPR_incr_2100_460.126" the increase malaria infection 
+#                        due to temperature change from ssp 1-2.6 to 3-7.0 (capita)  
+# prediction.2100.Rdata: "PfPR_incr_2100_585.126" the increase malaria infection 
+#                        due to temperature change from ssp 1-2.6 to 5-8.5 (capita)
 
 # output: symmetry_distribution.Rdata
 # symmetry_distribution.Rdata: "distribution_category" discribe the shape of symmetry
