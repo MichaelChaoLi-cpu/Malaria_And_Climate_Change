@@ -143,3 +143,118 @@ colnames(table.2100)[1] <- "continent"
 table.se <- rbind(table.2040, table.2060, table.2100)
 
 table.se %>% write.csv("05_Results/table.se.csv")
+
+
+#### prediction of infection case change
+load("04_Data/02_coords_continent.RData")
+
+load("05_Results/prediction.2040.Rdata")
+
+mean <- (prediction.2040@data$PfPR_incr_2040_245.126_den) %>% mean()
+se <- (prediction.2040@data$PfPR_incr_2040_245.126_den) %>% std.error()
+mean
+mean - 1.96 * se
+mean + 1.96 * se
+
+mean <- (prediction.2040@data$PfPR_incr_2040_460.126_den) %>% mean()
+se <- (prediction.2040@data$PfPR_incr_2040_460.126_den) %>% std.error()
+mean
+mean - 1.96 * se
+mean + 1.96 * se
+
+mean <- (prediction.2040@data$PfPR_incr_2040_585.126_den) %>% mean()
+se <- (prediction.2040@data$PfPR_incr_2040_585.126_den) %>% std.error()
+mean
+mean - 1.96 * se
+mean + 1.96 * se
+
+prediction.2040@data <- left_join(prediction.2040@data, coords_continent, by = 'id')
+prediction.2040.continent <- prediction.2040@data %>%
+  dplyr::select("PfPR_incr_2040_245.126_den", "PfPR_incr_2040_460.126_den",
+                "PfPR_incr_2040_585.126_den", "continent")
+prediction.2040.continent <- prediction.2040.continent %>%
+  group_by(prediction.2040.continent$continent) %>%
+  summarise(
+    across(c("PfPR_incr_2040_245.126_den", "PfPR_incr_2040_460.126_den",
+             "PfPR_incr_2040_585.126_den"), 
+           list(mean = base::mean, se = plotrix::std.error))
+  ) 
+
+load("05_Results/prediction.2060.Rdata")
+
+mean <- (prediction.2060@data$PfPR_incr_2060_245.126_den) %>% mean()
+se <- (prediction.2060@data$PfPR_incr_2060_245.126_den) %>% std.error()
+mean
+mean - 1.96 * se
+mean + 1.96 * se
+
+mean <- (prediction.2060@data$PfPR_incr_2060_460.126_den) %>% mean()
+se <- (prediction.2060@data$PfPR_incr_2060_460.126_den) %>% std.error()
+mean
+mean - 1.96 * se
+mean + 1.96 * se
+
+mean <- (prediction.2060@data$PfPR_incr_2060_585.126_den) %>% mean()
+se <- (prediction.2060@data$PfPR_incr_2060_585.126_den) %>% std.error()
+mean
+mean - 1.96 * se
+mean + 1.96 * se
+
+prediction.2060@data <- left_join(prediction.2060@data, coords_continent, by = 'id')
+prediction.2060.continent <- prediction.2060@data %>%
+  dplyr::select("PfPR_incr_2060_245.126_den", "PfPR_incr_2060_460.126_den",
+                "PfPR_incr_2060_585.126_den", "continent")
+prediction.2060.continent <- prediction.2060.continent %>%
+  group_by(prediction.2060.continent$continent) %>%
+  summarise(
+    across(c("PfPR_incr_2060_245.126_den", "PfPR_incr_2060_460.126_den",
+             "PfPR_incr_2060_585.126_den"), 
+           list(mean = base::mean, se = plotrix::std.error))
+  ) 
+
+load("05_Results/prediction.2100.Rdata")
+
+mean <- (prediction.2100@data$PfPR_incr_2100_245.126_den) %>% mean()
+se <- (prediction.2100@data$PfPR_incr_2100_245.126_den) %>% std.error()
+mean
+mean - 1.96 * se
+mean + 1.96 * se
+
+mean <- (prediction.2100@data$PfPR_incr_2100_460.126_den) %>% mean()
+se <- (prediction.2100@data$PfPR_incr_2100_460.126_den) %>% std.error()
+mean
+mean - 1.96 * se
+mean + 1.96 * se
+
+mean <- (prediction.2100@data$PfPR_incr_2100_585.126_den) %>% mean()
+se <- (prediction.2100@data$PfPR_incr_2100_585.126_den) %>% std.error()
+mean
+mean - 1.96 * se
+mean + 1.96 * se
+
+prediction.2100@data <- left_join(prediction.2100@data, coords_continent, by = 'id')
+prediction.2100.continent <- prediction.2100@data %>%
+  dplyr::select("PfPR_incr_2100_245.126_den", "PfPR_incr_2100_460.126_den",
+                "PfPR_incr_2100_585.126_den", "continent")
+prediction.2100.continent <- prediction.2100.continent %>%
+  group_by(prediction.2100.continent$continent) %>%
+  summarise(
+    across(c("PfPR_incr_2100_245.126_den", "PfPR_incr_2100_460.126_den",
+             "PfPR_incr_2100_585.126_den"), 
+           list(mean = base::mean, se = plotrix::std.error))
+  ) 
+
+table.2040 <- make.table.with.95CI(prediction.2040.continent)
+table.2060 <- make.table.with.95CI(prediction.2060.continent)
+table.2100 <- make.table.with.95CI(prediction.2100.continent)
+colnames(table.2040) <- c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
+colnames(table.2060) <- c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
+colnames(table.2100) <- c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
+colnames(table.2040)[1] <- "continent"
+colnames(table.2060)[1] <- "continent"
+colnames(table.2100)[1] <- "continent"
+
+table.se <- rbind(table.2040, table.2060, table.2100)
+
+table.se %>% write.csv("05_Results/InfectCasetable.se.csv")
+

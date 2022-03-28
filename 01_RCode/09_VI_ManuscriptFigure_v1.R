@@ -191,3 +191,135 @@ country.2100 <-
        title = "Long Term (2081 - 2100)")
 ggsave(file = "06_Figure/figure_3_country.2100.jpg", device = "jpg", width = 6,
        height = 8)
+
+# figure 4
+load("05_Results/prediction.2040.Rdata")
+prediction.2040.df <- prediction.2040@data
+prediction.2040.df <- left_join(prediction.2040.df, coords_country)
+prediction.2040.df <- prediction.2040.df %>%
+  dplyr::select("PfPR_incr_2040_245.126_den", "PfPR_incr_2040_460.126_den",
+                "PfPR_incr_2040_585.126_den", "name_sort")
+prediction.2040.df.mean = prediction.2040.df %>%
+  group_by(name_sort) %>%
+  summarise(across(everything(), list(sce = base::mean))) 
+prediction.2040.df.mean <- prediction.2040.df.mean %>%
+  pivot_longer(!name_sort, names_to = "scenarios.change", values_to = "PfPR.change")
+prediction.2040.df.se <- prediction.2040.df %>%
+  group_by(name_sort) %>%
+  summarise(across(c("PfPR_incr_2040_245.126_den", "PfPR_incr_2040_460.126_den",
+                     "PfPR_incr_2040_585.126_den"), 
+                   list(sce = std.error))) 
+prediction.2040.df.se <- prediction.2040.df.se %>%
+  pivot_longer(!name_sort, names_to = "scenarios.change", values_to = "SE")
+prediction.2040.df <- left_join(prediction.2040.df.mean, prediction.2040.df.se, 
+                                by = c("name_sort", "scenarios.change")) %>% na.omit()
+prediction.2040.df <- left_join(prediction.2040.df, world_continent)
+prediction.2040.df$name_sort <- prediction.2040.df$name_sort %>% as.factor()
+prediction.2040.df$continent <- prediction.2040.df$continent %>% as.factor()
+#levels(prediction.2040.df$name_sort) <- rev(levels(prediction.2040.df$name_sort))
+
+country.2040 <- 
+  ggplot(prediction.2040.df, aes(x = PfPR.change*100, y = name_sort, color = scenarios.change)) +
+  geom_point(aes(shape = continent)) +
+  geom_errorbar(aes(xmin = PfPR.change*100 - 1.96*SE*100, xmax = PfPR.change*100 + 1.96*SE*100))+
+  scale_color_manual(values = c("darkgreen", "orange", "orchid3"), name = "Scenarios",
+                     labels = c("SSP1-2.6 -> SSP2-4.5", "SSP1-2.6 -> SSP3-7.0", "SSP1-2.6 -> SSP5-8.5")) +
+  scale_shape_manual(values = c(15, 16, 17, 18, 22, 25), name = "Continent") +
+  scale_y_discrete(limits = rev(levels(prediction.2040.df$name_sort)) ) +
+  theme_bw() +
+  theme(legend.position = c(0.8, 0.35),
+        axis.text.y = element_text(size=5), legend.background = element_blank()) +
+  labs(x = "Infection Case Changes (case/km2)", 
+       y = NULL, title = "Near Term (2021 - 2040)")
+ggsave(file = "06_Figure/figure_4_country.2040.jpg", device = "jpg", width = 6,
+       height = 8)
+
+# figure 5
+load("05_Results/prediction.2060.Rdata")
+prediction.2060.df <- prediction.2060@data
+prediction.2060.df <- left_join(prediction.2060.df, coords_country)
+prediction.2060.df <- prediction.2060.df %>%
+  dplyr::select("PfPR_incr_2060_245.126_den", "PfPR_incr_2060_460.126_den",
+                "PfPR_incr_2060_585.126_den", "name_sort")
+prediction.2060.df.mean <- prediction.2060.df %>%
+  group_by(name_sort) %>%
+  summarise(across(c("PfPR_incr_2060_245.126_den", "PfPR_incr_2060_460.126_den",
+                     "PfPR_incr_2060_585.126_den"), 
+                   list(sce = base::mean))) 
+prediction.2060.df.mean <- prediction.2060.df.mean %>%
+  pivot_longer(!name_sort, names_to = "scenarios.change", values_to = "PfPR.change")
+prediction.2060.df.se <- prediction.2060.df %>%
+  group_by(name_sort) %>%
+  summarise(across(c("PfPR_incr_2060_245.126_den", "PfPR_incr_2060_460.126_den",
+                     "PfPR_incr_2060_585.126_den"), 
+                   list(sce = std.error))) 
+prediction.2060.df.se <- prediction.2060.df.se %>%
+  pivot_longer(!name_sort, names_to = "scenarios.change", values_to = "SE")
+prediction.2060.df <- left_join(prediction.2060.df.mean, prediction.2060.df.se, 
+                                by = c("name_sort", "scenarios.change")) %>% na.omit()
+prediction.2060.df <- left_join(prediction.2060.df, world_continent)
+prediction.2060.df$name_sort <- prediction.2060.df$name_sort %>% as.factor()
+prediction.2060.df$continent <- prediction.2060.df$continent %>% as.factor()
+#levels(prediction.2060.df$name_sort) <- rev(levels(prediction.2060.df$name_sort))
+
+country.2060 <- 
+  ggplot(prediction.2060.df, aes(x = PfPR.change*100, y = name_sort, color = scenarios.change)) +
+  geom_point(aes(shape = continent)) +
+  geom_errorbar(aes(xmin = PfPR.change*100 - 1.96*SE*100, xmax = PfPR.change*100 + 1.96*SE*100)) +
+  scale_color_manual(values = c("darkgreen", "orange", "orchid3"), name = "Scenarios",
+                     labels = c("SSP1-2.6 -> SSP2-4.5", "SSP1-2.6 -> SSP3-7.0", "SSP1-2.6 -> SSP5-8.5")) +
+  scale_shape_manual(values = c(15, 16, 17, 18, 22, 25), name = "Continent") +
+  scale_y_discrete(limits = rev(levels(prediction.2040.df$name_sort)) ) +
+  theme_bw() +
+  theme(legend.position = c(0.2, 0.70),
+        axis.text.y = element_text(size=5), legend.background = element_blank()) +
+  labs(x = "Infection Case Changes (case/km2)", 
+       y = NULL,
+       title = "Medium Term (2041 - 2060)")
+ggsave(file = "06_Figure/figure_5_country.2060.jpg", device = "jpg", width = 6,
+       height = 8)
+
+# figure 6
+load("05_Results/prediction.2100.Rdata")
+prediction.2100.df <- prediction.2100@data
+prediction.2100.df <- left_join(prediction.2100.df, coords_country)
+prediction.2100.df <- prediction.2100.df %>%
+  dplyr::select("PfPR_incr_2100_245.126_den", "PfPR_incr_2100_460.126_den",
+                "PfPR_incr_2100_585.126_den", "name_sort")
+prediction.2100.df.mean <- prediction.2100.df %>%
+  group_by(name_sort) %>%
+  summarise(across(c("PfPR_incr_2100_245.126_den", "PfPR_incr_2100_460.126_den",
+                     "PfPR_incr_2100_585.126_den"), 
+                   list(sce = base::mean))) 
+prediction.2100.df.mean <- prediction.2100.df.mean %>%
+  pivot_longer(!name_sort, names_to = "scenarios.change", values_to = "PfPR.change")
+prediction.2100.df.se <- prediction.2100.df %>%
+  group_by(name_sort) %>%
+  summarise(across(c("PfPR_incr_2100_245.126_den", "PfPR_incr_2100_460.126_den",
+                     "PfPR_incr_2100_585.126_den"), 
+                   list(sce = std.error))) 
+prediction.2100.df.se <- prediction.2100.df.se %>%
+  pivot_longer(!name_sort, names_to = "scenarios.change", values_to = "SE")
+prediction.2100.df <- left_join(prediction.2100.df.mean, prediction.2100.df.se, 
+                                by = c("name_sort", "scenarios.change")) %>% na.omit()
+prediction.2100.df <- left_join(prediction.2100.df, world_continent)
+prediction.2100.df$name_sort <- prediction.2100.df$name_sort %>% as.factor()
+prediction.2100.df$continent <- prediction.2100.df$continent %>% as.factor()
+#levels(prediction.2100.df$name_sort) <- rev(levels(prediction.2100.df$name_sort))
+
+country.2100 <- 
+  ggplot(prediction.2100.df, aes(x = PfPR.change*100, y = name_sort, color = scenarios.change)) +
+  geom_point(aes(shape = continent)) +
+  geom_errorbar(aes(xmin = PfPR.change*100 - 1.96*SE*100, xmax = PfPR.change*100 + 1.96*SE*100)) +
+  scale_color_manual(values = c("darkgreen", "orange", "orchid3"), name = "Scenarios",
+                     labels = c("SSP1-2.6 -> SSP2-4.5", "SSP1-2.6 -> SSP3-7.0", "SSP1-2.6 -> SSP5-8.5")) +
+  scale_shape_manual(values = c(15, 16, 17, 18, 22, 25), name = "Continent") +
+  scale_y_discrete(limits = rev(levels(prediction.2040.df$name_sort)) ) +
+  theme_bw() +
+  theme(legend.position = c(0.2, 0.70),
+        axis.text.y = element_text(size=5), legend.background = element_blank()) +
+  labs(x = "Infection Case Changes (case/km2)", 
+       y = NULL,
+       title = "Long Term (2081 - 2100)")
+ggsave(file = "06_Figure/figure_6_country.2100.jpg", device = "jpg", width = 6,
+       height = 8)

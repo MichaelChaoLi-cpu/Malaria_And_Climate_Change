@@ -539,3 +539,153 @@ symmetry_distribution.map <- tm_shape(symmetry_distribution) +
   ) 
 symmetry_distribution.map %>%
   tmap_save(filename = "06_Figure/S21_symmetry_distribution.map.jpg", width = 300, height = 140, units = 'mm', dpi = 1000)
+
+# figure 32
+load("05_Results/prediction.2040.Rdata")
+prediction.2040@data <- left_join(prediction.2040@data, coords_continent, by = 'id')
+prediction.2040@data %>%
+  ggplot(aes(x = PfPR_incr_2040_245.126_den, fill = continent)) +
+  geom_histogram(breaks = seq(-6, 12, by = 1), color = "black") +
+  scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
+                             "chocolate1", "darkgreen", "orchid3"), 
+                    name = "Continent") + 
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.8)) +
+  labs(x = "Infection Case Change (case/km2)", 
+       y = "Number of Grids",
+       title = "Infection Case Change from SSP1-2.6 to SSP2-4.5 during 2021 - 2040") 
+ggsave(file = "06_Figure/S32_ICC_PredictMap.245.126.2040.jpg", device = "jpg", width = 8,
+       height = 6)
+# figure 32
+
+# figure 33
+prediction.2040@data %>%
+  ggplot(aes(x = PfPR_incr_2040_460.126_den, fill = continent)) +
+  geom_histogram(breaks = seq(-6, 12, by = 1), color = "black") +
+  scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
+                             "chocolate1", "darkgreen", "orchid3"), 
+                    name = "Continent") + 
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.8)) +
+  labs(x = "Infection Case Change (case/km2)", 
+       y = "Number of Grids",
+       title = "Infection Case Change from SSP1-2.6 to SSP3-7.0 during 2021 - 2040") 
+ggsave(file = "06_Figure/S33_IIC_PredictMap.370.126.2040.jpg", device = "jpg", width = 8,
+       height = 6)
+# figure 33
+
+# figure 34
+prediction.2040@data %>%
+  ggplot(aes(x = PfPR_incr_2040_585.126_den, fill = continent)) +
+  geom_histogram(breaks = seq(-6, 12, by = 1), color = "black") +
+  scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
+                             "chocolate1", "darkgreen", "orchid3"), 
+                    name = "Continent") + 
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.8)) +
+  labs(x = "Infection Case Change (case/km2)", 
+       y = "Number of Grids",
+       title = "Infection Case Change from SSP1-2.6 to SSP5-8.5 during 2021 - 2040") 
+ggsave(file = "06_Figure/S34_IIC_PredictMap.585.126.2040.jpg", device = "jpg", width = 8,
+       height = 6)
+# figure 34
+
+# figure 35
+load("05_Results/prediction.2060.Rdata")
+prediction.2060@data <- left_join(prediction.2060@data, coords_continent, by = 'id')
+prediction.2060@data %>%
+  ggplot(aes(x = PfPR_incr_2060_245.126_den, fill = continent)) +
+  geom_histogram(breaks = seq(-6, 12, by = 1), color = "black") +
+  scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
+                             "chocolate1", "darkgreen", "orchid3"), 
+                    name = "Continent") + 
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.8)) +
+  labs(x = "Infection Case Change (case/km2)", 
+       y = "Number of Grids",
+       title = "Infection Case Change from SSP1-2.6 to SSP2-4.5 during 2041 - 2060") 
+ggsave(file = "06_Figure/S35_ICC_PredictMap.245.126.2060.jpg", device = "jpg", width = 8,
+       height = 6)
+# figure 35
+
+# figure 36
+prediction.2060@data %>%
+  ggplot(aes(x = PfPR_incr_2060_460.126_den, fill = continent)) +
+  geom_histogram(breaks = seq(-6, 12, by = 1), color = "black") +
+  scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
+                             "chocolate1", "darkgreen", "orchid3"), 
+                    name = "Continent") + 
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.8)) +
+  labs(x = "Infection Case Change (case/km2)", 
+       y = "Number of Grids",
+       title = "Infection Case Change from SSP1-2.6 to SSP3-7.0 during 2041 - 2060") 
+ggsave(file = "06_Figure/S36_IIC_PredictMap.370.126.2060.jpg", device = "jpg", width = 8,
+       height = 6)
+# figure 36
+
+# figure 37
+prediction.2060@data %>%
+  ggplot(aes(x = PfPR_incr_2060_585.126_den, fill = continent)) +
+  geom_histogram(breaks = seq(-21, 15, by = 3), color = "black") +
+  scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
+                             "chocolate1", "darkgreen", "orchid3"), 
+                    name = "Continent") + 
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.8)) +
+  labs(x = "Infection Case Change (case/km2)", 
+       y = "Number of Grids",
+       title = "Infection Case Change from SSP1-2.6 to SSP5-8.5 during 2041 - 2060") 
+ggsave(file = "06_Figure/S37_IIC_PredictMap.585.126.2060.jpg", device = "jpg", width = 8,
+       height = 6)
+# figure 37
+
+# figure 38
+load("05_Results/prediction.2100.Rdata")
+prediction.2100@data <- left_join(prediction.2100@data, coords_continent, by = 'id')
+prediction.2100@data %>%
+  ggplot(aes(x = PfPR_incr_2100_245.126_den, fill = continent)) +
+  geom_histogram(breaks = seq(-32, 16, by = 4), color = "black") +
+  scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
+                             "chocolate1", "darkgreen", "orchid3"), 
+                    name = "Continent") + 
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.8)) +
+  labs(x = "Infection Case Change (case/km2)", 
+       y = "Number of Grids",
+       title = "Infection Case Change from SSP1-2.6 to SSP2-4.5 during 2081 - 2100") 
+ggsave(file = "06_Figure/S38_ICC_PredictMap.245.126.2100.jpg", device = "jpg", width = 8,
+       height = 6)
+# figure 38
+
+# figure 39
+prediction.2100@data %>%
+  ggplot(aes(x = PfPR_incr_2100_460.126_den, fill = continent)) +
+  geom_histogram(breaks = seq(-40, 16, by = 4), color = "black") +
+  scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
+                             "chocolate1", "darkgreen", "orchid3"), 
+                    name = "Continent") + 
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.8)) +
+  labs(x = "Infection Case Change (case/km2)", 
+       y = "Number of Grids",
+       title = "Infection Case Change from SSP1-2.6 to SSP3-7.0 during 2081 - 2100") 
+ggsave(file = "06_Figure/S39_IIC_PredictMap.370.126.2100.jpg", device = "jpg", width = 8,
+       height = 6)
+# figure 39
+
+# figure 40
+prediction.2100@data %>%
+  ggplot(aes(x = PfPR_incr_2100_585.126_den, fill = continent)) +
+  geom_histogram(breaks = seq(-40, 16, by = 5), color = "black") +
+  scale_fill_manual(values=c("salmon4", "gold", "deepskyblue",
+                             "chocolate1", "darkgreen", "orchid3"), 
+                    name = "Continent") + 
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.8)) +
+  labs(x = "Infection Case Change (case/km2)", 
+       y = "Number of Grids",
+       title = "Infection Case Change from SSP1-2.6 to SSP5-8.5 during 2081 - 2100") 
+ggsave(file = "06_Figure/S40_IIC_PredictMap.585.126.2100.jpg", device = "jpg", width = 8,
+       height = 6)
+# figure 40
