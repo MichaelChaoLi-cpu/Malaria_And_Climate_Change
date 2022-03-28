@@ -318,26 +318,36 @@ load("05_Results/prediction.2040.Rdata")
 filename = "CMIP6 - Population density  persons_km__2 - Near Term (2021-2040) SSP2  - Annual .tiff"
 population_2040_ssp2_tiff <- raster::raster(paste0(RasterFolder, filename))
 data_ext <- raster::extract(population_2040_ssp2_tiff, prediction.2040)
-data_ext <- data_ext * 770
-prediction.2040@data$pop_2040_ssp2 <- data_ext
+#data_ext <- data_ext * 770
+prediction.2040@data$pop_2040_ssp2 <- data_ext * 770
+prediction.2040@data$pop_den_2040_ssp2 <- data_ext
 
 filename = "CMIP6 - Population density  persons_km__2 - Near Term (2021-2040) SSP3  - Annual .tiff"
 population_2040_ssp3_tiff <- raster::raster(paste0(RasterFolder, filename))
 data_ext <- raster::extract(population_2040_ssp3_tiff, prediction.2040)
-data_ext <- data_ext * 770
-prediction.2040@data$pop_2040_ssp3 <- data_ext
+#data_ext <- data_ext * 770
+prediction.2040@data$pop_2040_ssp3 <- data_ext * 770
+prediction.2040@data$pop_den_2040_ssp3 <- data_ext
 
 filename = "CMIP6 - Population density  persons_km__2 - Near Term (2021-2040) SSP5  - Annual .tiff"
 population_2040_ssp5_tiff <- raster::raster(paste0(RasterFolder, filename))
 data_ext <- raster::extract(population_2040_ssp5_tiff, prediction.2040)
-data_ext <- data_ext * 770
-prediction.2040@data$pop_2040_ssp5 <- data_ext
+#data_ext <- data_ext * 770
+prediction.2040@data$pop_2040_ssp5 <- data_ext * 770
+prediction.2040@data$pop_den_2040_ssp5 <- data_ext
 
 prediction.2040@data$PfPR_incr_2040_245.126 <- prediction.2040@data$pop_2040_ssp2 *
   prediction.2040@data$predictPfPR.245.126
 prediction.2040@data$PfPR_incr_2040_460.126 <- prediction.2040@data$pop_2040_ssp3 *
   prediction.2040@data$predictPfPR.460.126
 prediction.2040@data$PfPR_incr_2040_585.126 <- prediction.2040@data$pop_2040_ssp5 *
+  prediction.2040@data$predictPfPR.585.126
+
+prediction.2040@data$PfPR_incr_2040_245.126_den <- prediction.2040@data$pop_den_2040_ssp2 *
+  prediction.2040@data$predictPfPR.245.126
+prediction.2040@data$PfPR_incr_2040_460.126_den <- prediction.2040@data$pop_den_2040_ssp3 *
+  prediction.2040@data$predictPfPR.460.126
+prediction.2040@data$PfPR_incr_2040_585.126_den <- prediction.2040@data$pop_den_2040_ssp5 *
   prediction.2040@data$predictPfPR.585.126
 
 save(prediction.2040, file = "05_Results/prediction.2040.Rdata")
@@ -348,26 +358,36 @@ load("05_Results/prediction.2060.Rdata")
 filename = "CMIP6 - Population density  persons_km__2 - Medium Term (2041-2060) SSP2  - Annual .tiff"
 population_2060_ssp2_tiff <- raster::raster(paste0(RasterFolder, filename))
 data_ext <- raster::extract(population_2060_ssp2_tiff, prediction.2060)
-data_ext <- data_ext * 770
-prediction.2060@data$pop_2060_ssp2 <- data_ext
+#data_ext <- data_ext * 770
+prediction.2060@data$pop_2060_ssp2 <- data_ext * 770
+prediction.2060@data$pop_den_2060_ssp2 <- data_ext
 
 filename = "CMIP6 - Population density  persons_km__2 - Medium Term (2041-2060) SSP3  - Annual .tiff"
 population_2060_ssp3_tiff <- raster::raster(paste0(RasterFolder, filename))
 data_ext <- raster::extract(population_2060_ssp3_tiff, prediction.2060)
-data_ext <- data_ext * 770
-prediction.2060@data$pop_2060_ssp3 <- data_ext
+#data_ext <- data_ext * 770
+prediction.2060@data$pop_2060_ssp3 <- data_ext * 770
+prediction.2060@data$pop_den_2060_ssp3 <- data_ext
 
 filename = "CMIP6 - Population density  persons_km__2 - Medium Term (2041-2060) SSP5  - Annual .tiff"
 population_2060_ssp5_tiff <- raster::raster(paste0(RasterFolder, filename))
 data_ext <- raster::extract(population_2060_ssp5_tiff, prediction.2060)
-data_ext <- data_ext * 770
-prediction.2060@data$pop_2060_ssp5 <- data_ext
+#data_ext <- data_ext * 770
+prediction.2060@data$pop_2060_ssp5 <- data_ext * 770
+prediction.2060@data$pop_den_2060_ssp5 <- data_ext
 
 prediction.2060@data$PfPR_incr_2060_245.126 <- prediction.2060@data$pop_2060_ssp2 *
   prediction.2060@data$predictPfPR.245.126
 prediction.2060@data$PfPR_incr_2060_460.126 <- prediction.2060@data$pop_2060_ssp3 *
   prediction.2060@data$predictPfPR.460.126
 prediction.2060@data$PfPR_incr_2060_585.126 <- prediction.2060@data$pop_2060_ssp5 *
+  prediction.2060@data$predictPfPR.585.126
+
+prediction.2060@data$PfPR_incr_2060_245.126_den <- prediction.2060@data$pop_den_2060_ssp2 *
+  prediction.2060@data$predictPfPR.245.126
+prediction.2060@data$PfPR_incr_2060_460.126_den <- prediction.2060@data$pop_den_2060_ssp3 *
+  prediction.2060@data$predictPfPR.460.126
+prediction.2060@data$PfPR_incr_2060_585.126_den <- prediction.2060@data$pop_den_2060_ssp5 *
   prediction.2060@data$predictPfPR.585.126
 
 save(prediction.2060, file = "05_Results/prediction.2060.Rdata")
@@ -378,26 +398,36 @@ load("05_Results/prediction.2100.Rdata")
 filename = "CMIP6 - Population density  persons_km__2 - Long Term (2081-2100) SSP2  - Annual .tiff"
 population_2100_ssp2_tiff <- raster::raster(paste0(RasterFolder, filename))
 data_ext <- raster::extract(population_2100_ssp2_tiff, prediction.2100)
-data_ext <- data_ext * 770
-prediction.2100@data$pop_2100_ssp2 <- data_ext
+#data_ext <- data_ext * 770
+prediction.2100@data$pop_2100_ssp2 <- data_ext * 770
+prediction.2100@data$pop_den_2100_ssp2 <- data_ext
 
 filename = "CMIP6 - Population density  persons_km__2 - Long Term (2081-2100) SSP3  - Annual .tiff"
 population_2100_ssp3_tiff <- raster::raster(paste0(RasterFolder, filename))
 data_ext <- raster::extract(population_2100_ssp3_tiff, prediction.2100)
-data_ext <- data_ext * 770
-prediction.2100@data$pop_2100_ssp3 <- data_ext
+#data_ext <- data_ext * 770
+prediction.2100@data$pop_2100_ssp3 <- data_ext * 770
+prediction.2100@data$pop_den_2100_ssp3 <- data_ext
 
 filename = "CMIP6 - Population density  persons_km__2 - Long Term (2081-2100) SSP5  - Annual .tiff"
 population_2100_ssp5_tiff <- raster::raster(paste0(RasterFolder, filename))
 data_ext <- raster::extract(population_2100_ssp5_tiff, prediction.2100)
-data_ext <- data_ext * 770
-prediction.2100@data$pop_2100_ssp5 <- data_ext
+#data_ext <- data_ext * 770
+prediction.2100@data$pop_2100_ssp5 <- data_ext * 770
+prediction.2100@data$pop_den_2100_ssp5 <- data_ext 
 
 prediction.2100@data$PfPR_incr_2100_245.126 <- prediction.2100@data$pop_2100_ssp2 *
   prediction.2100@data$predictPfPR.245.126
 prediction.2100@data$PfPR_incr_2100_460.126 <- prediction.2100@data$pop_2100_ssp3 *
   prediction.2100@data$predictPfPR.460.126
 prediction.2100@data$PfPR_incr_2100_585.126 <- prediction.2100@data$pop_2100_ssp5 *
+  prediction.2100@data$predictPfPR.585.126
+
+prediction.2100@data$PfPR_incr_2100_245.126_den <- prediction.2100@data$pop_den_2100_ssp2 *
+  prediction.2100@data$predictPfPR.245.126
+prediction.2100@data$PfPR_incr_2100_460.126_den <- prediction.2100@data$pop_den_2100_ssp3 *
+  prediction.2100@data$predictPfPR.460.126
+prediction.2100@data$PfPR_incr_2100_585.126_den <- prediction.2100@data$pop_den_2100_ssp5 *
   prediction.2100@data$predictPfPR.585.126
 
 save(prediction.2100, file = "05_Results/prediction.2100.Rdata")
