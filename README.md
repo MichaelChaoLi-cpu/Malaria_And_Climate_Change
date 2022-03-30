@@ -21,7 +21,7 @@ Global warming would increase the danger and risk of malaria in the most vulnera
 ## Author  
 Chao Li, Shunsuke Managi  
 
-## Result: The Grid-level Difference of PfPR2-10 between Different Scenarios in Different Periods  
+## Result: The Grid-level Malaria Infection Case Changes of Three Scenario Shifts in Different Periods    
 ![](06_Figure/S41_ICC_multiPanel.jpg)  
 
 ## Maunscript  
