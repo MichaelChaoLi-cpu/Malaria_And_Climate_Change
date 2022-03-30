@@ -37,7 +37,7 @@ labels_brks <- c("-20", "", "-15", "", "-10", "", "-5", "", "0",
 PredictionMap.245.126.2040 <- tm_shape(prediction.2040.245.126) +
   tm_raster("PfPR_incr_2040_245.126_den", palette = pal.n.p(16), breaks = brks, 
             style = 'cont', legend.is.portrait = F, 
-            title = "The Difference of Infection Cases between SSP1-2.6 and SSP2-4.5\n(2021 - 2040, Unit: Cases/km2)",
+            title = "The Difference in Infection Cases between SSP1-2.6 and SSP2-4.5\n(2021 - 2040, Unit: Cases/km2)",
             labels = labels_brks, midpoint = 0) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
@@ -67,7 +67,7 @@ labels_brks <- c("-20", "", "-15", "", "-10", "", "-5", "", "0",
 PredictionMap.370.126.2040 <- tm_shape(prediction.2040.370.126) +
   tm_raster("PfPR_incr_2040_460.126_den", palette = pal.n.p(16), breaks = brks, 
             style = 'cont', legend.is.portrait = F, 
-            title = "The Difference of Infection Cases between SSP1-2.6 and SSP3-7.0\n(2021 - 2040, Unit: Cases/km2)",
+            title = "The Difference in Infection Cases between SSP1-2.6 and SSP3-7.0\n(2021 - 2040, Unit: Cases/km2)",
             labels = labels_brks, midpoint = 0) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
@@ -97,7 +97,7 @@ labels_brks <- c("-20", "", "-15", "", "-10", "", "-5", "", "0",
 PredictionMap.585.126.2040 <- tm_shape(prediction.2040.585.126) +
   tm_raster("PfPR_incr_2040_585.126_den", palette = pal.n.p(16), breaks = brks, 
             style = 'cont', legend.is.portrait = F, 
-            title = "The Difference of Infection Cases between SSP1-2.6 and SSP5-8.5\n(2021 - 2040, Unit: Cases/km2)",
+            title = "The Difference in Infection Cases between SSP1-2.6 and SSP5-8.5\n(2021 - 2040, Unit: Cases/km2)",
             labels = labels_brks, midpoint = 0) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
@@ -132,7 +132,7 @@ labels_brks <- c("-20", "", "-15", "", "-10", "", "-5", "", "0",
 PredictionMap.245.126.2060 <- tm_shape(prediction.2060.245.126) +
   tm_raster("PfPR_incr_2060_245.126_den", palette = pal.n.p(16), breaks = brks, 
             style = 'cont', legend.is.portrait = F, 
-            title = "The Difference of Infection Cases between SSP1-2.6 and SSP2-4.5\n(2041 - 2060, Unit: Cases/km2)",
+            title = "The Difference in Infection Cases between SSP1-2.6 and SSP2-4.5\n(2041 - 2060, Unit: Cases/km2)",
             labels = labels_brks, midpoint = 0) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
@@ -162,7 +162,7 @@ labels_brks <- c("-20", "", "-15", "", "-10", "", "-5", "", "0",
 PredictionMap.370.126.2060 <- tm_shape(prediction.2060.370.126) +
   tm_raster("PfPR_incr_2060_460.126_den", palette = pal.n.p(16), breaks = brks, 
             style = 'cont', legend.is.portrait = F, 
-            title = "The Difference of Infection Cases between SSP1-2.6 and SSP3-7.0\n(2041 - 2060, Unit: Cases/km2)",
+            title = "The Difference in Infection Cases between SSP1-2.6 and SSP3-7.0\n(2041 - 2060, Unit: Cases/km2)",
             labels = labels_brks, midpoint = 0) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
@@ -192,7 +192,7 @@ labels_brks <- c("-20", "", "-15", "", "-10", "", "-5", "", "0",
 PredictionMap.585.126.2060 <- tm_shape(prediction.2060.585.126) +
   tm_raster("PfPR_incr_2060_585.126_den", palette = pal.n.p(16), breaks = brks, 
             style = 'cont', legend.is.portrait = F, 
-            title = "The Difference of Infection Cases between SSP1-2.6 and SSP5-8.5\n(2041 - 2060, Unit: Cases/km2)",
+            title = "The Difference in Infection Cases between SSP1-2.6 and SSP5-8.5\n(2041 - 2060, Unit: Cases/km2)",
             labels = labels_brks, midpoint = 0) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
@@ -227,7 +227,7 @@ labels_brks <- c("-20", "", "-15", "", "-10", "", "-5", "", "0",
 PredictionMap.245.126.2100 <- tm_shape(prediction.2100.245.126) +
   tm_raster("PfPR_incr_2100_245.126_den", palette = pal.n.p(16), breaks = brks, 
             style = 'cont', legend.is.portrait = F, 
-            title = "The Difference of Infection Cases between SSP1-2.6 and SSP2-4.5\n(2081 - 2100, Unit: Cases/km2)",
+            title = "The Difference in Infection Cases between SSP1-2.6 and SSP2-4.5\n(2081 - 2100, Unit: Cases/km2)",
             labels = labels_brks, midpoint = 0) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
@@ -257,7 +257,7 @@ labels_brks <- c("-20", "", "-15", "", "-10", "", "-5", "", "0",
 PredictionMap.370.126.2100 <- tm_shape(prediction.2100.370.126) +
   tm_raster("PfPR_incr_2100_460.126_den", palette = pal.n.p(16), breaks = brks, 
             style = 'cont', legend.is.portrait = F, 
-            title = "The Difference of Infection Cases between SSP1-2.6 and SSP3-7.0\n(2081 - 2100, Unit: Cases/km2)",
+            title = "The Difference in Infection Cases between SSP1-2.6 and SSP3-7.0\n(2081 - 2100, Unit: Cases/km2)",
             labels = labels_brks, midpoint = 0) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
@@ -287,7 +287,7 @@ labels_brks <- c("-20", "", "-15", "", "-10", "", "-5", "", "0",
 PredictionMap.585.126.2100 <- tm_shape(prediction.2100.585.126) +
   tm_raster("PfPR_incr_2100_585.126_den", palette = pal.n.p(16), breaks = brks, 
             style = 'cont', legend.is.portrait = F, 
-            title = "The Difference of Infection Cases between SSP1-2.6 and SSP5-8.5\n(2081 - 2100, Unit: Cases/km2)",
+            title = "The Difference in Infection Cases between SSP1-2.6 and SSP5-8.5\n(2081 - 2100, Unit: Cases/km2)",
             labels = labels_brks, midpoint = 0) +
   tm_shape(world) +
   tm_borders(col = 'black', lwd = 0.5, alpha = 0.8) +
