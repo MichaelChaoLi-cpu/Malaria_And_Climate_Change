@@ -155,23 +155,51 @@ se <- (prediction.2040@data$PfPR_incr_2040_245.126_den) %>% std.error()
 mean
 mean - 1.96 * se
 mean + 1.96 * se
+# total number
+mean * 770 * nrow(prediction.2040@data) / 1000000
+(mean - 1.96 * se) * 770 * nrow(prediction.2040@data) / 1000000
+(mean + 1.96 * se) * 770 * nrow(prediction.2040@data) / 1000000
+mean * 770 * nrow(prediction.2040@data) / 241 / 1000000 * 100
 
 mean <- (prediction.2040@data$PfPR_incr_2040_460.126_den) %>% mean()
 se <- (prediction.2040@data$PfPR_incr_2040_460.126_den) %>% std.error()
 mean
 mean - 1.96 * se
 mean + 1.96 * se
+# total number
+mean * 770 * nrow(prediction.2040@data) / 1000000
+(mean - 1.96 * se) * 770 * nrow(prediction.2040@data) / 1000000
+(mean + 1.96 * se) * 770 * nrow(prediction.2040@data) / 1000000
+mean * 770 * nrow(prediction.2040@data) / 241 / 1000000 * 100
 
 mean <- (prediction.2040@data$PfPR_incr_2040_585.126_den) %>% mean()
 se <- (prediction.2040@data$PfPR_incr_2040_585.126_den) %>% std.error()
 mean
 mean - 1.96 * se
 mean + 1.96 * se
+# total number
+mean * 770 * nrow(prediction.2040@data) / 1000000
+(mean - 1.96 * se) * 770 * nrow(prediction.2040@data) / 1000000
+(mean + 1.96 * se) * 770 * nrow(prediction.2040@data) / 1000000
+mean * 770 * nrow(prediction.2040@data) / 241 / 1000000 * 100
 
 prediction.2040@data <- left_join(prediction.2040@data, coords_continent, by = 'id')
 prediction.2040.continent <- prediction.2040@data %>%
   dplyr::select("PfPR_incr_2040_245.126_den", "PfPR_incr_2040_460.126_den",
                 "PfPR_incr_2040_585.126_den", "continent")
+prediction.2040.continent <- prediction.2040.continent %>%
+  group_by(prediction.2040.continent$continent) %>%
+  summarise(
+    across(c("PfPR_incr_2040_245.126_den", "PfPR_incr_2040_460.126_den",
+             "PfPR_incr_2040_585.126_den"), 
+           list(mean = base::mean, se = plotrix::std.error))
+  ) 
+
+prediction.2040@data <- left_join(prediction.2040@data, coords_continent, by = 'id')
+prediction.2040.continent <- prediction.2040@data %>%
+  dplyr::select("PfPR_incr_2040_245.126_den", "PfPR_incr_2040_460.126_den",
+                "PfPR_incr_2040_585.126_den", "continent")
+
 prediction.2040.continent <- prediction.2040.continent %>%
   group_by(prediction.2040.continent$continent) %>%
   summarise(
@@ -187,18 +215,33 @@ se <- (prediction.2060@data$PfPR_incr_2060_245.126_den) %>% std.error()
 mean
 mean - 1.96 * se
 mean + 1.96 * se
+# total number
+mean * 770 * nrow(prediction.2060@data) / 1000000
+(mean - 1.96 * se) * 770 * nrow(prediction.2060@data) / 1000000
+(mean + 1.96 * se) * 770 * nrow(prediction.2060@data) / 1000000
+mean * 770 * nrow(prediction.2060@data) / 241 / 1000000 * 100
 
 mean <- (prediction.2060@data$PfPR_incr_2060_460.126_den) %>% mean()
 se <- (prediction.2060@data$PfPR_incr_2060_460.126_den) %>% std.error()
 mean
 mean - 1.96 * se
 mean + 1.96 * se
+# total number
+mean * 770 * nrow(prediction.2060@data) / 1000000
+(mean - 1.96 * se) * 770 * nrow(prediction.2060@data) / 1000000
+(mean + 1.96 * se) * 770 * nrow(prediction.2060@data) / 1000000
+mean * 770 * nrow(prediction.2060@data) / 241 / 1000000 * 100
 
 mean <- (prediction.2060@data$PfPR_incr_2060_585.126_den) %>% mean()
 se <- (prediction.2060@data$PfPR_incr_2060_585.126_den) %>% std.error()
 mean
 mean - 1.96 * se
 mean + 1.96 * se
+# total number
+mean * 770 * nrow(prediction.2060@data) / 1000000
+(mean - 1.96 * se) * 770 * nrow(prediction.2060@data) / 1000000
+(mean + 1.96 * se) * 770 * nrow(prediction.2060@data) / 1000000
+mean * 770 * nrow(prediction.2060@data) / 241 / 1000000 * 100
 
 prediction.2060@data <- left_join(prediction.2060@data, coords_continent, by = 'id')
 prediction.2060.continent <- prediction.2060@data %>%
@@ -219,18 +262,33 @@ se <- (prediction.2100@data$PfPR_incr_2100_245.126_den) %>% std.error()
 mean
 mean - 1.96 * se
 mean + 1.96 * se
+# total number
+mean * 770 * nrow(prediction.2100@data) / 1000000
+(mean - 1.96 * se) * 770 * nrow(prediction.2100@data) / 1000000
+(mean + 1.96 * se) * 770 * nrow(prediction.2100@data) / 1000000
+mean * 770 * nrow(prediction.2100@data) / 241 / 1000000 * 100
 
 mean <- (prediction.2100@data$PfPR_incr_2100_460.126_den) %>% mean()
 se <- (prediction.2100@data$PfPR_incr_2100_460.126_den) %>% std.error()
 mean
 mean - 1.96 * se
 mean + 1.96 * se
+# total number
+mean * 770 * nrow(prediction.2100@data) / 1000000
+(mean - 1.96 * se) * 770 * nrow(prediction.2100@data) / 1000000
+(mean + 1.96 * se) * 770 * nrow(prediction.2100@data) / 1000000
+mean * 770 * nrow(prediction.2100@data) / 241 / 1000000 * 100
 
 mean <- (prediction.2100@data$PfPR_incr_2100_585.126_den) %>% mean()
 se <- (prediction.2100@data$PfPR_incr_2100_585.126_den) %>% std.error()
 mean
 mean - 1.96 * se
 mean + 1.96 * se
+# total number
+mean * 770 * nrow(prediction.2100@data) / 1000000
+(mean - 1.96 * se) * 770 * nrow(prediction.2100@data) / 1000000
+(mean + 1.96 * se) * 770 * nrow(prediction.2100@data) / 1000000
+mean * 770 * nrow(prediction.2100@data) / 241 / 1000000 * 100
 
 prediction.2100@data <- left_join(prediction.2100@data, coords_continent, by = 'id')
 prediction.2100.continent <- prediction.2100@data %>%
