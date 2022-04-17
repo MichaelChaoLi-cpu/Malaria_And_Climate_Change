@@ -1,22 +1,9 @@
-# Malaria_And_Climate_Change
+# Global malaria infection risk from climate change
 This repo (DP13) is used to detect the relationship between malaria and climate change.  
   
-## Summary:  
+## Abstract:  
 
-### Background:  
-
-As a long-standing public health issue, malaria still severely hits many parts of this world, especially Africa. With greenhouse gas emissions, temperatures keep rising. We aim to quantify the impacts of global warming on the malaria infection rate in all epidemic regions and identify the most vulnerable areas.  
-  
-### Methods:  
-
-We estimate the coefficients of relationships among variables by geographically weighted panel regression. Four scenarios based on diverse shared socio-economic pathways (SSPs) are employed, including SSP1-2.6, SSP2-4.6, SSP3-7.0, and SSP5-8.5. We estimate the differences between the predicted PfPR2-10 globally under different SSP scenarios during several periods and malaria infection case changes due to those differences.   
-  
-### Findings:  
-
-The globally average malaria infection case changes (IICs) from SSP1-2.6 to SSP2-4.5, to SSP3-7.0, and to SSP5-8.5 in the over-40-milliong-km2 epidemic regions are 0.129 (95% uncertainty interal [UI] 0.122 – 0.136), 0.072 (0.068 – 0.077), and 0.056 (0.052 – 0.060) case/km2 during 2021 – 2040, respectively. During 2041 – 2060 and 2081 – 2100, the IICs of three scenario shifts are -0.149 (-0.157 - -0.141), -0.492 (-0.519 - -0.465), -0.517 (-0.548 - -0.486), -1.564 (-1.653 - -1.474), -4.711 (-4.979 - -4.442), and -3.216 (-3.457 - -2.980) case/km2, respectively. Moreover, the increase in temperature adversely affects malaria the most in Africa during 2021 – 2040, where is most severely hit by malaria.  
-  
-### Interpretation:   
-Global warming would increase the danger and risk of malaria in the most vulnerable regions in the near term, which aggravates the difficulty of eliminating malaria. GHG emissions reduction is a potential pathway to protect the people from malaria.  
+As a long-standing public health issue, malaria still severely hits many parts of this world, especially Africa. With greenhouse gas emissions, temperatures keep rising. Based on diverse shared socio-economic pathways (SSPs), the future temperatures are estimated. However, the impacts of climate change on the malaria infection rate in all epidemic regions are unknown. Here, we estimate the differences in the predicted malaria infection rate globally under different SSPs during several periods and malaria infection case changes (MICCs) due to those differences. Our results indicate that the globally MICCs from SSP1-2.6 to SSP2-4.5, to SSP3-7.0, and to SSP5-8.5 are 6.506 (95% uncertainty interval [UI] 6.150 – 6.861) million, 3.655 (3.416 – 3.894) million, and 2.823 (2.635 – 3.012) million during 2021 – 2040, respectively, which are 2.699%, 1.517%, and 1.171% increase, compared with 241 million infection cases in 2020. The temperature increase adversely affects malaria the most in Africa during 2021 – 2040. During 2081 – 2100, the MIICs of three scenario shifts are -79.109 (-83.626 - -74.591) million, -238.337 (-251.920 - -0.141) million, and -162.692 (-174.628 - -150.757) million, which are -32.825%, -98.895%, and -67.507% increase. Climate change would increase the danger and risk of malaria in the most vulnerable regions in the near term, which aggravates the difficulty of eliminating malaria. GHG emissions reduction is a potential pathway to protect people from malaria.  
   
 ## Author  
 Chao Li, Shunsuke Managi  
@@ -35,11 +22,11 @@ Chao Li, Shunsuke Managi
 **PfPR:** Plasmodium falciparum parasite rate, range 0 ~ 1. The data is download from <https://malariaatlas.org/explorer/#/>.  
 **NDVIMean:** NDVI value -100% ~ 100% from M*D13C2.  
 **TempMean:** Annually average temperature C. The data is download from <https://disc.gsfc.nasa.gov/datasets/GLDAS_NOAH025_M_2.1/summary>.  
-**AirPressureMean:** kPa. 
-**HumidityMean:** unit is g/kg  
-**PrecipitationMean:** g / (m2 * h)
-**WindSpeedMean:** m/s
-**PopulationDensity:** cap/km2. The data is download from <https://www.worldpop.org/>.  
+**AirPressureMean:** kPa.   
+**HumidityMean:** unit is g/kg    
+**PrecipitationMean:** g / (m2 * h)  
+**WindSpeedMean:** m/s   
+**PopulationDensity:** cap/km2. The data is download from <https://www.worldpop.org/>.    
 **GDPperCap:** country-level USD/Cap.The data is download from  <https://data.worldbank.org/indicator/NY.GDP.PCAP.CD>.  
 **TempSd:** Annually standard deviation temperature C.  
 **TempSquare:** Annually average temperature square C2.  
