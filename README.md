@@ -10,7 +10,10 @@ Chao Li, Shunsuke Managi
 
 ## Result: The Grid-level Malaria Infection Case Changes of Three Scenario Shifts in Different Periods    
 ![](06_Figure/S41_ICC_multiPanel.jpg)  
-
+  
+## Cite Our Article
+Li, C. and S. Managi (2022). "Global malaria infection risk from climate change." Environmental Research 214: 114028.  
+   
 ## Maunscript  
 [Global malaria infection risk from global warming](07_Manuscript/Manuscript_DP13.pdf)  
 [Supplementary Materials](07_Manuscript/Materials.pdf)  
